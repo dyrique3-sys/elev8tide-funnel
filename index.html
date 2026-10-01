@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ELEV8TIDE — Wellness Reimagined</title>
+<meta name="description" content="A higher standard in wellness. Peptide therapy, metabolic health, hormone support, recovery & longevity — for those who expect more. Join the ELEV8TIDE waitlist." />
+<meta property="og:title" content="ELEV8TIDE — Wellness Reimagined" />
+<meta property="og:description" content="A higher standard in wellness. Your next chapter starts here." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#0E4A43;
+    --teal-deep:#0A332E;
+    --gold:#C6A15B;
+    --gold-soft:#D9BC86;
+    --cream:#F6F1E7;
+    --cream-2:#FBF8F1;
+    --ink:#122A26;
+    --muted:#5c6f6a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Jost',sans-serif;color:var(--ink);background:var(--cream-2);line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:500;letter-spacing:.01em}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  .eyebrow{font-family:'Jost';font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);font-weight:500}
+
+  /* NAV */
+  .nav{position:absolute;top:0;left:0;right:0;z-index:20;padding:26px 0}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Cormorant Garamond',serif;font-size:1.7rem;letter-spacing:.16em;color:#fff;font-weight:600}
+  .logo b{color:var(--gold);font-weight:600}
+  .nav a.cta{font-family:'Jost';font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,.5);padding:11px 22px;text-decoration:none;transition:.3s}
+  .nav a.cta:hover{background:var(--gold);border-color:var(--gold);color:var(--teal-deep)}
+
+  /* HERO */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-deep) 100%);overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 75% 30%,rgba(198,161,91,.14),transparent 55%);pointer-events:none}
+  .hero .wrap{position:relative;z-index:5;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-top:90px;padding-bottom:70px}
+  .hero-copy h1{color:#fff;font-size:clamp(3rem,6vw,5.2rem);line-height:1.02;margin:18px 0 10px}
+  .hero-copy h1 i{color:var(--gold-soft);font-weight:400}
+  .hero-sub{color:rgba(255,255,255,.82);font-size:1.12rem;font-weight:300;max-width:34ch;margin-bottom:14px}
+  .pillars{display:flex;gap:22px;flex-wrap:wrap;margin-top:26px;border-top:1px solid rgba(255,255,255,.16);padding-top:22px}
+  .pillars span{color:#fff;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;font-weight:400;opacity:.9}
+  .pillars span::before{content:"◆";color:var(--gold);font-size:.55rem;margin-right:9px;vertical-align:middle}
+
+  /* FORM CARD */
+  .card{background:var(--cream);border:1px solid rgba(198,161,91,.45);padding:40px 36px;box-shadow:0 40px 90px -40px rgba(0,0,0,.55)}
+  .card .eyebrow{display:block;text-align:center;margin-bottom:8px}
+  .card h3{text-align:center;font-size:1.95rem;color:var(--teal);line-height:1.1;margin-bottom:6px}
+  .card p.lead{text-align:center;color:var(--muted);font-size:.92rem;margin-bottom:24px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;font-weight:500}
+  .field input{width:100%;padding:13px 15px;border:1px solid rgba(18,42,38,.22);background:#fff;font-family:'Jost';font-size:.95rem;color:var(--ink);transition:.25s}
+  .field input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(198,161,91,.16)}
+  button.submit{width:100%;margin-top:10px;padding:15px;background:var(--teal);color:#fff;border:none;font-family:'Jost';font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:.3s}
+  button.submit:hover{background:var(--gold);color:var(--teal-deep)}
+  .card .fine{text-align:center;font-size:.72rem;color:var(--muted);margin-top:14px;line-height:1.5}
+  .success{display:none;text-align:center;padding:30px 10px}
+  .success.show{display:block}
+  .success .mark{width:58px;height:58px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--gold);font-size:1.6rem}
+  .success h3{color:var(--teal)}
+  .success p{color:var(--muted);font-size:.95rem;margin-top:8px}
+
+  /* STRIP */
+  .strip{background:var(--teal-deep);color:#fff;text-align:center;padding:16px}
+  .strip span{font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;opacity:.85}
+  .strip b{color:var(--gold);font-weight:400}
+
+  /* SERVICES */
+  .services{padding:92px 0;background:var(--cream-2)}
+  .sec-head{text-align:center;max-width:620px;margin:0 auto 54px}
+  .sec-head h2{font-size:clamp(2.2rem,4vw,3.2rem);color:var(--teal);margin:10px 0}
+  .sec-head p{color:var(--muted);font-weight:300}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .svc{background:#fff;border:1px solid rgba(18,42,38,.08);padding:34px 28px;transition:.35s}
+  .svc:hover{transform:translateY(-6px);box-shadow:0 30px 60px -36px rgba(14,74,67,.4);border-color:rgba(198,161,91,.5)}
+  .svc .num{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);letter-spacing:.1em}
+  .svc h3{font-size:1.5rem;color:var(--teal);margin:12px 0 8px}
+  .svc p{color:var(--muted);font-size:.92rem;font-weight:300}
+
+  /* SPLIT IMAGE */
+  .split{display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
+  .split .img{background:url('assets/booth.jpg') center/cover}
+  .split .txt{background:var(--teal);color:#fff;padding:84px 60px;display:flex;flex-direction:column;justify-content:center}
+  .split .txt h2{font-size:clamp(2rem,3.6vw,2.9rem);line-height:1.08;margin:14px 0 16px}
+  .split .txt h2 i{color:var(--gold-soft);font-weight:400}
+  .split .txt p{color:rgba(255,255,255,.8);font-weight:300;margin-bottom:12px}
+  .checks{list-style:none;margin-top:14px}
+  .checks li{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.14);font-size:.95rem;font-weight:300}
+  .checks li::before{content:"◆";color:var(--gold);font-size:.6rem;margin-right:12px;vertical-align:middle}
+
+  /* CLOSING CTA */
+  .closing{background:linear-gradient(135deg,var(--teal-deep),var(--teal));text-align:center;padding:100px 0;color:#fff}
+  .closing h2{font-size:clamp(2.4rem,5vw,4rem);line-height:1.05;margin:14px 0 18px}
+  .closing h2 i{color:var(--gold-soft);font-weight:400}
+  .closing p{color:rgba(255,255,255,.8);font-weight:300;max-width:46ch;margin:0 auto 30px}
+  .closing a.btn{display:inline-block;background:var(--gold);color:var(--teal-deep);text-decoration:none;padding:16px 42px;font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;font-weight:500;transition:.3s}
+  .closing a.btn:hover{background:#fff}
+
+  /* FOOTER */
+  footer{background:var(--teal-deep);color:rgba(255,255,255,.6);text-align:center;padding:44px 0;font-size:.82rem;font-weight:300}
+  footer .logo{font-size:1.5rem;color:#fff;margin-bottom:10px}
+  footer .fnote{font-size:.68rem;opacity:.55;max-width:60ch;margin:16px auto 0;line-height:1.6}
+
+  @media(max-width:860px){
+    .hero .wrap{grid-template-columns:1fr;gap:40px;padding-top:120px}
+    .grid{grid-template-columns:1fr}
+    .split{grid-template-columns:1fr}
+    .split .img{min-height:320px}
+    .split .txt{padding:60px 34px}
+    .nav a.cta{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap">
+    <div class="logo">ELEV<b>8</b>TIDE</div>
+    <a href="#join" class="cta">Join the List</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Wellness Reimagined</span>
+      <h1>A higher standard<br><i>in wellness.</i></h1>
+      <p class="hero-sub">Peptide therapy, metabolic health, hormone support & longevity — engineered for those who expect more from life.</p>
+      <div class="pillars">
+        <span>Elevate Wellness</span>
+        <span>Restore Confidence</span>
+        <span>Optimize Performance</span>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="card" id="join">
+      <form id="leadForm">
+        <span class="eyebrow">Your Next Chapter</span>
+        <h3>Request Private Access</h3>
+        <p class="lead">Limited memberships. Be first to experience ELEV8TIDE.</p>
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input id="name" name="name" type="text" placeholder="Jordan Alvarez" required />
+        </div>
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input id="email" name="email" type="email" placeholder="you@email.com" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="(305) 000-0000" required />
+        </div>
+        <button class="submit" type="submit">Reserve My Spot</button>
+        <p class="fine">By joining you'll receive updates from ELEV8TIDE. No spam — unsubscribe anytime.</p>
+      </form>
+      <div class="success" id="success">
+        <div class="mark">✦</div>
+        <h3>You're on the list.</h3>
+        <p>Welcome to ELEV8TIDE. Our concierge team will reach out shortly with your private access details.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- STRIP -->
+<div class="strip"><span>Science Supports A Better You &nbsp;·&nbsp; <b>Wellness Looks Good On You</b> &nbsp;·&nbsp; More Energy, A Stronger You</span></div>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">The ELEV8TIDE Standard</span>
+      <h2>Curated for the way you live</h2>
+      <p>A discreet, physician-guided approach to feeling — and performing — at your peak.</p>
+    </div>
+    <div class="grid">
+      <div class="svc"><div class="num">01</div><h3>Peptide Therapy</h3><p>Next-generation protocols for recovery, vitality and cellular performance.</p></div>
+      <div class="svc"><div class="num">02</div><h3>Weight & Metabolic</h3><p>Precision metabolic health and sustainable, physician-guided transformation.</p></div>
+      <div class="svc"><div class="num">03</div><h3>Hormone Support</h3><p>Balance, energy and drive restored through tailored optimization.</p></div>
+      <div class="svc"><div class="num">04</div><h3>Energy & Performance</h3><p>Unlock focus, stamina and the capacity to lead at full strength.</p></div>
+      <div class="svc"><div class="num">05</div><h3>Recovery & Longevity</h3><p>Age on your terms with evidence-based healthy-aging protocols.</p></div>
+      <div class="svc"><div class="num">06</div><h3>Beauty From Within</h3><p>Radiance that starts at the source — skin, hair and confidence.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPLIT -->
+<section class="split">
+  <div class="img" aria-label="ELEV8TIDE experience"></div>
+  <div class="txt">
+    <span class="eyebrow">Why ELEV8TIDE</span>
+    <h2>This isn't a supplement.<br><i>It's a standard.</i></h2>
+    <p>Everything we do is built for the few who refuse to settle — delivered with the discretion, design and care of a private club.</p>
+    <ul class="checks">
+      <li>Physician-guided, science-backed protocols</li>
+      <li>Concierge-level privacy & service</li>
+      <li>Personalized to your biology and goals</li>
+      <li>A community that moves at your level</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="wrap">
+    <span class="eyebrow">Your Next Chapter Starts Here</span>
+    <h2>Elevate. Restore.<br><i>Optimize.</i></h2>
+    <p>Memberships are limited and by request only. Secure your place before the next tide opens.</p>
+    <a href="#join" class="btn">Request Private Access</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="logo">ELEV<b style="color:var(--gold)">8</b>TIDE</div>
+    <div>Wellness Reimagined</div>
+    <p class="fnote">These statements have not been evaluated by the FDA. ELEV8TIDE products and protocols are not intended to diagnose, treat, cure, or prevent any disease. Consult a licensed physician before beginning any wellness program. © 2026 ELEV8TIDE. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  var form = document.getElementById('leadForm');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var lead = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      ts: new Date().toISOString()
+    };
+    // DEMO capture — stores locally so the mockup "works" when presenting.
+    // Swap this block for a Klaviyo/webhook POST when the client approves.
+    try{
+      var leads = JSON.parse(localStorage.getItem('elev8_leads')||'[]');
+      leads.push(lead); localStorage.setItem('elev8_leads', JSON.stringify(leads));
+    }catch(err){}
+    form.style.display='none';
+    document.getElementById('success').classList.add('show');
+    document.getElementById('join').scrollIntoView({behavior:'smooth',block:'center'});
+  });
+</script>
+</body>
+</html>
