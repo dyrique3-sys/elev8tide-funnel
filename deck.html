@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ELEV8TIDE — Growth System Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#0E4A43;--teal-deep:#0A332E;--gold:#C6A15B;--gold-soft:#D9BC86;
+    --cream:#F6F1E7;--cream-2:#FBF8F1;--ink:#122A26;--muted:#5c6f6a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Jost',sans-serif;background:#071f1b;color:var(--ink)}
+  h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif;font-weight:500}
+  .eyebrow{font-size:.72rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);font-weight:500}
+
+  .deck{scroll-snap-type:y mandatory;height:100vh;overflow-y:scroll;scroll-behavior:smooth}
+  .slide{scroll-snap-align:start;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:70px 6vw;position:relative}
+  .inner{max-width:1080px;width:100%}
+
+  /* themes */
+  .dark{background:linear-gradient(135deg,var(--teal) 0%,var(--teal-deep) 100%);color:#fff}
+  .dark::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(198,161,91,.12),transparent 55%);pointer-events:none}
+  .light{background:var(--cream-2)}
+  .ink{background:#071f1b;color:#fff}
+
+  .slide-no{position:absolute;bottom:28px;right:6vw;font-size:.72rem;letter-spacing:.2em;color:var(--gold);opacity:.7}
+  .kicker-line{width:46px;height:2px;background:var(--gold);margin:20px 0}
+
+  /* cover */
+  .logo{font-family:'Cormorant Garamond',serif;font-size:2.4rem;letter-spacing:.2em;font-weight:600}
+  .logo b{color:var(--gold)}
+  .cover h1{font-size:clamp(3rem,7vw,6rem);line-height:1;margin:26px 0 14px}
+  .cover h1 i{color:var(--gold-soft);font-weight:400}
+  .cover p{font-size:1.2rem;font-weight:300;color:rgba(255,255,255,.8);max-width:40ch}
+  .cover .by{margin-top:46px;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+  .cover .by b{color:var(--gold);font-weight:500}
+
+  h2.big{font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.05}
+  h2.big i{color:var(--gold);font-weight:400}
+  .light h2.big{color:var(--teal)}
+  .lead{font-size:1.12rem;font-weight:300;max-width:60ch;margin-top:18px}
+  .light .lead{color:var(--muted)}
+  .dark .lead,.ink .lead{color:rgba(255,255,255,.82)}
+
+  /* problem/solution cols */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:40px}
+  .box{padding:30px;border:1px solid rgba(198,161,91,.4)}
+  .light .box{background:#fff}
+  .box h3{font-size:1.4rem;color:var(--gold);margin-bottom:10px}
+  .light .box h3{color:var(--teal)}
+  .box p{font-size:.96rem;font-weight:300}
+  .light .box p{color:var(--muted)}
+  .dark .box p{color:rgba(255,255,255,.8)}
+
+  /* tier/phase cards */
+  .phases{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:42px}
+  .phase{padding:24px 18px;border:1px solid rgba(198,161,91,.35);background:rgba(255,255,255,.03);position:relative}
+  .light .phase{background:#fff}
+  .phase .pn{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold);line-height:1}
+  .phase h4{font-size:1.02rem;margin:8px 0 6px;letter-spacing:.02em}
+  .light .phase h4{color:var(--teal)}
+  .dark .phase h4{color:#fff}
+  .phase p{font-size:.78rem;font-weight:300}
+  .light .phase p{color:var(--muted)}
+  .dark .phase p{color:rgba(255,255,255,.72)}
+
+  /* detail slide layout */
+  .detail{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;align-items:center}
+  .detail .big-num{font-family:'Cormorant Garamond',serif;font-size:clamp(7rem,16vw,13rem);line-height:.8;color:var(--gold);opacity:.9}
+  .detail ul{list-style:none;margin-top:22px}
+  .detail li{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.14);font-size:1rem;font-weight:300}
+  .light .detail li{border-color:rgba(18,42,38,.12);color:var(--ink)}
+  .detail li::before{content:"◆";color:var(--gold);font-size:.6rem;margin-right:12px;vertical-align:middle}
+  .tag{display:inline-block;margin-top:18px;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-deep);background:var(--gold);padding:8px 16px;font-weight:500}
+  .dark .tag{color:var(--teal-deep)}
+
+  /* pricing */
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:42px}
+  .tier{background:#fff;border:1px solid rgba(18,42,38,.1);padding:34px 26px;position:relative;transition:.3s}
+  .tier.feature{background:var(--teal);color:#fff;transform:scale(1.04)}
+  .tier .tlabel{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:500}
+  .tier h3{font-size:1.7rem;color:var(--teal);margin:8px 0}
+  .tier.feature h3{color:#fff}
+  .tier .price{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--teal);line-height:1}
+  .tier.feature .price{color:var(--gold-soft)}
+  .tier .per{font-size:.8rem;color:var(--muted);font-weight:300}
+  .tier.feature .per{color:rgba(255,255,255,.7)}
+  .tier ul{list-style:none;margin-top:18px}
+  .tier li{font-size:.86rem;font-weight:300;padding:7px 0;color:var(--muted)}
+  .tier.feature li{color:rgba(255,255,255,.85)}
+  .tier li::before{content:"✦";color:var(--gold);margin-right:8px}
+  .ribbon{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--teal-deep);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;font-weight:600}
+
+  .btn{display:inline-block;margin-top:40px;background:var(--gold);color:var(--teal-deep);text-decoration:none;padding:15px 40px;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;font-weight:500;transition:.3s}
+  .btn:hover{background:#fff}
+
+  .hint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);z-index:50;pointer-events:none}
+
+  @media(max-width:860px){
+    .phases{grid-template-columns:1fr 1fr}
+    .two,.detail,.pricing{grid-template-columns:1fr}
+    .detail .big-num{font-size:6rem}
+    .tier.feature{transform:none}
+    .slide{padding:90px 7vw}
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1 COVER -->
+  <section class="slide dark cover">
+    <div class="inner">
+      <div class="logo">ELEV<b>8</b>TIDE</div>
+      <div class="kicker-line"></div>
+      <h1>The Growth<br><i>System.</i></h1>
+      <p>A phased proposal to turn a luxury wellness brand into an automated client-acquisition engine.</p>
+      <div class="by">Prepared by <b>Dyrique Mendoza LLC</b> &nbsp;·&nbsp; Confidential Proposal</div>
+    </div>
+    <div class="slide-no">01</div>
+  </section>
+
+  <!-- 2 THE OPPORTUNITY -->
+  <section class="slide light">
+    <div class="inner">
+      <span class="eyebrow">The Opportunity</span>
+      <div class="kicker-line"></div>
+      <h2 class="big">You've built the <i>brand.</i><br>Now let's build the <i>machine.</i></h2>
+      <p class="lead">ELEV8TIDE already looks like a premium house — the booth, the identity, the standard. What's missing is the system that captures luxury buyers, nurtures them automatically, and turns attention into booked, paying clients while you sleep.</p>
+      <div class="two">
+        <div class="box"><h3>Today</h3><p>Beautiful brand. Interest at events and online — but leads slip away. No capture, no follow-up, no engine. Growth depends on showing up in person.</p></div>
+        <div class="box"><h3>With ELEV8TIDE's System</h3><p>Every click and conversation is captured, qualified, and nurtured automatically. The brand sells 24/7 at a luxury standard — consistent, discreet, scalable.</p></div>
+      </div>
+    </div>
+    <div class="slide-no">02</div>
+  </section>
+
+  <!-- 3 THE 5 PHASES OVERVIEW -->
+  <section class="slide dark">
+    <div class="inner">
+      <span class="eyebrow">The Build</span>
+      <div class="kicker-line"></div>
+      <h2 class="big">Five phases. <i>One engine.</i></h2>
+      <p class="lead">We build in stages so ROI funds the next step — nothing wasted, everything compounding.</p>
+      <div class="phases">
+        <div class="phase"><div class="pn">1</div><h4>The 1-Pager</h4><p>Luxury funnel that captures name, email & phone.</p></div>
+        <div class="phase"><div class="pn">2</div><h4>Email + SMS</h4><p>Automated nurture that warms leads to buyers.</p></div>
+        <div class="phase"><div class="pn">3</div><h4>Paid Ads</h4><p>Targeted Meta & Google traffic to the funnel.</p></div>
+        <div class="phase"><div class="pn">4</div><h4>AI Agents</h4><p>24/7 concierge that answers, qualifies & books.</p></div>
+        <div class="phase"><div class="pn">5</div><h4>Full Automation</h4><p>The whole engine, running itself end-to-end.</p></div>
+      </div>
+    </div>
+    <div class="slide-no">03</div>
+  </section>
+
+  <!-- 4 PHASE 1 -->
+  <section class="slide light">
+    <div class="inner detail">
+      <div><div class="big-num">01</div></div>
+      <div>
+        <span class="eyebrow">Phase One · Live Now</span>
+        <h2 class="big" style="font-size:2.6rem;margin-top:10px">The Luxury 1-Pager</h2>
+        <p class="lead">A high-end landing page built to the ELEV8TIDE standard — the front door of the entire system. Already drafted and ready to view.</p>
+        <ul>
+          <li>Captures Name · Email · Phone for every visitor</li>
+          <li>Brand-matched: teal, gold, serif — "quiet luxury"</li>
+          <li>"Request Private Access" — exclusivity sells</li>
+          <li>Mobile-perfect, loads instantly, ready for ads</li>
+        </ul>
+        <span class="tag">Sample link included with this deck</span>
+      </div>
+    </div>
+    <div class="slide-no">04</div>
+  </section>
+
+  <!-- 5 PHASE 2 -->
+  <section class="slide ink">
+    <div class="inner detail">
+      <div><div class="big-num">02</div></div>
+      <div>
+        <span class="eyebrow">Phase Two</span>
+        <h2 class="big" style="font-size:2.6rem;margin-top:10px">Email & SMS Marketing</h2>
+        <p class="lead">A lead captured is worthless if you never follow up. We install automated sequences that nurture every lead the moment they join.</p>
+        <ul>
+          <li>Welcome series that reinforces the luxury positioning</li>
+          <li>SMS reminders & VIP offers — 98% open rates</li>
+          <li>Segmented by interest: peptides, longevity, beauty</li>
+          <li>Win-back & re-engagement flows run automatically</li>
+        </ul>
+        <span class="tag">Built on Klaviyo + SMS</span>
+      </div>
+    </div>
+    <div class="slide-no">05</div>
+  </section>
+
+  <!-- 6 PHASE 3 -->
+  <section class="slide light">
+    <div class="inner detail">
+      <div><div class="big-num">03</div></div>
+      <div>
+        <span class="eyebrow">Phase Three</span>
+        <h2 class="big" style="font-size:2.6rem;margin-top:10px">Paid Ads Engine</h2>
+        <p class="lead">Now we pour fuel on the fire — targeted traffic from the exact luxury audience, sent straight into the funnel.</p>
+        <ul>
+          <li>Meta & Instagram ads tuned to affluent lifestyle buyers</li>
+          <li>Google search capture for high-intent wellness terms</li>
+          <li>Scroll-stopping creative in the ELEV8TIDE look</li>
+          <li>Tracked cost-per-lead — scale what works, kill what doesn't</li>
+        </ul>
+        <span class="tag">Meta Ads + Google</span>
+      </div>
+    </div>
+    <div class="slide-no">06</div>
+  </section>
+
+  <!-- 7 PHASE 4 -->
+  <section class="slide ink">
+    <div class="inner detail">
+      <div><div class="big-num">04</div></div>
+      <div>
+        <span class="eyebrow">Phase Four</span>
+        <h2 class="big" style="font-size:2.6rem;margin-top:10px">AI Concierge Agents</h2>
+        <p class="lead">A 24/7 AI team that speaks in the ELEV8TIDE voice — answering, qualifying and booking while the brand sleeps.</p>
+        <ul>
+          <li>AI receptionist answers DMs, texts & site chat instantly</li>
+          <li>Qualifies leads and books consultations automatically</li>
+          <li>Answers FAQs on protocols, pricing & process</li>
+          <li>Hands hot, ready-to-buy clients straight to the team</li>
+        </ul>
+        <span class="tag">AI Agents + Automation</span>
+      </div>
+    </div>
+    <div class="slide-no">07</div>
+  </section>
+
+  <!-- 8 PHASE 5 -->
+  <section class="slide dark">
+    <div class="inner detail">
+      <div><div class="big-num">05</div></div>
+      <div>
+        <span class="eyebrow">Phase Five</span>
+        <h2 class="big" style="font-size:2.6rem;margin-top:10px">Full Automation</h2>
+        <p class="lead">Every piece connected into one self-running growth engine. Ads find them, the funnel captures them, AI nurtures and books them — on autopilot.</p>
+        <ul>
+          <li>Ad → Funnel → Nurture → Book → Follow-up, fully wired</li>
+          <li>Leads flow into one dashboard — full visibility</li>
+          <li>Reviews, referrals & re-orders triggered automatically</li>
+          <li>A business that grows without adding hours</li>
+        </ul>
+        <span class="tag">The Complete Engine</span>
+      </div>
+    </div>
+    <div class="slide-no">08</div>
+  </section>
+
+  <!-- 9 PRICING -->
+  <section class="slide light">
+    <div class="inner">
+      <span class="eyebrow">Investment</span>
+      <div class="kicker-line"></div>
+      <h2 class="big">Choose your <i>tide.</i></h2>
+      <p class="lead">Start where it makes sense. Each tier unlocks the next — and pays for it.</p>
+      <div class="pricing">
+        <div class="tier">
+          <div class="tlabel">Launch</div>
+          <h3>The Front Door</h3>
+          <div class="price">$</div><div class="per">1-pager + lead capture</div>
+          <ul>
+            <li>Luxury funnel 1-pager</li>
+            <li>Name / email / phone capture</li>
+            <li>Lead delivery to your inbox</li>
+            <li>Mobile-optimized & live</li>
+          </ul>
+        </div>
+        <div class="tier feature">
+          <div class="ribbon">Most Popular</div>
+          <div class="tlabel">Growth</div>
+          <h3>The Engine</h3>
+          <div class="price">$$</div><div class="per">funnel + email/SMS + ads</div>
+          <ul>
+            <li>Everything in Launch</li>
+            <li>Email & SMS nurture flows</li>
+            <li>Meta + Google ad campaigns</li>
+            <li>Monthly optimization & reporting</li>
+          </ul>
+        </div>
+        <div class="tier">
+          <div class="tlabel">Elite</div>
+          <h3>Full Autopilot</h3>
+          <div class="price">$$$</div><div class="per">everything + AI agents</div>
+          <ul>
+            <li>Everything in Growth</li>
+            <li>24/7 AI concierge agents</li>
+            <li>End-to-end automation</li>
+            <li>Dedicated growth partner</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:22px;font-size:.78rem;color:var(--muted)">Exact pricing scoped to ELEV8TIDE's goals — placeholders shown for planning. Final numbers in the proposal.</p>
+    </div>
+    <div class="slide-no">09</div>
+  </section>
+
+  <!-- 10 CLOSE -->
+  <section class="slide dark cover">
+    <div class="inner">
+      <div class="logo">ELEV<b>8</b>TIDE</div>
+      <div class="kicker-line"></div>
+      <h1>Your next<br><i>chapter starts here.</i></h1>
+      <p>Let's start with the front door — review the live sample, then we scale from there.</p>
+      <a href="index.html" class="btn">View the Live Sample</a>
+      <div class="by" style="margin-top:34px">Dyrique Mendoza LLC &nbsp;·&nbsp; <b>From the block to the boardroom</b></div>
+    </div>
+    <div class="slide-no">10</div>
+  </section>
+
+</div>
+<div class="hint">Scroll ↓ or use arrow keys</div>
+<script>
+  // arrow-key paging
+  var deck=document.querySelector('.deck');
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var i=0;
+  function go(n){i=Math.max(0,Math.min(slides.length-1,n));slides[i].scrollIntoView({behavior:'smooth'});}
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'||e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(i+1);}
+    if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();go(i-1);}
+  });
+  // keep i synced with manual scroll
+  deck.addEventListener('scroll',function(){i=Math.round(deck.scrollTop/window.innerHeight);});
+</script>
+</body>
+</html>
