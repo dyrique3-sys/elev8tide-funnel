@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ELEV8TIDE — Elevate Wellness · Restore Confidence</title>
+<meta name="description" content="A private wellness consultation. Find your way back to you. For research use only · 21+.">
+<meta property="og:title" content="ELEV8TIDE — Elevate Wellness · Restore Confidence">
+<meta property="og:description" content="A private wellness consultation. Find your way back to you.">
+<meta property="og:image" content="img/og-image.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="img/og-image.jpg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+:root{--teal:#0F6B73;--teal2:#58BFC6;--gold:#C8A06A;--gold2:#E4C98F;--cream:#F4EFE6;--ink:#13242700;--panel:#14262a;--panel2:#0f1e21;--muted:#9fb0ad;--line:rgba(200,160,106,.28);}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%}
+body{font-family:'Jost',sans-serif;background:var(--panel2);color:var(--cream)}
+.serif{font-family:'Cormorant Garamond',serif}
+
+.screen{display:none;min-height:100vh}
+.screen.active{display:grid;grid-template-columns:48% 52%}
+.visual{background-size:cover;background-position:center;min-height:100vh;position:relative}
+.visual::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,30,33,0) 60%,rgba(20,38,42,.65) 100%)}
+.panel{background:linear-gradient(160deg,#16282c,#0f1e21);display:flex;flex-direction:column;justify-content:center;
+  padding:66px 7% 56px;position:relative;overflow-y:auto;min-height:100vh}
+.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold2),var(--gold),transparent)}
+.inner{width:100%;max-width:440px;margin:0 auto}
+/* cinematic image zoom-in + slow drift */
+@keyframes imgIn{from{opacity:0;transform:scale(1.14)}to{opacity:1;transform:scale(1.04)}}
+@keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.11)}}
+.screen.active .visual{animation:imgIn 1.2s cubic-bezier(.2,.7,.3,1) both, drift 16s ease-in-out 1.2s infinite alternate}
+/* staggered slide-in of each element — the "sliding through" feel */
+@keyframes slideIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+.screen.active .inner>*{opacity:0;animation:slideIn .6s cubic-bezier(.2,.75,.3,1) both}
+.screen.active .inner>*:nth-child(1){animation-delay:.10s}
+.screen.active .inner>*:nth-child(2){animation-delay:.18s}
+.screen.active .inner>*:nth-child(3){animation-delay:.26s}
+.screen.active .inner>*:nth-child(4){animation-delay:.34s}
+.screen.active .inner>*:nth-child(5){animation-delay:.42s}
+.screen.active .inner>*:nth-child(6){animation-delay:.50s}
+.screen.active .inner>*:nth-child(7){animation-delay:.58s}
+.screen.active .inner>*:nth-child(8){animation-delay:.66s}
+.panel{transition:background .4s}
+.btn,.opt{will-change:transform}
+@media(prefers-reduced-motion:reduce){.screen.active .visual,.screen.active .inner>*{animation-duration:.01ms!important}}
+@media(max-width:880px){
+  .screen.active{grid-template-columns:1fr;grid-template-rows:42vh 1fr}
+  .visual{min-height:42vh}.visual::after{background:linear-gradient(0deg,rgba(15,30,33,.75),transparent 55%)}
+  .panel{justify-content:flex-start;padding:36px 28px 46px;min-height:auto}
+  h1{font-size:38px!important}
+}
+
+.logo{text-align:center;margin-bottom:4px}
+.logo .wm{font-family:'Cormorant Garamond',serif;font-size:25px;letter-spacing:9px;color:var(--cream)}
+.logo .tag{font-size:9px;letter-spacing:3px;color:var(--gold);margin-top:8px;text-transform:uppercase}
+.logo .e8{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:46px;color:var(--cream)}
+.logo .e8 b{color:var(--gold)}
+
+.kick{text-align:center;color:var(--gold);letter-spacing:4px;font-size:10.5px;text-transform:uppercase;margin:24px 0 12px}
+h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:48px;line-height:1.02;text-align:center;color:var(--cream)}
+h1 i{color:var(--gold2);font-weight:500}
+.sub{text-align:center;color:var(--muted);font-size:15px;line-height:1.65;margin-top:15px;font-weight:300}
+
+.field{margin-top:14px}
+.field label{display:block;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);margin-bottom:7px;font-weight:400}
+.field input{width:100%;padding:15px 17px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);border-radius:8px;font-family:'Jost';font-size:16px;color:var(--cream);transition:.2s}
+.field input::placeholder{color:#6f817e}
+.field input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.08)}
+
+.btn{display:block;width:100%;padding:17px;border:none;border-radius:8px;cursor:pointer;margin-top:24px;transition:.25s;
+  font-family:'Jost';font-weight:400;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));color:#2a2012;box-shadow:0 16px 34px -18px rgba(200,160,106,.6)}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,.18);box-shadow:none;margin-top:10px;letter-spacing:2px}
+
+.opt{display:flex;align-items:center;gap:16px;width:100%;padding:16px 20px;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);border-radius:12px;margin-top:11px;cursor:pointer;text-align:left;transition:.22s}
+.opt:hover{border-color:var(--gold);background:rgba(200,160,106,.08);transform:translateY(-2px)}
+.opt .ic{width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);color:var(--gold2);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.opt .t{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);line-height:1}
+.opt .d{font-size:12px;color:var(--muted);margin-top:2px;font-weight:300}
+
+.prog{display:flex;gap:9px;justify-content:center;margin-bottom:22px}
+.prog i{width:28px;height:2px;background:rgba(255,255,255,.18)}
+.prog i.on{background:var(--gold)}
+
+.rec{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:15px 20px;margin-top:11px;display:flex;justify-content:space-between;align-items:center}
+.rec .n{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold2)}
+.rec .b{font-size:11.5px;color:var(--muted);margin-top:1px;font-weight:300}
+.rec .p{font-family:'Cormorant Garamond',serif;font-size:23px;color:var(--cream);font-weight:600}
+
+.gate-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:19px 20px;margin-top:20px;font-size:12px;line-height:1.65;color:var(--muted);font-weight:300}
+.check{display:flex;gap:12px;align-items:flex-start;margin-top:16px;cursor:pointer;font-size:12.5px;color:var(--cream);font-weight:300}
+.check input{margin-top:2px;width:18px;height:18px;accent-color:var(--gold);flex-shrink:0}
+.pill{display:block;width:max-content;margin:0 auto;border:1px solid var(--gold);color:var(--gold2);font-size:10px;letter-spacing:2.5px;padding:8px 18px;border-radius:30px;text-transform:uppercase}
+.foot{text-align:center;font-size:9.5px;letter-spacing:1.5px;color:#5f716e;margin-top:24px}
+.legal{font-size:9.5px;line-height:1.55;color:#5f716e;text-align:center;margin-top:20px;font-weight:300}
+</style>
+</head>
+<body>
+
+<!-- 0 GATE -->
+<section class="screen active" id="s0">
+  <div class="visual" style="background-image:url(img/backlogo.png)"></div>
+  <div class="panel"><div class="inner">
+    <div class="logo"><div class="wm">ELEV8TIDE</div><div class="tag">Elevate Wellness · Restore Confidence</div></div>
+    <div class="kick">A Private Consultation</div>
+    <h1 class="serif">Find your way back to <i>you.</i></h1>
+    <p class="sub">A few quiet questions — then a specialist reaches out to walk the journey with you. No pressure. Just support.</p>
+    <div class="gate-box">All Elev8Tide products are sold strictly for <b>laboratory &amp; research purposes only</b>. They are <b>not for human consumption</b>, <b>not for personal use</b>, and are <b>not intended to diagnose, treat, cure, or prevent any disease</b>. Nothing on this site is medical advice or a product recommendation. You must be <b>21 years or older</b> to continue.</div>
+    <label class="check"><input type="checkbox" id="agree"> I am 21+ and I agree to the Terms, Disclaimer &amp; Privacy Policy. I understand these products are strictly for research use only.</label>
+    <button class="btn" onclick="enter()">Begin</button>
+    <div class="foot">ELEV8TIDE WELLNESS LLC · FOR RESEARCH USE ONLY</div>
+  </div></div>
+</section>
+
+<!-- 1 CAPTURE -->
+<section class="screen" id="s1">
+  <div class="visual" style="background-image:url(img/drip.png)"></div>
+  <div class="panel"><div class="inner">
+    <span class="pill">A gift to begin · 15% off</span>
+    <h1 class="serif" style="margin-top:20px">Where shall we <i>send it?</i></h1>
+    <p class="sub">Your 15% and your personalized plan — delivered privately to you.</p>
+    <div class="field"><label>First name</label><input id="fn" placeholder="First name"></div>
+    <div class="field"><label>Email</label><input id="em" type="email" placeholder="you@email.com"></div>
+    <div class="field"><label>Phone</label><input id="ph" type="tel" placeholder="(000) 000-0000"></div>
+    <button class="btn" onclick="toQuiz()">Continue</button>
+    <div class="foot">ALWAYS PRIVATE · NEVER SHARED</div>
+  </div></div>
+</section>
+
+<!-- 2 GOAL -->
+<section class="screen" id="s2">
+  <div class="visual" style="background-image:url(img/backlogo.png)"></div>
+  <div class="panel"><div class="inner">
+    <div class="prog"><i class="on"></i><i></i><i></i></div>
+    <div class="kick">Question 1 of 3</div>
+    <h1 class="serif">How do you want to <i>feel?</i></h1>
+    <button class="opt" onclick="pickGoal('weight')"><div class="ic">◐</div><div><div class="t">Confident &amp; Light</div><div class="d">Back in control of my body.</div></div></button>
+    <button class="opt" onclick="pickGoal('energy')"><div class="ic">✦</div><div><div class="t">Energized &amp; Driven</div><div class="d">Awake, focused, unstoppable.</div></div></button>
+    <button class="opt" onclick="pickGoal('beauty')"><div class="ic">❋</div><div><div class="t">Radiant &amp; Renewed</div><div class="d">Glowing and sure of myself.</div></div></button>
+  </div></div>
+</section>
+
+<!-- 3 TIMELINE -->
+<section class="screen" id="s3">
+  <div class="visual" style="background-image:url(img/drip.png)"></div>
+  <div class="panel"><div class="inner">
+    <div class="prog"><i class="on"></i><i class="on"></i><i></i></div>
+    <div class="kick">Question 2 of 3</div>
+    <h1 class="serif">Your <i>pace?</i></h1>
+    <button class="opt" onclick="next('s4')"><div class="ic">❂</div><div><div class="t">Ready now</div><div class="d">I want to begin right away.</div></div></button>
+    <button class="opt" onclick="next('s4')"><div class="ic">❉</div><div><div class="t">Steady &amp; lasting</div><div class="d">The healthy, sustainable way.</div></div></button>
+    <button class="opt" onclick="next('s4')"><div class="ic">❈</div><div><div class="t">Exploring</div><div class="d">I’d love to learn first.</div></div></button>
+  </div></div>
+</section>
+
+<!-- 4 CONCERNS -->
+<section class="screen" id="s4">
+  <div class="visual" style="background-image:url(img/backlogo.png)"></div>
+  <div class="panel"><div class="inner">
+    <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+    <div class="kick">Question 3 of 3</div>
+    <h1 class="serif">Anything we <i>should know?</i></h1>
+    <p class="sub">Allergies, medications, anything — so your specialist guides you safely. (Optional)</p>
+    <div class="field"><input id="notes" placeholder="Share here, or leave blank"></div>
+    <button class="btn" onclick="finish()">Reveal My Plan</button>
+  </div></div>
+</section>
+
+<!-- 5 RESULT -->
+<section class="screen" id="s5">
+  <div class="visual" style="background-image:url(img/drip.png)"></div>
+  <div class="panel"><div class="inner">
+    <div class="logo"><div class="e8">E<b>8</b></div></div>
+    <div class="kick" id="rtag">Your Journey Begins</div>
+    <h1 class="serif">You’re ready to feel like <i>you</i> again.</h1>
+    <p class="sub" id="rsub">Thank you for sharing. A specialist will personally reach out to walk this with you — your pace, your goals, your confidence.</p>
+    <button class="btn" onclick="done('a')">Yes — have a specialist reach out</button>
+    <button class="btn ghost" onclick="done('b')">Just send my welcome gift</button>
+    <div class="legal">For laboratory &amp; research purposes only · not for human consumption · not for personal use · not intended to diagnose, treat, cure, or prevent any disease · 21+.<br>Elev8Tide Wellness LLC · info@nashayconsulting.com</div>
+  </div></div>
+</section>
+
+<script>
+var goal='weight';
+/* feelings, never products — we sell confidence */
+var FEEL={
+ weight:{tag:'Confidence & Lightness',line:'lighter, in control, and fully yourself'},
+ energy:{tag:'Energy & Drive',line:'energized, focused, and ready for anything'},
+ beauty:{tag:'Radiance & Renewal',line:'glowing, renewed, and sure of yourself'}
+};
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function enter(){if(!document.getElementById('agree').checked){alert('Please confirm you are 21+ and agree to the terms.');return;}show('s1');}
+function toQuiz(){if(!document.getElementById('em').value){alert('Add your email to continue.');return;}show('s2');}
+/* imagery shifts to match how they want to feel */
+var IMG={weight:'img/backlogo.png',energy:'img/drip.png',beauty:'img/hero_face.jpg'};
+function pickGoal(g){goal=g;var u="url('"+IMG[g]+"')";
+ ['s3','s4','s5'].forEach(function(id){var v=document.querySelector('#'+id+' .visual');if(v)v.style.backgroundImage=u;});
+ show('s3');}
+function next(id){show(id);}
+function finish(){var f=FEEL[goal];document.getElementById('rtag').innerHTML=f.tag;
+ document.getElementById('rsub').innerHTML='You told us you want to feel '+f.line+'. That’s exactly where we begin — a specialist will personally reach out. No pressure, just support on your way back to confidence.';
+ show('s5');}
+function done(t){alert(t==='a'?'Live version: privately notifies the Elev8Tide team + begins the welcome sequence.':'Check your email for your welcome gift.');}
+</script>
+</body>
+</html>
