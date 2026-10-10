@@ -2,55 +2,78 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ELEV8TIDE — Elevate Wellness · Restore Confidence</title>
-<meta name="description" content="A private wellness consultation. Find your way back to you. For research use only · 21+.">
+<meta name="description" content="A private wellness discovery. Find your way back to you. For research use only · 21+.">
 <meta property="og:title" content="ELEV8TIDE — Elevate Wellness · Restore Confidence">
-<meta property="og:description" content="A private wellness consultation. Find your way back to you.">
+<meta property="og:description" content="A private wellness discovery. Find your way back to you.">
 <meta property="og:image" content="img/og-image.jpg">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="img/og-image.jpg">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
-:root{--teal:#0F6B73;--teal2:#58BFC6;--gold:#C8A06A;--gold2:#E4C98F;--cream:#F4EFE6;--ink:#13242700;--panel:#14262a;--panel2:#0f1e21;--muted:#9fb0ad;--line:rgba(200,160,106,.28);}
+:root{--teal:#0F6B73;--gold:#C8A06A;--gold2:#E4C98F;--cream:#F4EFE6;--panel:#16282c;--panel2:#0f1e21;--muted:#9fb0ad;--line:rgba(200,160,106,.28);}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{min-height:100%}
-body{font-family:'Jost',sans-serif;background:var(--panel2);color:var(--cream)}
+body{font-family:'Jost',sans-serif;background:var(--panel2);color:var(--cream);overflow-x:hidden}
 .serif{font-family:'Cormorant Garamond',serif}
 
 .screen{display:none;min-height:100vh}
-.screen.active{display:grid;grid-template-columns:48% 52%}
+.screen.active{display:grid;grid-template-columns:46% 54%}
+
+/* ── the visual — now FADES/BLENDS into the panel (no hard seam) ── */
 .visual{background-size:cover;background-position:center;min-height:100vh;position:relative}
-.visual::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,30,33,0) 60%,rgba(20,38,42,.65) 100%)}
-.panel{background:linear-gradient(160deg,#16282c,#0f1e21);display:flex;flex-direction:column;justify-content:center;
+/* feathered blend: the image dissolves into the panel color across its right edge */
+.visual::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,
+    rgba(15,30,33,.15) 0%,
+    rgba(15,30,33,0) 32%,
+    rgba(22,40,44,.35) 66%,
+    var(--panel) 100%);}
+/* soft tonal wash so faces/products sit in-brand */
+.visual::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 35% 40%,transparent,rgba(15,30,33,.35));z-index:0}
+
+.panel{background:linear-gradient(135deg,var(--panel) 0%,#0f1e21 100%);
+  display:flex;flex-direction:column;justify-content:center;
   padding:66px 7% 56px;position:relative;overflow-y:auto;min-height:100vh}
-.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold2),var(--gold),transparent)}
 .inner{width:100%;max-width:440px;margin:0 auto}
-/* cinematic image zoom-in + slow drift */
+
+/* ── motion ── */
 @keyframes imgIn{from{opacity:0;transform:scale(1.14)}to{opacity:1;transform:scale(1.04)}}
 @keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.11)}}
-.screen.active .visual{animation:imgIn 1.2s cubic-bezier(.2,.7,.3,1) both, drift 16s ease-in-out 1.2s infinite alternate}
-/* staggered slide-in of each element — the "sliding through" feel */
-@keyframes slideIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
-.screen.active .inner>*{opacity:0;animation:slideIn .6s cubic-bezier(.2,.75,.3,1) both}
+.screen.active .visual{animation:imgIn 1.2s cubic-bezier(.2,.7,.3,1) both, drift 18s ease-in-out 1.2s infinite alternate}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.screen.active .inner>*{opacity:0;animation:rise .6s cubic-bezier(.2,.75,.3,1) both}
 .screen.active .inner>*:nth-child(1){animation-delay:.10s}
-.screen.active .inner>*:nth-child(2){animation-delay:.18s}
-.screen.active .inner>*:nth-child(3){animation-delay:.26s}
-.screen.active .inner>*:nth-child(4){animation-delay:.34s}
-.screen.active .inner>*:nth-child(5){animation-delay:.42s}
-.screen.active .inner>*:nth-child(6){animation-delay:.50s}
-.screen.active .inner>*:nth-child(7){animation-delay:.58s}
-.screen.active .inner>*:nth-child(8){animation-delay:.66s}
-.panel{transition:background .4s}
+.screen.active .inner>*:nth-child(2){animation-delay:.17s}
+.screen.active .inner>*:nth-child(3){animation-delay:.24s}
+.screen.active .inner>*:nth-child(4){animation-delay:.31s}
+.screen.active .inner>*:nth-child(5){animation-delay:.38s}
+.screen.active .inner>*:nth-child(6){animation-delay:.45s}
+.screen.active .inner>*:nth-child(7){animation-delay:.52s}
+.screen.active .inner>*:nth-child(8){animation-delay:.59s}
 .btn,.opt{will-change:transform}
 @media(prefers-reduced-motion:reduce){.screen.active .visual,.screen.active .inner>*{animation-duration:.01ms!important}}
+
+/* ── MOBILE — image on top FADES DOWN into the panel, everything centered ── */
 @media(max-width:880px){
-  .screen.active{grid-template-columns:1fr;grid-template-rows:42vh 1fr}
-  .visual{min-height:42vh}.visual::after{background:linear-gradient(0deg,rgba(15,30,33,.75),transparent 55%)}
-  .panel{justify-content:flex-start;padding:36px 28px 46px;min-height:auto}
-  h1{font-size:38px!important}
+  .screen.active{grid-template-columns:1fr;grid-template-rows:38vh auto}
+  .visual{min-height:38vh}
+  .visual::after{background:linear-gradient(180deg,
+    rgba(15,30,33,.1) 0%,
+    rgba(15,30,33,0) 30%,
+    rgba(22,40,44,.5) 72%,
+    var(--panel) 100%);}
+  .panel{justify-content:flex-start;padding:30px 24px 48px;min-height:auto;
+    margin-top:-14vh;/* pull panel up into the fade so it truly merges */
+    position:relative;z-index:2;background:linear-gradient(180deg,rgba(22,40,44,0) 0%,var(--panel) 12%,#0f1e21 100%)}
+  .inner{max-width:420px;text-align:center}
+  .field,.opt,.rec,.gate-box{text-align:left}
+  h1{font-size:36px!important}
+  .opt{justify-content:flex-start}
 }
+@media(max-width:400px){h1{font-size:32px!important}.panel{padding:26px 20px 42px}}
 
 .logo{text-align:center;margin-bottom:4px}
 .logo .wm{font-family:'Cormorant Garamond',serif;font-size:25px;letter-spacing:9px;color:var(--cream)}
@@ -59,7 +82,7 @@ body{font-family:'Jost',sans-serif;background:var(--panel2);color:var(--cream)}
 .logo .e8 b{color:var(--gold)}
 
 .kick{text-align:center;color:var(--gold);letter-spacing:4px;font-size:10.5px;text-transform:uppercase;margin:24px 0 12px}
-h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:48px;line-height:1.02;text-align:center;color:var(--cream)}
+h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:46px;line-height:1.04;text-align:center;color:var(--cream)}
 h1 i{color:var(--gold2);font-weight:500}
 .sub{text-align:center;color:var(--muted);font-size:15px;line-height:1.65;margin-top:15px;font-weight:300}
 
@@ -79,20 +102,15 @@ h1 i{color:var(--gold2);font-weight:500}
   background:rgba(255,255,255,.04);border-radius:12px;margin-top:11px;cursor:pointer;text-align:left;transition:.22s}
 .opt:hover{border-color:var(--gold);background:rgba(200,160,106,.08);transform:translateY(-2px)}
 .opt .ic{width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);color:var(--gold2);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
-.opt .t{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--cream);line-height:1}
-.opt .d{font-size:12px;color:var(--muted);margin-top:2px;font-weight:300}
+.opt .t{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream);line-height:1.05}
+.opt .d{font-size:12px;color:var(--muted);margin-top:3px;font-weight:300}
 
-.prog{display:flex;gap:9px;justify-content:center;margin-bottom:22px}
-.prog i{width:28px;height:2px;background:rgba(255,255,255,.18)}
+.prog{display:flex;gap:8px;justify-content:center;margin-bottom:22px}
+.prog i{width:22px;height:2px;background:rgba(255,255,255,.18)}
 .prog i.on{background:var(--gold)}
 
-.rec{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:15px 20px;margin-top:11px;display:flex;justify-content:space-between;align-items:center}
-.rec .n{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold2)}
-.rec .b{font-size:11.5px;color:var(--muted);margin-top:1px;font-weight:300}
-.rec .p{font-family:'Cormorant Garamond',serif;font-size:23px;color:var(--cream);font-weight:600}
-
 .gate-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:19px 20px;margin-top:20px;font-size:12px;line-height:1.65;color:var(--muted);font-weight:300}
-.check{display:flex;gap:12px;align-items:flex-start;margin-top:16px;cursor:pointer;font-size:12.5px;color:var(--cream);font-weight:300}
+.check{display:flex;gap:12px;align-items:flex-start;margin-top:16px;cursor:pointer;font-size:12.5px;color:var(--cream);font-weight:300;text-align:left}
 .check input{margin-top:2px;width:18px;height:18px;accent-color:var(--gold);flex-shrink:0}
 .pill{display:block;width:max-content;margin:0 auto;border:1px solid var(--gold);color:var(--gold2);font-size:10px;letter-spacing:2.5px;padding:8px 18px;border-radius:30px;text-transform:uppercase}
 .foot{text-align:center;font-size:9.5px;letter-spacing:1.5px;color:#5f716e;margin-top:24px}
@@ -101,28 +119,28 @@ h1 i{color:var(--gold2);font-weight:500}
 </head>
 <body>
 
-<!-- 0 GATE -->
+<!-- 0 · GATE / OPENING DISCLAIMER -->
 <section class="screen active" id="s0">
-  <div class="visual" style="background-image:url(img/backlogo.png)"></div>
+  <div class="visual" style="background-image:url(img/drip.png)"></div>
   <div class="panel"><div class="inner">
     <div class="logo"><div class="wm">ELEV8TIDE</div><div class="tag">Elevate Wellness · Restore Confidence</div></div>
-    <div class="kick">A Private Consultation</div>
-    <h1 class="serif">Find your way back to <i>you.</i></h1>
-    <p class="sub">A few quiet questions — then a specialist reaches out to walk the journey with you. No pressure. Just support.</p>
-    <div class="gate-box">All Elev8Tide products are sold strictly for <b>laboratory &amp; research purposes only</b>. They are <b>not for human consumption</b>, <b>not for personal use</b>, and are <b>not intended to diagnose, treat, cure, or prevent any disease</b>. Nothing on this site is medical advice or a product recommendation. You must be <b>21 years or older</b> to continue.</div>
+    <div class="kick">A Private Wellness Discovery</div>
+    <h1 class="serif">Wellness isn't one-size-fits-all. Neither are <i>you.</i></h1>
+    <p class="sub">A few quiet questions to understand your goals — then your personalized wellness resources, privately.</p>
+    <div class="gate-box">All Elev8Tide products are sold strictly for <b>laboratory &amp; research purposes only</b>. They are <b>not for human consumption</b>, <b>not for personal use</b>, and are <b>not intended to diagnose, treat, cure, or prevent any disease</b>. Nothing here is medical advice or a product recommendation. You must be <b>21 years or older</b> to continue.</div>
     <label class="check"><input type="checkbox" id="agree"> I am 21+ and I agree to the Terms, Disclaimer &amp; Privacy Policy. I understand these products are strictly for research use only.</label>
     <button class="btn" onclick="enter()">Begin</button>
     <div class="foot">ELEV8TIDE WELLNESS LLC · FOR RESEARCH USE ONLY</div>
   </div></div>
 </section>
 
-<!-- 1 CAPTURE -->
+<!-- 1 · CAPTURE -->
 <section class="screen" id="s1">
-  <div class="visual" style="background-image:url(img/drip.png)"></div>
+  <div class="visual" style="background-image:url(img/backlogo.png)"></div>
   <div class="panel"><div class="inner">
     <span class="pill">A gift to begin · 15% off</span>
     <h1 class="serif" style="margin-top:20px">Where shall we <i>send it?</i></h1>
-    <p class="sub">Your 15% and your personalized plan — delivered privately to you.</p>
+    <p class="sub">Your 15% and your personalized wellness path — delivered privately to you.</p>
     <div class="field"><label>First name</label><input id="fn" placeholder="First name"></div>
     <div class="field"><label>Email</label><input id="em" type="email" placeholder="you@email.com"></div>
     <div class="field"><label>Phone</label><input id="ph" type="tel" placeholder="(000) 000-0000"></div>
@@ -131,80 +149,141 @@ h1 i{color:var(--gold2);font-weight:500}
   </div></div>
 </section>
 
-<!-- 2 GOAL -->
+<!-- 2 · Q1 · GOAL (drives the branching image + result) -->
 <section class="screen" id="s2">
-  <div class="visual" style="background-image:url(img/backlogo.png)"></div>
+  <div class="visual" style="background-image:url(img/drip.png)"></div>
   <div class="panel"><div class="inner">
-    <div class="prog"><i class="on"></i><i></i><i></i></div>
-    <div class="kick">Question 1 of 3</div>
-    <h1 class="serif">How do you want to <i>feel?</i></h1>
-    <button class="opt" onclick="pickGoal('weight')"><div class="ic">◐</div><div><div class="t">Confident &amp; Light</div><div class="d">Back in control of my body.</div></div></button>
-    <button class="opt" onclick="pickGoal('energy')"><div class="ic">✦</div><div><div class="t">Energized &amp; Driven</div><div class="d">Awake, focused, unstoppable.</div></div></button>
-    <button class="opt" onclick="pickGoal('beauty')"><div class="ic">❋</div><div><div class="t">Radiant &amp; Renewed</div><div class="d">Glowing and sure of myself.</div></div></button>
+    <div class="prog"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <div class="kick">Question 1 of 5</div>
+    <h1 class="serif">What's your main <i>wellness goal?</i></h1>
+    <button class="opt" onclick="pickGoal('weight')"><div class="ic">◐</div><div><div class="t">Weight Management</div><div class="d">Feeling light &amp; in control.</div></div></button>
+    <button class="opt" onclick="pickGoal('energy')"><div class="ic">✦</div><div><div class="t">Energy &amp; Performance</div><div class="d">Energized, focused, driven.</div></div></button>
+    <button class="opt" onclick="pickGoal('beauty')"><div class="ic">❋</div><div><div class="t">Beauty &amp; Anti-Aging</div><div class="d">Radiant &amp; renewed.</div></div></button>
+    <button class="opt" onclick="pickGoal('wellness')"><div class="ic">❂</div><div><div class="t">Overall Wellness</div><div class="d">Balanced &amp; restored.</div></div></button>
   </div></div>
 </section>
 
-<!-- 3 TIMELINE -->
+<!-- 3 · Q2 · CHALLENGE -->
 <section class="screen" id="s3">
   <div class="visual" style="background-image:url(img/drip.png)"></div>
   <div class="panel"><div class="inner">
-    <div class="prog"><i class="on"></i><i class="on"></i><i></i></div>
-    <div class="kick">Question 2 of 3</div>
-    <h1 class="serif">Your <i>pace?</i></h1>
-    <button class="opt" onclick="next('s4')"><div class="ic">❂</div><div><div class="t">Ready now</div><div class="d">I want to begin right away.</div></div></button>
-    <button class="opt" onclick="next('s4')"><div class="ic">❉</div><div><div class="t">Steady &amp; lasting</div><div class="d">The healthy, sustainable way.</div></div></button>
-    <button class="opt" onclick="next('s4')"><div class="ic">❈</div><div><div class="t">Exploring</div><div class="d">I’d love to learn first.</div></div></button>
+    <div class="prog"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+    <div class="kick">Question 2 of 5</div>
+    <h1 class="serif">Your biggest <i>challenge</i> right now?</h1>
+    <button class="opt" onclick="pick('q2','weight',' s4')"><div class="ic">◐</div><div><div class="t">Weight &amp; cravings</div><div class="d">Managing weight or cravings.</div></div></button>
+    <button class="opt" onclick="pick('q2','energy','s4')"><div class="ic">✦</div><div><div class="t">Low energy</div><div class="d">Fatigue or low energy.</div></div></button>
+    <button class="opt" onclick="pick('q2','performance','s4')"><div class="ic">❂</div><div><div class="t">Performance &amp; recovery</div><div class="d">Workout or recovery.</div></div></button>
+    <button class="opt" onclick="pick('q2','skin','s4')"><div class="ic">❋</div><div><div class="t">Skin &amp; aging</div><div class="d">Appearance or signs of aging.</div></div></button>
   </div></div>
 </section>
 
-<!-- 4 CONCERNS -->
+<!-- 4 · Q3 · RESULTS THAT MATTER -->
 <section class="screen" id="s4">
-  <div class="visual" style="background-image:url(img/backlogo.png)"></div>
+  <div class="visual" style="background-image:url(img/drip.png)"></div>
   <div class="panel"><div class="inner">
-    <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i></div>
-    <div class="kick">Question 3 of 3</div>
-    <h1 class="serif">Anything we <i>should know?</i></h1>
-    <p class="sub">Allergies, medications, anything — so your specialist guides you safely. (Optional)</p>
-    <div class="field"><input id="notes" placeholder="Share here, or leave blank"></div>
-    <button class="btn" onclick="finish()">Reveal My Plan</button>
+    <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    <div class="kick">Question 3 of 5</div>
+    <h1 class="serif">What <i>results</i> matter most?</h1>
+    <button class="opt" onclick="pick('q3','confident','s5')"><div class="ic">❂</div><div><div class="t">Feeling more confident</div></div></button>
+    <button class="opt" onclick="pick('q3','energy','s5')"><div class="ic">✦</div><div><div class="t">Having more energy</div></div></button>
+    <button class="opt" onclick="pick('q3','fitness','s5')"><div class="ic">◈</div><div><div class="t">Improving my fitness</div></div></button>
+    <button class="opt" onclick="pick('q3','refreshed','s5')"><div class="ic">❋</div><div><div class="t">Looking &amp; feeling refreshed</div></div></button>
   </div></div>
 </section>
 
-<!-- 5 RESULT -->
+<!-- 5 · Q4 · EXPERIENCE -->
 <section class="screen" id="s5">
   <div class="visual" style="background-image:url(img/drip.png)"></div>
   <div class="panel"><div class="inner">
+    <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    <div class="kick">Question 4 of 5</div>
+    <h1 class="serif">Explored peptide-based wellness <i>before?</i></h1>
+    <button class="opt" onclick="pick('q4','used','s6')"><div class="ic">❂</div><div><div class="t">Yes, I've used them</div></div></button>
+    <button class="opt" onclick="pick('q4','heard','s6')"><div class="ic">◈</div><div><div class="t">I've heard about them</div></div></button>
+    <button class="opt" onclick="pick('q4','new','s6')"><div class="ic">✦</div><div><div class="t">No, I'm new to this</div></div></button>
+  </div></div>
+</section>
+
+<!-- 6 · Q5 · TIMELINE -->
+<section class="screen" id="s6">
+  <div class="visual" style="background-image:url(img/drip.png)"></div>
+  <div class="panel"><div class="inner">
+    <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+    <div class="kick">Question 5 of 5</div>
+    <h1 class="serif">How soon to <i>get started?</i></h1>
+    <button class="opt" onclick="pick('q5','now','finish')"><div class="ic">❂</div><div><div class="t">Ready to explore now</div></div></button>
+    <button class="opt" onclick="pick('q5','30days','finish')"><div class="ic">◈</div><div><div class="t">Within the next 30 days</div></div></button>
+    <button class="opt" onclick="pick('q5','researching','finish')"><div class="ic">✦</div><div><div class="t">Just researching</div></div></button>
+  </div></div>
+</section>
+
+<!-- 7 · RESULT (tailored by Q1) + the soft Yes/No -->
+<section class="screen" id="s7">
+  <div class="visual" style="background-image:url(img/drip.png)"></div>
+  <div class="panel"><div class="inner">
     <div class="logo"><div class="e8">E<b>8</b></div></div>
-    <div class="kick" id="rtag">Your Journey Begins</div>
-    <h1 class="serif">You’re ready to feel like <i>you</i> again.</h1>
-    <p class="sub" id="rsub">Thank you for sharing. A specialist will personally reach out to walk this with you — your pace, your goals, your confidence.</p>
+    <div class="kick" id="rtag">Your Wellness Path</div>
+    <h1 class="serif">You're ready to feel like <i>you</i> again.</h1>
+    <p class="sub" id="rsub">Thank you for sharing. Here's where we'll begin — your personalized wellness path, aligned to your goals.</p>
     <button class="btn" onclick="done('a')">Yes — have a specialist reach out</button>
-    <button class="btn ghost" onclick="done('b')">Just send my welcome gift</button>
+    <button class="btn ghost" onclick="done('b')">No — just add me to the list</button>
     <div class="legal">For laboratory &amp; research purposes only · not for human consumption · not for personal use · not intended to diagnose, treat, cure, or prevent any disease · 21+.<br>Elev8Tide Wellness LLC · info@nashayconsulting.com</div>
   </div></div>
 </section>
 
 <script>
-var goal='weight';
-/* feelings, never products — we sell confidence */
+/* collected lead — ready to POST to her Mailchimp once we wire it */
+var lead={firstName:'',email:'',phone:'',goal:'',q2:'',q3:'',q4:'',q5:'',wantsCall:''};
+
+/* Q1 goal → the FEELING shown at the end (sell confidence, never products/claims) */
 var FEEL={
- weight:{tag:'Confidence & Lightness',line:'lighter, in control, and fully yourself'},
- energy:{tag:'Energy & Drive',line:'energized, focused, and ready for anything'},
- beauty:{tag:'Radiance & Renewal',line:'glowing, renewed, and sure of yourself'}
+ weight:{tag:'Feeling Light & Confident',line:'lighter, in control, and fully yourself'},
+ energy:{tag:'Energized & Driven',line:'energized, focused, and ready for anything'},
+ beauty:{tag:'Radiant & Renewed',line:'glowing, renewed, and sure of yourself'},
+ wellness:{tag:'Balanced & Restored',line:'balanced, restored, and like yourself again'}
 };
+/* Q1 goal → the image that populates the rest of the journey */
+var IMG={
+ weight:'img/beach1.png',
+ energy:'img/sky.png',
+ beauty:'img/backlogo.png',
+ wellness:'img/sand1.png'
+};
+
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 function enter(){if(!document.getElementById('agree').checked){alert('Please confirm you are 21+ and agree to the terms.');return;}show('s1');}
-function toQuiz(){if(!document.getElementById('em').value){alert('Add your email to continue.');return;}show('s2');}
-/* imagery shifts to match how they want to feel */
-var IMG={weight:'img/backlogo.png',energy:'img/drip.png',beauty:'img/hero_face.jpg'};
-function pickGoal(g){goal=g;var u="url('"+IMG[g]+"')";
- ['s3','s4','s5'].forEach(function(id){var v=document.querySelector('#'+id+' .visual');if(v)v.style.backgroundImage=u;});
- show('s3');}
-function next(id){show(id);}
-function finish(){var f=FEEL[goal];document.getElementById('rtag').innerHTML=f.tag;
- document.getElementById('rsub').innerHTML='You told us you want to feel '+f.line+'. That’s exactly where we begin — a specialist will personally reach out. No pressure, just support on your way back to confidence.';
- show('s5');}
-function done(t){alert(t==='a'?'Live version: privately notifies the Elev8Tide team + begins the welcome sequence.':'Check your email for your welcome gift.');}
+function toQuiz(){
+ lead.firstName=document.getElementById('fn').value.trim();
+ lead.email=document.getElementById('em').value.trim();
+ lead.phone=document.getElementById('ph').value.trim();
+ if(!lead.email){alert('Add your email to continue.');return;}
+ show('s2');
+}
+/* picking the goal sets the branch image for every following screen */
+function pickGoal(g){
+ lead.goal=g;
+ var u="url('"+IMG[g]+"')";
+ ['s3','s4','s5','s6','s7'].forEach(function(id){var v=document.querySelector('#'+id+' .visual');if(v)v.style.backgroundImage=u;});
+ show('s3');
+}
+function pick(q,val,nextId){
+ lead[q]=val;
+ if(nextId==='finish'){finish();}else{show(nextId.trim());}
+}
+function finish(){
+ var f=FEEL[lead.goal]||FEEL.wellness;
+ document.getElementById('rtag').innerHTML=f.tag;
+ document.getElementById('rsub').innerHTML='You told us you want to feel '+f.line+'. That’s exactly where we begin — your personalized wellness path, aligned to your goals. No pressure, just support.';
+ show('s7');
+}
+function done(choice){
+ lead.wantsCall = (choice==='a') ? 'yes' : 'no';
+ /* LIVE: this is where we POST `lead` to her Mailchimp list + trigger the welcome email */
+ console.log('LEAD CAPTURED →', lead);
+ alert(choice==='a'
+   ? 'Thank you — a specialist will reach out. Check your email for your welcome gift.'
+   : 'You’re on the list — check your email for your welcome gift.');
+}
 </script>
 </body>
 </html>
