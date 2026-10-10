@@ -145,7 +145,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 0 · GATE / OPENING DISCLAIMER -->
 <section class="screen active" id="s0">
-  <div class="visual" style="background-image:url(img/drip.png)"></div>
+  <div class="visual" style="background-image:url(img/drip.png);background-position:center 30%"></div>
   <div class="panel"><div class="inner">
     <div class="logo"><div class="wm">ELEV8TIDE</div><div class="tag">Elevate Wellness · Restore Confidence</div></div>
     <div class="kick">A Private Wellness Discovery</div>
@@ -160,7 +160,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 1 · CAPTURE -->
 <section class="screen" id="s1">
-  <div class="visual" style="background-image:url(img/backlogo.png)"></div>
+  <div class="visual" style="background-image:url(img/backlogo.png);background-position:center 20%"></div>
   <div class="panel"><div class="inner">
     <span class="pill">A gift to begin · 15% off</span>
     <h1 class="serif" style="margin-top:18px">Where shall we <i>send it?</i></h1>
@@ -175,7 +175,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 2 · Q1 · GOAL (drives branching image + result) -->
 <section class="screen" id="s2">
-  <div class="visual" style="background-image:url(img/sand2.png)"></div>
+  <div class="visual" style="background-image:url(img/sand2.png);background-position:center 45%"></div>
   <div class="panel"><div class="inner">
     <div class="prog"><i class="on"></i><i></i><i></i><i></i><i></i></div>
     <div class="kick">Question 1 of 5</div>
@@ -189,7 +189,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 3 · Q2 · CHALLENGE -->
 <section class="screen" id="s3">
-  <div class="visual" style="background-image:url(img/sand2.png)"></div>
+  <div class="visual" style="background-image:url(img/sand2.png);background-position:center 45%"></div>
   <div class="panel"><div class="inner">
     <button class="back" onclick="back()"><span>‹</span> Back</button>
     <div class="prog"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
@@ -204,7 +204,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 4 · Q3 · RESULTS THAT MATTER -->
 <section class="screen" id="s4">
-  <div class="visual" style="background-image:url(img/sand2.png)"></div>
+  <div class="visual" style="background-image:url(img/sand2.png);background-position:center 45%"></div>
   <div class="panel"><div class="inner">
     <button class="back" onclick="back()"><span>‹</span> Back</button>
     <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
@@ -219,7 +219,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 5 · Q4 · EXPERIENCE -->
 <section class="screen" id="s5">
-  <div class="visual" style="background-image:url(img/sand2.png)"></div>
+  <div class="visual" style="background-image:url(img/sand2.png);background-position:center 45%"></div>
   <div class="panel"><div class="inner">
     <button class="back" onclick="back()"><span>‹</span> Back</button>
     <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
@@ -233,7 +233,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 6 · Q5 · TIMELINE -->
 <section class="screen" id="s6">
-  <div class="visual" style="background-image:url(img/sand2.png)"></div>
+  <div class="visual" style="background-image:url(img/sand2.png);background-position:center 45%"></div>
   <div class="panel"><div class="inner">
     <button class="back" onclick="back()"><span>‹</span> Back</button>
     <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
@@ -247,7 +247,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 7 · RESULT (tailored by Q1) + soft Yes/No -->
 <section class="screen" id="s7">
-  <div class="visual" style="background-image:url(img/hero_face.jpg)"></div>
+  <div class="visual" style="background-image:url(img/hero_face.jpg);background-position:center 26%"></div>
   <div class="panel"><div class="inner">
     <div class="logo"><div class="e8">E<b>8</b></div></div>
     <div class="kick" id="rtag">Your Wellness Path</div>
@@ -278,6 +278,13 @@ var IMG={
  energy:'img/beach2.png',
  beauty:'img/hero_face.jpg',
  wellness:'img/sand1.png'
+};
+/* focal crop point per image so tall portraits aren't sliced on mobile */
+var POS={
+ weight:'center 30%',
+ energy:'center 28%',
+ beauty:'center 26%',
+ wellness:'center 32%'
 };
 
 /* preload every image so transitions never flash */
@@ -324,7 +331,7 @@ function toQuiz(){
 function pickGoal(g){
  lead.goal=g;
  var u="url('"+IMG[g]+"')";
- ['s3','s4','s5','s6','s7'].forEach(function(id){var v=document.querySelector('#'+id+' .visual');if(v)v.style.backgroundImage=u;});
+ ['s3','s4','s5','s6','s7'].forEach(function(id){var v=document.querySelector('#'+id+' .visual');if(v){v.style.backgroundImage=u;v.style.backgroundPosition=POS[g];}});
  go('s3');
 }
 function pick(q,val,nextId){
