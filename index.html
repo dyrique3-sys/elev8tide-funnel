@@ -300,6 +300,19 @@ var FEEL={
  beauty:{tag:'Radiant & Renewed',line:'glowing, renewed, and sure of yourself'},
  wellness:{tag:'Balanced & Restored',line:'balanced, restored, and like yourself again'}
 };
+/* Q2 challenge → a personal nod so the result speaks back to THEM */
+var CHAL={
+ weight:'managing weight and cravings',
+ energy:'low energy and fatigue',
+ performance:'performance and recovery',
+ skin:'how your skin looks and feels'
+};
+/* Q5 timeline → tailors the pace of the close */
+var PACE={
+ now:'And since you’re ready to start now, we’ll move at your pace.',
+ '30days':'And since you’re looking to begin within the month, there’s no rush — we’ll be ready when you are.',
+ researching:'And since you’re still exploring, we’ll start with the right information, no pressure.'
+};
 /* Q1 goal → the image that populates the rest of the journey (product shown tastefully + lifestyle) */
 var IMG={
  weight:'img/beach1.png',
@@ -368,8 +381,14 @@ function pick(q,val,nextId){
 }
 function finish(){
  var f=FEEL[lead.goal]||FEEL.wellness;
+ var name=lead.firstName?(', '+lead.firstName):'';
  document.getElementById('rtag').innerHTML=f.tag;
- document.getElementById('rsub').innerHTML='You told us you want to feel '+f.line+'. That’s exactly where we begin — your personalized wellness path, aligned to your goals. No pressure, just support.';
+ /* speak back their OWN answers — goal + challenge + pace = feels personally tailored */
+ var chal=CHAL[lead.q2];
+ var msg='You told us you want to feel '+f.line+'';
+ if(chal){ msg+=', and that '+chal+' is what’s on your mind right now'; }
+ msg+='. That’s exactly where your path begins'+name+'. '+(PACE[lead.q5]||'');
+ document.getElementById('rsub').innerHTML=msg;
  go('s7');
 }
 function done(choice){
