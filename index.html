@@ -78,7 +78,7 @@ img{display:block}
 /* ───────── MOBILE — image fades DOWN into panel, centered ───────── */
 @media(max-width:880px){
   .screen.active{grid-template-columns:1fr;grid-template-rows:46vh auto;grid-template-rows:46dvh auto}
-  .visual{min-height:46vh;min-height:46dvh;background-position:center 22%!important}
+  .visual{min-height:46vh;min-height:46dvh;background-position:center 42%!important}
   .visual::after{background:linear-gradient(180deg,
     rgba(15,30,33,.10) 0%,rgba(15,30,33,0) 40%,rgba(22,40,44,.5) 80%,var(--panel) 100%);}
   .panel{justify-content:flex-start;padding:22px 24px calc(44px + env(safe-area-inset-bottom));min-height:auto;
@@ -239,29 +239,29 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 2 · Q1 · GOAL (drives branching image + result) -->
 <section class="screen" id="s2">
-  <div class="visual" style="background-image:url(img/ai_radiant.jpg);background-position:center 25%"></div>
+  <div class="visual" style="background-image:url(img/m_q1_weight.jpg);background-position:center 42%"></div>
   <div class="panel"><div class="inner">
     <div class="prog"><i class="on"></i><i></i><i></i><i></i><i></i></div>
     <div class="kick">Question 1 of 5</div>
     <h1 class="serif">What's your main <i>wellness goal?</i></h1>
-    <button class="opt" data-feel="confident" onclick="choose(this,function(){answer('goal','weight','confident','s3')})"><div class="ic">◐</div><div><div class="t">Weight Management</div><div class="d">Feeling light &amp; in control.</div></div></button>
-    <button class="opt" data-feel="energy" onclick="choose(this,function(){answer('goal','energy','energy','s3')})"><div class="ic">✦</div><div><div class="t">Energy &amp; Performance</div><div class="d">Energized, focused, driven.</div></div></button>
-    <button class="opt" data-feel="radiant" onclick="choose(this,function(){answer('goal','beauty','radiant','s3')})"><div class="ic">❋</div><div><div class="t">Beauty &amp; Anti-Aging</div><div class="d">Radiant &amp; renewed.</div></div></button>
-    <button class="opt" data-feel="calm" onclick="choose(this,function(){answer('goal','wellness','calm','s3')})"><div class="ic">❂</div><div><div class="t">Overall Wellness</div><div class="d">Balanced &amp; restored.</div></div></button>
+    <button class="opt" data-feel="confident" data-img="img/m_q1_weight.jpg" onclick="choose(this,function(){answer('goal','weight','confident','s3')})"><div class="ic">◐</div><div><div class="t">Weight Management</div><div class="d">Feeling light &amp; in control.</div></div></button>
+    <button class="opt" data-feel="energy" data-img="img/m_q1_energy.jpg" onclick="choose(this,function(){answer('goal','energy','energy','s3')})"><div class="ic">✦</div><div><div class="t">Energy &amp; Performance</div><div class="d">Energized, focused, driven.</div></div></button>
+    <button class="opt" data-feel="radiant" data-img="img/m_q1_beauty.jpg" onclick="choose(this,function(){answer('goal','beauty','radiant','s3')})"><div class="ic">❋</div><div><div class="t">Beauty &amp; Anti-Aging</div><div class="d">Radiant &amp; renewed.</div></div></button>
+    <button class="opt" data-feel="calm" data-img="img/m_q1_wellness.jpg" onclick="choose(this,function(){answer('goal','wellness','calm','s3')})"><div class="ic">❂</div><div><div class="t">Overall Wellness</div><div class="d">Balanced &amp; restored.</div></div></button>
   </div></div>
 </section>
 
 <!-- 3 · Q2 · CHALLENGE -->
 <section class="screen" id="s3">
-  <div class="visual" style="background-image:url(img/ai_confident.jpg);background-position:center 18%"></div>
+  <div class="visual" style="background-image:url(img/m_q2_weight.jpg);background-position:center 42%"></div>
   <div class="panel"><div class="inner">
     <button class="back" onclick="back()"><span>‹</span> Back</button>
     <div class="prog"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
     <div class="kick">Question 2 of 5</div>
     <h1 class="serif">Your biggest <i>challenge</i> right now?</h1>
-    <button class="opt" data-feel="confident" onclick="choose(this,function(){answer('q2','weight','confident','s4')})"><div class="ic">◐</div><div><div class="t">Weight &amp; cravings</div><div class="d">Managing weight or cravings.</div></div></button>
-    <button class="opt" data-feel="energy" onclick="choose(this,function(){answer('q2','energy','energy','s4')})"><div class="ic">✦</div><div><div class="t">Low energy</div><div class="d">Fatigue or low energy.</div></div></button>
-    <button class="opt" data-feel="energy" onclick="choose(this,function(){answer('q2','performance','energy','s4')})"><div class="ic">❂</div><div><div class="t">Performance &amp; recovery</div><div class="d">Workout or recovery.</div></div></button>
+    <button class="opt" data-feel="confident" data-img="img/m_q2_weight.jpg" onclick="choose(this,function(){answer('q2','weight','confident','s4')})"><div class="ic">◐</div><div><div class="t">Weight &amp; cravings</div><div class="d">Managing weight or cravings.</div></div></button>
+    <button class="opt" data-feel="energy" data-img="img/m_q2_energy.jpg" onclick="choose(this,function(){answer('q2','energy','energy','s4')})"><div class="ic">✦</div><div><div class="t">Low energy</div><div class="d">Fatigue or low energy.</div></div></button>
+    <button class="opt" data-feel="energy" data-img="img/m_q2_performance.jpg" onclick="choose(this,function(){answer('q2','performance','energy','s4')})"><div class="ic">❂</div><div><div class="t">Performance &amp; recovery</div><div class="d">Workout or recovery.</div></div></button>
     <button class="opt" data-feel="radiant" onclick="choose(this,function(){answer('q2','skin','radiant','s4')})"><div class="ic">❋</div><div><div class="t">Skin &amp; aging</div><div class="d">Appearance or signs of aging.</div></div></button>
   </div></div>
 </section>
@@ -455,7 +455,8 @@ function answer(q,val,feeling,nextId){
 }
 function finish(){
  var f=FEEL[lead.goal]||FEEL.wellness;
- setVisual('s7', GOAL_FEEL[lead.goal]||lastFeeling);
+ var M={weight:'img/m_q1_weight.jpg',energy:'img/m_q1_energy.jpg',beauty:'img/m_q1_beauty.jpg',wellness:'img/m_q1_wellness.jpg'};
+ var v7=document.querySelector('#s7 .visual'); if(v7&&M[lead.goal]){v7.style.backgroundImage="url('"+M[lead.goal]+"')";v7.style.backgroundPosition='center 42%';}
  var nm=lead.firstName?lead.firstName.replace(/[<>]/g,''):'';
  document.getElementById('rname').innerHTML = nm ? ('For you, '+nm) : 'Crafted for you';
  document.getElementById('rtag').innerHTML=f.tag;
@@ -505,10 +506,11 @@ function done(choice){
 }
 
 /* ── HOVER-PREVIEW: hovering an answer paints the current screen's photo to that feeling, with a gold glow — sells the dream before they even click ── */
-document.querySelectorAll('.opt[data-feel]').forEach(function(opt){
+document.querySelectorAll('.opt[data-feel],.opt[data-img]').forEach(function(opt){
  function vis(){return opt.closest('.screen').querySelector('.visual');}
+ function imgFor(){var di=opt.getAttribute('data-img'); if(di)return{img:di,pos:(opt.getAttribute('data-pos')||'center 42%')}; return FEEL_IMG[opt.getAttribute('data-feel')];}
  opt.addEventListener('mouseenter',function(){
-   var el=vis(); var f=FEEL_IMG[opt.getAttribute('data-feel')]; if(!el||!f)return;
+   var el=vis(); var f=imgFor(); if(!el||!f)return;
    if(!el.classList.contains('previewing')){el._base=el.style.backgroundImage;el._basePos=el.style.backgroundPosition;}
    el.style.backgroundImage="url('"+f.img+"')"; el.style.backgroundPosition=f.pos;
    el.classList.add('previewing');
