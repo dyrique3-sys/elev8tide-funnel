@@ -77,16 +77,16 @@ img{display:block}
 
 /* ───────── MOBILE — image fades DOWN into panel, centered ───────── */
 @media(max-width:880px){
-  .screen.active{grid-template-columns:1fr;grid-template-rows:36vh auto;grid-template-rows:36dvh auto}
-  .visual{min-height:36vh;min-height:36dvh}
+  .screen.active{grid-template-columns:1fr;grid-template-rows:46vh auto;grid-template-rows:46dvh auto}
+  .visual{min-height:46vh;min-height:46dvh;background-position:center 22%!important}
   .visual::after{background:linear-gradient(180deg,
-    rgba(15,30,33,.12) 0%,rgba(15,30,33,0) 28%,rgba(22,40,44,.55) 72%,var(--panel) 100%);}
-  .panel{justify-content:flex-start;padding:26px 24px calc(44px + env(safe-area-inset-bottom));min-height:auto;
-    margin-top:-13vh;position:relative;z-index:3;
-    background:linear-gradient(180deg,rgba(22,40,44,0) 0%,var(--panel) 12%,#0f1e21 100%)}
+    rgba(15,30,33,.10) 0%,rgba(15,30,33,0) 40%,rgba(22,40,44,.5) 80%,var(--panel) 100%);}
+  .panel{justify-content:flex-start;padding:22px 24px calc(44px + env(safe-area-inset-bottom));min-height:auto;
+    margin-top:-8vh;position:relative;z-index:3;
+    background:linear-gradient(180deg,rgba(22,40,44,0) 0%,var(--panel) 14%,#0f1e21 100%)}
   .inner{max-width:430px;text-align:center}
   .field,.opt,.gate-box{text-align:left}
-  h1{font-size:36px!important}
+  h1{font-size:34px!important}
 }
 @media(max-width:400px){h1{font-size:31px!important}.panel{padding:22px 20px calc(38px + env(safe-area-inset-bottom))}}
 
@@ -107,6 +107,9 @@ h1 i{color:var(--gold2);font-weight:500}
 .field input{width:100%;padding:15px 17px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);border-radius:9px;font-family:'Jost';font-size:16px;color:var(--cream);transition:.25s}
 .field input::placeholder{color:#6f817e}
 .field input:focus{outline:none;border-color:var(--gold);background:rgba(255,255,255,.08);box-shadow:0 0 0 3px rgba(200,160,106,.12)}
+.field .emsg{display:none;font-size:11px;color:#e0948c;margin-top:6px;letter-spacing:.3px}
+.field.err input{border-color:#c0564e;box-shadow:0 0 0 3px rgba(192,86,78,.14)}
+.field.err .emsg{display:block}
 
 .btn{display:block;width:100%;padding:17px;border:none;border-radius:9px;cursor:pointer;margin-top:24px;transition:transform .2s,filter .2s,box-shadow .2s;
   font-family:'Jost';font-weight:400;font-size:12.5px;letter-spacing:3px;text-transform:uppercase;
@@ -221,14 +224,14 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 1 · CAPTURE -->
 <section class="screen" id="s1">
-  <div class="visual" style="background-image:url(img/backlogo.png);background-position:center 20%"></div>
+  <div class="visual" style="background-image:url(img/ai_window.jpg);background-position:center 20%"></div>
   <div class="panel"><div class="inner">
     <span class="pill">A gift to begin · 15% off</span>
     <h1 class="serif" style="margin-top:18px">Where shall we <i>send it?</i></h1>
     <p class="sub">Your 15% and your personalized wellness path — delivered privately to you.</p>
-    <div class="field"><label>First name</label><input id="fn" placeholder="First name"></div>
-    <div class="field"><label>Email</label><input id="em" type="email" placeholder="you@email.com"></div>
-    <div class="field"><label>Phone</label><input id="ph" type="tel" placeholder="(000) 000-0000"></div>
+    <div class="field"><label>First name</label><input id="fn" placeholder="First name" autocomplete="given-name"><div class="emsg">Please enter your first name</div></div>
+    <div class="field"><label>Email</label><input id="em" type="email" placeholder="you@email.com" autocomplete="email"><div class="emsg">Please enter a valid email</div></div>
+    <div class="field"><label>Phone</label><input id="ph" type="tel" placeholder="(000) 000-0000" autocomplete="tel"><div class="emsg">Please enter a valid phone number</div></div>
     <button class="btn" onclick="toQuiz()">Continue</button>
     <div class="foot">ALWAYS PRIVATE · NEVER SHARED</div>
   </div></div>
@@ -236,7 +239,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 2 · Q1 · GOAL (drives branching image + result) -->
 <section class="screen" id="s2">
-  <div class="visual" style="background-image:url(img/sand2.png);background-position:center 45%"></div>
+  <div class="visual" style="background-image:url(img/ai_radiant.jpg);background-position:center 25%"></div>
   <div class="panel"><div class="inner">
     <div class="prog"><i class="on"></i><i></i><i></i><i></i><i></i></div>
     <div class="kick">Question 1 of 5</div>
@@ -250,7 +253,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 3 · Q2 · CHALLENGE -->
 <section class="screen" id="s3">
-  <div class="visual" style="background-image:url(img/beach1.png);background-position:center 30%"></div>
+  <div class="visual" style="background-image:url(img/ai_confident.jpg);background-position:center 18%"></div>
   <div class="panel"><div class="inner">
     <button class="back" onclick="back()"><span>‹</span> Back</button>
     <div class="prog"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
@@ -265,7 +268,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 4 · Q3 · RESULTS THAT MATTER -->
 <section class="screen" id="s4">
-  <div class="visual" style="background-image:url(img/sand1.png);background-position:center 32%"></div>
+  <div class="visual" style="background-image:url(img/ai_walk.jpg);background-position:center 18%"></div>
   <div class="panel"><div class="inner">
     <button class="back" onclick="back()"><span>‹</span> Back</button>
     <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
@@ -280,7 +283,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 5 · Q4 · EXPERIENCE -->
 <section class="screen" id="s5">
-  <div class="visual" style="background-image:url(img/beach2.png);background-position:center 28%"></div>
+  <div class="visual" style="background-image:url(img/ai_energy.jpg);background-position:center 22%"></div>
   <div class="panel"><div class="inner">
     <button class="back" onclick="back()"><span>‹</span> Back</button>
     <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
@@ -294,7 +297,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 6 · Q5 · TIMELINE -->
 <section class="screen" id="s6">
-  <div class="visual" style="background-image:url(img/hero_face.jpg);background-position:center 26%"></div>
+  <div class="visual" style="background-image:url(img/ai_calm.jpg);background-position:center 22%"></div>
   <div class="panel"><div class="inner">
     <button class="back" onclick="back()"><span>‹</span> Back</button>
     <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
@@ -324,7 +327,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 8 · THANK YOU (real confirmation screen — replaces the alert) -->
 <section class="screen" id="s8">
-  <div class="visual" style="background-image:url(img/backlogo.png);background-position:center 20%"></div>
+  <div class="visual" style="background-image:url(img/ai_radiant.jpg);background-position:center 24%"></div>
   <div class="panel"><div class="inner">
     <div class="check-badge">✓</div>
     <div class="logo"><div class="wm">ELEV8TIDE</div></div>
@@ -392,7 +395,7 @@ function setVisual(id,feeling){
 }
 
 /* preload every image so transitions never flash */
-['img/drip.png','img/backlogo.png','img/sand2.png','img/beach1.png','img/beach2.png','img/sand1.png','img/hero_face.jpg','img/ai_energy.jpg','img/ai_confident.jpg','img/ai_radiant.jpg','img/ai_calm.jpg']
+['img/drip.png','img/ai_window.jpg','img/ai_radiant.jpg','img/ai_confident.jpg','img/ai_walk.jpg','img/ai_energy.jpg','img/ai_calm.jpg']
   .forEach(function(s){var i=new Image();i.src=s;});
 
 /* smooth screen hand-off: fade current out, bring next in */
@@ -425,19 +428,29 @@ function choose(btn,fn){
 
 function enter(){if(!document.getElementById('agree').checked){alert('Please confirm you are 21+ and agree to the terms.');return;}go('s1');}
 function toQuiz(){
- lead.firstName=document.getElementById('fn').value.trim();
- lead.email=document.getElementById('em').value.trim();
- lead.phone=document.getElementById('ph').value.trim();
- if(!lead.email){alert('Add your email to continue.');return;}
+ var fn=document.getElementById('fn'), em=document.getElementById('em'), ph=document.getElementById('ph');
+ var name=fn.value.trim(), email=em.value.trim(), phone=ph.value.trim();
+ var ok=true;
+ function mark(input,valid){var f=input.closest('.field'); if(valid){f.classList.remove('err');}else{f.classList.add('err');ok=false;}}
+ /* name: at least 2 letters, not just digits/symbols */
+ mark(fn, name.length>=2 && /[A-Za-z]{2,}/.test(name) && !/^[\d\s\W]+$/.test(name));
+ /* email: real format */
+ mark(em, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email));
+ /* phone: at least 10 digits */
+ mark(ph, phone.replace(/\D/g,'').length>=10);
+ if(!ok){ var firstErr=document.querySelector('#s1 .field.err input'); if(firstErr)firstErr.focus(); return; }
+ lead.firstName=name; lead.email=email; lead.phone=phone;
  go('s2');
 }
+/* clear a field's error as soon as they start fixing it */
+['fn','em','ph'].forEach(function(id){var el=document.getElementById(id); if(el)el.addEventListener('input',function(){this.closest('.field').classList.remove('err');});});
 /* every answer carries a feeling → it repaints the NEXT screen to match what they chose */
 function answer(q,val,feeling,nextId){
  lead[q]=val;
  if(q==='goal'){lead.goal=val;}
  if(feeling){lastFeeling=feeling;}
  if(nextId==='finish'){finish();return;}
- setVisual(nextId,feeling);   /* falls back to lastFeeling when this answer has none */
+ /* each question keeps its OWN distinct campaign photo — no repeats. desktop hover still previews the feeling; the RESULT matches their goal */
  go(nextId);
 }
 function finish(){
