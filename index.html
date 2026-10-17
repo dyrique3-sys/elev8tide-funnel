@@ -32,24 +32,26 @@ img{display:block}
 /* ───────── STAGE ───────── */
 .stage{position:relative;min-height:100vh;min-height:100dvh}
 .screen{display:none;min-height:100vh;min-height:100dvh}
-.screen.active{display:grid;grid-template-columns:46% 54%}
+.screen.active{display:block;position:relative;min-height:100vh;min-height:100dvh}
 
-/* ───────── VISUAL (blends into panel + unified brand grade) ───────── */
-.visual{background-size:cover;background-position:center;min-height:100vh;min-height:100dvh;position:relative;overflow:hidden}
-/* unified editorial grade so product + lifestyle photos feel like ONE set */
+/* ───────── VISUAL — full-bleed cinematic image behind a glass card ───────── */
+.visual{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;overflow:hidden}
+/* cinematic vignette on the image itself */
 .visual::before{content:"";position:absolute;inset:0;z-index:1;
-  background:
-    linear-gradient(180deg,rgba(15,30,33,.30),rgba(15,30,33,.02) 42%,rgba(15,30,33,.34)),
-    radial-gradient(130% 100% at 30% 34%,rgba(200,160,106,.12),transparent 62%);}
-/* feathered blend — the image dissolves into the panel color (no hard seam) */
+  background:radial-gradient(135% 120% at 70% 42%,transparent 38%,rgba(6,13,15,.5) 100%);}
+/* dark scrim on the left so the glass card's text always reads */
 .visual::after{content:"";position:absolute;inset:0;z-index:2;
-  background:linear-gradient(90deg,
-    rgba(15,30,33,.18) 0%,rgba(15,30,33,0) 34%,rgba(22,40,44,.4) 66%,var(--panel) 100%);}
+  background:linear-gradient(100deg,rgba(6,13,15,.82) 0%,rgba(6,13,15,.5) 30%,rgba(6,13,15,.12) 52%,transparent 72%);}
 
-.panel{background:linear-gradient(135deg,var(--panel) 0%,#0f1e21 100%);
-  display:flex;flex-direction:column;justify-content:center;
-  padding:64px 7% calc(54px + env(safe-area-inset-bottom));position:relative;overflow-y:auto;min-height:100vh;min-height:100dvh}
-.inner{width:100%;max-width:440px;margin:0 auto}
+/* the floating glass content card */
+.panel{position:absolute;left:6%;top:50%;transform:translateY(-50%);z-index:3;
+  width:min(470px,90%);max-height:90vh;overflow-y:auto;
+  background:rgba(11,22,25,.78);backdrop-filter:blur(22px) saturate(1.1);-webkit-backdrop-filter:blur(22px) saturate(1.1);
+  border:1px solid rgba(200,160,106,.24);border-radius:26px;
+  padding:48px 42px calc(48px + env(safe-area-inset-bottom));
+  box-shadow:0 60px 130px -55px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.05);
+  display:flex;flex-direction:column;justify-content:flex-start}
+.inner{width:100%;max-width:386px;margin:0 auto}
 
 /* ───────── ENTER MOTION ───────── */
 @keyframes imgIn{from{opacity:0;transform:scale(1.16)}to{opacity:1;transform:scale(1.045)}}
@@ -77,18 +79,17 @@ img{display:block}
 
 /* ───────── MOBILE — image fades DOWN into panel, centered ───────── */
 @media(max-width:880px){
-  .screen.active{grid-template-columns:1fr;grid-template-rows:46vh auto;grid-template-rows:46dvh auto}
-  .visual{min-height:46vh;min-height:46dvh;background-position:center 42%!important}
-  .visual::after{background:linear-gradient(180deg,
-    rgba(15,30,33,.10) 0%,rgba(15,30,33,0) 40%,rgba(22,40,44,.5) 80%,var(--panel) 100%);}
-  .panel{justify-content:flex-start;padding:22px 24px calc(44px + env(safe-area-inset-bottom));min-height:auto;
-    margin-top:-8vh;position:relative;z-index:3;
-    background:linear-gradient(180deg,rgba(22,40,44,0) 0%,var(--panel) 14%,#0f1e21 100%)}
-  .inner{max-width:430px;text-align:center}
+  .screen.active{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+  .visual{position:relative;inset:auto;height:42vh;height:42dvh;flex-shrink:0;background-position:center 42%!important}
+  .visual::before{background:radial-gradient(130% 120% at 50% 40%,transparent 50%,rgba(6,13,15,.4) 100%)}
+  .visual::after{background:linear-gradient(180deg,rgba(6,13,15,.12) 0%,transparent 42%,rgba(6,13,15,.55) 82%,#0b1619 100%)}
+  .panel{position:relative;left:auto;top:auto;transform:none;width:auto;max-width:none;max-height:none;overflow:visible;
+    margin:-11vh 13px 28px;border-radius:24px;padding:30px 24px calc(30px + env(safe-area-inset-bottom))}
+  .inner{max-width:420px;text-align:center}
   .field,.opt,.gate-box{text-align:left}
-  h1{font-size:34px!important}
+  h1{font-size:32px!important}
 }
-@media(max-width:400px){h1{font-size:31px!important}.panel{padding:22px 20px calc(38px + env(safe-area-inset-bottom))}}
+@media(max-width:400px){h1{font-size:30px!important}.panel{padding:26px 20px calc(26px + env(safe-area-inset-bottom))}.inner{max-width:100%}}
 
 /* ───────── TYPE / COMPONENTS ───────── */
 .logo{text-align:center;margin-bottom:4px}
