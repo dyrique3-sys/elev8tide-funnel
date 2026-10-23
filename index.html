@@ -24,13 +24,14 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-html,body{min-height:100%}
-body{font-family:'Jost',sans-serif;background:var(--panel2);color:var(--cream);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html,body{min-height:100%;max-width:100%;overflow-x:hidden;overflow-x:clip}
+/* scroll-lock: never scroll sideways, no horizontal rubber-band bounce */
+body{font-family:'Jost',sans-serif;background:var(--panel2);color:var(--cream);overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none;-webkit-font-smoothing:antialiased}
 .serif{font-family:'Cormorant Garamond',serif}
 img{display:block}
 
 /* ───────── STAGE ───────── */
-.stage{position:relative;min-height:100vh;min-height:100dvh}
+.stage{position:relative;min-height:100vh;min-height:100dvh;overflow-x:clip}
 .screen{display:none;min-height:100vh;min-height:100dvh}
 .screen.active{display:block;position:relative;min-height:100vh;min-height:100dvh}
 
@@ -482,15 +483,21 @@ function done(choice){
    localStorage.setItem('e8_leads',JSON.stringify(saved));
  }catch(e){}
 
- /* 2) SEND to Mailchimp (JSONP — works on a static site, no backend/CORS) */
+ /* 2) SEND to Mailchimp (JSONP — works on a static site, no backend/CORS)
+    GOAL + CALL are real merge fields on her audience (so the quiz answer
+    + call preference are saved to each contact). Phone is formatted to her
+    audience's (###) ###-#### field format. reCAPTCHA is OFF on the form,
+    single opt-in, so this subscribes the lead directly. */
  if(MAILCHIMP.u && MAILCHIMP.id && MAILCHIMP.dc){
+   var d=(lead.phone||'').replace(/\D/g,'').slice(-10);
+   var phoneFmt = d.length===10 ? '('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6) : lead.phone;
    var p='https://'+MAILCHIMP.dc+'.list-manage.com/subscribe/post-json'
      +'?u='+MAILCHIMP.u+'&id='+MAILCHIMP.id
      +'&EMAIL='+encodeURIComponent(lead.email)
      +'&FNAME='+encodeURIComponent(lead.firstName)
-     +'&PHONE='+encodeURIComponent(lead.phone)
-     +'&MMERGE6='+encodeURIComponent(lead.goal)        /* tailor these merge tags to her audience fields */
-     +'&MMERGE7='+encodeURIComponent(lead.wantsCall)
+     +'&PHONE='+encodeURIComponent(phoneFmt)
+     +'&GOAL='+encodeURIComponent(lead.goal)
+     +'&CALL='+encodeURIComponent(lead.wantsCall)
      +'&c=__e8cb';
    window.__e8cb=function(){};
    var s=document.createElement('script');s.src=p;document.body.appendChild(s);
