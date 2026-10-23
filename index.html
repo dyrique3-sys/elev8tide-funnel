@@ -179,7 +179,7 @@ h1 i{color:var(--gold2);font-weight:500}
 /* ───────── CINEMATIC OPENING ───────── */
 #intro{position:fixed;inset:0;z-index:100;background:var(--panel2);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;transition:opacity 1.2s ease}
 #intro.gone{opacity:0;pointer-events:none}
-.intro-bg{position:absolute;inset:0;background:url(img/drip.png) center 30%/cover;animation:introZoom 6s ease-out both;z-index:0}
+.intro-bg{position:absolute;inset:0;background:url(img/drip.jpg) center 30%/cover;animation:introZoom 6s ease-out both;z-index:0}
 .intro-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,30,33,.5),rgba(15,30,33,.84)),radial-gradient(120% 120% at 50% 42%,transparent 50%,rgba(8,16,18,.5))}
 @keyframes introZoom{from{transform:scale(1.03)}to{transform:scale(1.15)}}
 .intro-content{position:relative;z-index:1;text-align:center;padding:0 24px}
@@ -212,7 +212,7 @@ h1 i{color:var(--gold2);font-weight:500}
 
 <!-- 0 · GATE / OPENING DISCLAIMER -->
 <section class="screen active" id="s0">
-  <div class="visual" style="background-image:url(img/drip.png);background-position:center 30%"></div>
+  <div class="visual" style="background-image:url(img/drip.jpg);background-position:center 30%"></div>
   <div class="panel"><div class="inner">
     <div class="logo"><div class="wm">ELEV8TIDE</div><div class="tag">Elevate Wellness · Restore Confidence</div></div>
     <div class="kick">A Private Wellness Discovery</div>
@@ -398,7 +398,7 @@ function setVisual(id,feeling){
 }
 
 /* preload every image so transitions never flash */
-['img/drip.png','img/ai_window.jpg','img/ai_radiant.jpg','img/ai_confident.jpg','img/ai_walk.jpg','img/ai_energy.jpg','img/ai_calm.jpg']
+['img/drip.jpg','img/ai_window.jpg','img/ai_radiant.jpg','img/ai_confident.jpg','img/ai_walk.jpg','img/ai_energy.jpg','img/ai_calm.jpg']
   .forEach(function(s){var i=new Image();i.src=s;});
 
 /* smooth screen hand-off: fade current out, bring next in */
