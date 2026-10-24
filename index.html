@@ -136,6 +136,11 @@ h1 i{color:var(--gold2);font-weight:500}
 /* selected feedback before advancing */
 .opt.sel{border-color:var(--gold);background:linear-gradient(135deg,rgba(200,160,106,.22),rgba(200,160,106,.08));transform:translateY(-1px);box-shadow:0 14px 30px -16px rgba(200,160,106,.5)}
 .opt.sel .ic{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#2a2012;border-color:transparent}
+/* multi-select: selected options show a checkmark (not the single-choice arrow) */
+.opt.sel::after{content:"\2713";opacity:1;transform:translateY(-50%) translateX(0)}
+.qsub{text-align:center;color:var(--gold);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;margin-top:10px;font-weight:400}
+.qhint{display:none;text-align:center;color:#e0948c;font-size:12px;margin-top:11px;letter-spacing:.3px}
+.qhint.show{display:block}
 
 .prog{display:flex;gap:7px;justify-content:center;margin-bottom:22px}
 .prog i{width:28px;height:2px;background:rgba(255,255,255,.14);border-radius:2px;transition:.5s cubic-bezier(.2,.7,.3,1)}
@@ -251,10 +256,13 @@ h1 i{color:var(--gold2);font-weight:500}
     <div class="prog"><i class="on"></i><i></i><i></i><i></i><i></i></div>
     <div class="kick">Question 1 of 5</div>
     <h1 class="serif">What's your main <i>wellness goal?</i></h1>
-    <button class="opt" data-feel="confident" data-img="img/m_q1_weight.jpg" onclick="choose(this,function(){answer('goal','weight','confident','s3')})"><div class="ic">◐</div><div><div class="t">Weight Management</div><div class="d">Feeling light &amp; in control.</div></div></button>
-    <button class="opt" data-feel="energy" data-img="img/m_q1_energy.jpg" onclick="choose(this,function(){answer('goal','energy','energy','s3')})"><div class="ic">✦</div><div><div class="t">Energy &amp; Performance</div><div class="d">Energized, focused, driven.</div></div></button>
-    <button class="opt" data-feel="radiant" data-img="img/m_q1_beauty.jpg" onclick="choose(this,function(){answer('goal','beauty','radiant','s3')})"><div class="ic">❋</div><div><div class="t">Beauty &amp; Anti-Aging</div><div class="d">Radiant &amp; renewed.</div></div></button>
-    <button class="opt" data-feel="calm" data-img="img/m_q1_wellness.jpg" onclick="choose(this,function(){answer('goal','wellness','calm','s3')})"><div class="ic">❂</div><div><div class="t">Overall Wellness</div><div class="d">Balanced &amp; restored.</div></div></button>
+    <p class="qsub">Choose all that apply</p>
+    <button class="opt" data-q="goal" data-val="weight" data-feel="confident" data-img="img/m_q1_weight.jpg" onclick="toggle(this)"><div class="ic">◐</div><div><div class="t">Weight Management</div><div class="d">Feeling light &amp; in control.</div></div></button>
+    <button class="opt" data-q="goal" data-val="energy" data-feel="energy" data-img="img/m_q1_energy.jpg" onclick="toggle(this)"><div class="ic">✦</div><div><div class="t">Energy &amp; Performance</div><div class="d">Energized, focused, driven.</div></div></button>
+    <button class="opt" data-q="goal" data-val="beauty" data-feel="radiant" data-img="img/m_q1_beauty.jpg" onclick="toggle(this)"><div class="ic">❋</div><div><div class="t">Beauty &amp; Anti-Aging</div><div class="d">Radiant &amp; renewed.</div></div></button>
+    <button class="opt" data-q="goal" data-val="wellness" data-feel="calm" data-img="img/m_q1_wellness.jpg" onclick="toggle(this)"><div class="ic">❂</div><div><div class="t">Overall Wellness</div><div class="d">Balanced &amp; restored.</div></div></button>
+    <button class="btn" onclick="nextQ('goal','s3')">Continue</button>
+    <div class="qhint">Please select at least one to continue</div>
   </div></div>
 </section>
 
@@ -266,10 +274,13 @@ h1 i{color:var(--gold2);font-weight:500}
     <div class="prog"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
     <div class="kick">Question 2 of 5</div>
     <h1 class="serif">Your biggest <i>challenge</i> right now?</h1>
-    <button class="opt" data-feel="confident" data-img="img/m_q2_weight.jpg" onclick="choose(this,function(){answer('q2','weight','confident','s4')})"><div class="ic">◐</div><div><div class="t">Weight &amp; cravings</div><div class="d">Managing weight or cravings.</div></div></button>
-    <button class="opt" data-feel="energy" data-img="img/m_q2_energy.jpg" onclick="choose(this,function(){answer('q2','energy','energy','s4')})"><div class="ic">✦</div><div><div class="t">Low energy</div><div class="d">Fatigue or low energy.</div></div></button>
-    <button class="opt" data-feel="energy" data-img="img/m_q2_performance.jpg" onclick="choose(this,function(){answer('q2','performance','energy','s4')})"><div class="ic">❂</div><div><div class="t">Performance &amp; recovery</div><div class="d">Workout or recovery.</div></div></button>
-    <button class="opt" data-feel="radiant" data-img="img/m_q2_skin.jpg" onclick="choose(this,function(){answer('q2','skin','radiant','s4')})"><div class="ic">❋</div><div><div class="t">Skin &amp; aging</div><div class="d">Appearance or signs of aging.</div></div></button>
+    <p class="qsub">Choose all that apply</p>
+    <button class="opt" data-q="q2" data-val="weight" data-feel="confident" data-img="img/m_q2_weight.jpg" onclick="toggle(this)"><div class="ic">◐</div><div><div class="t">Weight &amp; cravings</div><div class="d">Managing weight or cravings.</div></div></button>
+    <button class="opt" data-q="q2" data-val="energy" data-feel="energy" data-img="img/m_q2_energy.jpg" onclick="toggle(this)"><div class="ic">✦</div><div><div class="t">Low energy</div><div class="d">Fatigue or low energy.</div></div></button>
+    <button class="opt" data-q="q2" data-val="performance" data-feel="energy" data-img="img/m_q2_performance.jpg" onclick="toggle(this)"><div class="ic">❂</div><div><div class="t">Performance &amp; recovery</div><div class="d">Workout or recovery.</div></div></button>
+    <button class="opt" data-q="q2" data-val="skin" data-feel="radiant" data-img="img/m_q2_skin.jpg" onclick="toggle(this)"><div class="ic">❋</div><div><div class="t">Skin &amp; aging</div><div class="d">Appearance or signs of aging.</div></div></button>
+    <button class="btn" onclick="nextQ('q2','s4')">Continue</button>
+    <div class="qhint">Please select at least one to continue</div>
   </div></div>
 </section>
 
@@ -281,10 +292,13 @@ h1 i{color:var(--gold2);font-weight:500}
     <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
     <div class="kick">Question 3 of 5</div>
     <h1 class="serif">What <i>results</i> matter most?</h1>
-    <button class="opt" data-feel="confident" data-img="img/m_q3_confident.jpg" onclick="choose(this,function(){answer('q3','confident','confident','s5')})"><div class="ic">❂</div><div><div class="t">Feeling more confident</div></div></button>
-    <button class="opt" data-feel="energy" data-img="img/m_q3_energy.jpg" onclick="choose(this,function(){answer('q3','energy','energy','s5')})"><div class="ic">✦</div><div><div class="t">Having more energy</div></div></button>
-    <button class="opt" data-feel="energy" data-img="img/m_q3_fitness.jpg" onclick="choose(this,function(){answer('q3','fitness','energy','s5')})"><div class="ic">◈</div><div><div class="t">Improving my fitness</div></div></button>
-    <button class="opt" data-feel="radiant" data-img="img/m_q3_refreshed.jpg" onclick="choose(this,function(){answer('q3','refreshed','radiant','s5')})"><div class="ic">❋</div><div><div class="t">Looking &amp; feeling refreshed</div></div></button>
+    <p class="qsub">Choose all that apply</p>
+    <button class="opt" data-q="q3" data-val="confident" data-feel="confident" data-img="img/m_q3_confident.jpg" onclick="toggle(this)"><div class="ic">❂</div><div><div class="t">Feeling more confident</div></div></button>
+    <button class="opt" data-q="q3" data-val="energy" data-feel="energy" data-img="img/m_q3_energy.jpg" onclick="toggle(this)"><div class="ic">✦</div><div><div class="t">Having more energy</div></div></button>
+    <button class="opt" data-q="q3" data-val="fitness" data-feel="energy" data-img="img/m_q3_fitness.jpg" onclick="toggle(this)"><div class="ic">◈</div><div><div class="t">Improving my fitness</div></div></button>
+    <button class="opt" data-q="q3" data-val="refreshed" data-feel="radiant" data-img="img/m_q3_refreshed.jpg" onclick="toggle(this)"><div class="ic">❋</div><div><div class="t">Looking &amp; feeling refreshed</div></div></button>
+    <button class="btn" onclick="nextQ('q3','s5')">Continue</button>
+    <div class="qhint">Please select at least one to continue</div>
   </div></div>
 </section>
 
@@ -296,9 +310,12 @@ h1 i{color:var(--gold2);font-weight:500}
     <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
     <div class="kick">Question 4 of 5</div>
     <h1 class="serif">Explored peptide-based wellness <i>before?</i></h1>
-    <button class="opt" data-img="img/m_q4_used.jpg" onclick="choose(this,function(){answer('q4','used','','s6')})"><div class="ic">❂</div><div><div class="t">Yes, I've used them</div></div></button>
-    <button class="opt" data-img="img/m_q4_heard.jpg" onclick="choose(this,function(){answer('q4','heard','','s6')})"><div class="ic">◈</div><div><div class="t">I've heard about them</div></div></button>
-    <button class="opt" data-img="img/m_q4_new.jpg" onclick="choose(this,function(){answer('q4','new','','s6')})"><div class="ic">✦</div><div><div class="t">No, I'm new to this</div></div></button>
+    <p class="qsub">Select one</p>
+    <button class="opt" data-q="q4" data-val="used" data-img="img/m_q4_used.jpg" onclick="toggle(this,true)"><div class="ic">❂</div><div><div class="t">Yes, I've used them</div></div></button>
+    <button class="opt" data-q="q4" data-val="heard" data-img="img/m_q4_heard.jpg" onclick="toggle(this,true)"><div class="ic">◈</div><div><div class="t">I've heard about them</div></div></button>
+    <button class="opt" data-q="q4" data-val="new" data-img="img/m_q4_new.jpg" onclick="toggle(this,true)"><div class="ic">✦</div><div><div class="t">No, I'm new to this</div></div></button>
+    <button class="btn" onclick="nextQ('q4','s6')">Continue</button>
+    <div class="qhint">Please select one to continue</div>
   </div></div>
 </section>
 
@@ -310,9 +327,12 @@ h1 i{color:var(--gold2);font-weight:500}
     <div class="prog"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
     <div class="kick">Question 5 of 5</div>
     <h1 class="serif">How soon to <i>get started?</i></h1>
-    <button class="opt" data-img="img/m_q5_now.jpg" onclick="choose(this,function(){answer('q5','now','','finish')})"><div class="ic">❂</div><div><div class="t">Ready to explore now</div></div></button>
-    <button class="opt" data-img="img/m_q5_30days.jpg" onclick="choose(this,function(){answer('q5','30days','','finish')})"><div class="ic">◈</div><div><div class="t">Within the next 30 days</div></div></button>
-    <button class="opt" data-img="img/m_q5_researching.jpg" onclick="choose(this,function(){answer('q5','researching','','finish')})"><div class="ic">✦</div><div><div class="t">Just researching</div></div></button>
+    <p class="qsub">Select one</p>
+    <button class="opt" data-q="q5" data-val="now" data-img="img/m_q5_now.jpg" onclick="toggle(this,true)"><div class="ic">❂</div><div><div class="t">Ready to explore now</div></div></button>
+    <button class="opt" data-q="q5" data-val="30days" data-img="img/m_q5_30days.jpg" onclick="toggle(this,true)"><div class="ic">◈</div><div><div class="t">Within the next 30 days</div></div></button>
+    <button class="opt" data-q="q5" data-val="researching" data-img="img/m_q5_researching.jpg" onclick="toggle(this,true)"><div class="ic">✦</div><div><div class="t">Just researching</div></div></button>
+    <button class="btn" onclick="nextQ('q5','finish')">See my results</button>
+    <div class="qhint">Please select one to continue</div>
   </div></div>
 </section>
 
@@ -425,13 +445,31 @@ function back(){
  var prev=histStack.pop();
  go(prev,true);
 }
-/* tap feedback, then advance */
-function choose(btn,fn){
+/* MULTI-SELECT: tap toggles an option on/off. exclusive=true = single-choice (Q4/Q5). */
+function toggle(btn,exclusive){
  if(busy) return;
- var sibs=btn.parentElement.querySelectorAll('.opt');
- sibs.forEach(function(s){s.classList.remove('sel')});
- btn.classList.add('sel');
- setTimeout(fn,240);
+ if(exclusive){ btn.parentElement.querySelectorAll('.opt').forEach(function(s){if(s!==btn)s.classList.remove('sel')}); btn.classList.add('sel'); }
+ else { btn.classList.toggle('sel'); }
+ var scr=btn.closest('.screen');
+ var hint=scr.querySelector('.qhint'); if(hint) hint.classList.remove('show');
+ var di=btn.getAttribute('data-img');
+ if(di && btn.classList.contains('sel')){
+   var v=scr.querySelector('.visual');
+   if(v){v.style.backgroundImage="url('"+di+"')";v.style.backgroundPosition=(btn.getAttribute('data-pos')||'center 42%');}
+ }
+}
+/* Continue: gather every selected answer on this screen, store as an array, advance */
+function nextQ(qKey,nextId){
+ if(busy) return;
+ var scr=document.querySelector('.screen.active');
+ var sels=scr.querySelectorAll('.opt.sel');
+ if(!sels.length){ var h=scr.querySelector('.qhint'); if(h)h.classList.add('show'); return; }
+ var vals=[],feels=[];
+ sels.forEach(function(o){vals.push(o.getAttribute('data-val')); var f=o.getAttribute('data-feel'); if(f)feels.push(f);});
+ lead[qKey]=vals;
+ if(feels.length) lastFeeling=feels[feels.length-1];
+ if(nextId==='finish'){finish();return;}
+ go(nextId);
 }
 
 function enter(){if(!document.getElementById('agree').checked){alert('Please confirm you are 21+ and agree to the terms.');return;}go('s1');}
@@ -461,20 +499,23 @@ function answer(q,val,feeling,nextId){
  /* each question keeps its OWN distinct campaign photo — no repeats. desktop hover still previews the feeling; the RESULT matches their goal */
  go(nextId);
 }
+/* RESULT — a "preliminary screening" built from the goals they selected (one or many).
+   Recommends FOCUS AREAS / directions + a specialist conversation. Never names a product. */
+var GOALNAME={weight:'Weight Management',energy:'Energy & Performance',beauty:'Beauty & Anti-Aging',wellness:'Overall Wellness'};
 function finish(){
- var f=FEEL[lead.goal]||FEEL.wellness;
+ var goals = Array.isArray(lead.goal) ? lead.goal.slice() : (lead.goal?[lead.goal]:[]);
+ if(!goals.length) goals=['wellness'];
  var M={weight:'img/m_q1_weight.jpg',energy:'img/m_q1_energy.jpg',beauty:'img/m_q1_beauty.jpg',wellness:'img/m_q1_wellness.jpg'};
- var v7=document.querySelector('#s7 .visual'); if(v7&&M[lead.goal]){v7.style.backgroundImage="url('"+M[lead.goal]+"')";v7.style.backgroundPosition='center 42%';}
+ var primary=goals[0];
+ var v7=document.querySelector('#s7 .visual'); if(v7&&M[primary]){v7.style.backgroundImage="url('"+M[primary]+"')";v7.style.backgroundPosition='center 42%';}
  var nm=lead.firstName?lead.firstName.replace(/[<>]/g,''):'';
- document.getElementById('rname').innerHTML = nm ? ('For you, '+nm) : 'Crafted for you';
- document.getElementById('rtag').innerHTML=f.tag;
- document.getElementById('rhead').innerHTML='Your path to feeling <i>'+f.word+'.</i>';
- /* speak back their OWN answers — goal + challenge + pace = feels personally tailored */
- var chal=CHAL[lead.q2];
- var msg='You told us you want to feel '+f.line+'';
- if(chal){ msg+=', and that '+chal+' is what’s on your mind right now'; }
- msg+='. That’s exactly where we’ll begin'+(nm?(', '+nm):'')+'. '+(PACE[lead.q5]||'');
- document.getElementById('rsub').innerHTML=msg;
+ var names=goals.map(function(g){return GOALNAME[g]||'';}).filter(Boolean);
+ var nameList = names.length>1 ? (names.slice(0,-1).join(', ')+' & '+names[names.length-1]) : (names[0]||'Overall Wellness');
+ var many = names.length>1;
+ document.getElementById('rname').innerHTML = nm ? ('For you, '+nm) : 'Your results';
+ document.getElementById('rtag').innerHTML='Your Preliminary Screening';
+ document.getElementById('rhead').innerHTML='Based on your answers: <i>'+nameList+'.</i>';
+ document.getElementById('rsub').innerHTML='Your preliminary screening suggests '+(many?'these focus areas':'this focus area')+' may be good for your goals. However, you should talk to a specialist to ensure you’re taking the most efficient approach'+(nm?(', '+nm):'')+'.';
  go('s7');
 }
 function done(choice){
@@ -496,12 +537,13 @@ function done(choice){
  if(MAILCHIMP.u && MAILCHIMP.id && MAILCHIMP.dc){
    var d=(lead.phone||'').replace(/\D/g,'').slice(-10);
    var phoneFmt = d.length===10 ? '('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6) : lead.phone;
+   var goalStr = Array.isArray(lead.goal) ? lead.goal.join(', ') : (lead.goal||'');
    var p='https://'+MAILCHIMP.dc+'.list-manage.com/subscribe/post-json'
      +'?u='+MAILCHIMP.u+'&id='+MAILCHIMP.id
      +'&EMAIL='+encodeURIComponent(lead.email)
      +'&FNAME='+encodeURIComponent(lead.firstName)
      +'&PHONE='+encodeURIComponent(phoneFmt)
-     +'&GOAL='+encodeURIComponent(lead.goal)
+     +'&GOAL='+encodeURIComponent(goalStr)
      +'&CALL='+encodeURIComponent(lead.wantsCall)
      +'&c=__e8cb';
    window.__e8cb=function(){};
