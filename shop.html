@@ -52,6 +52,24 @@ a{color:inherit}
 .sub-add{border:1px solid var(--gold);background:none;color:#9A7B45;font-family:'Jost';font-size:12.5px;letter-spacing:.5px;
   padding:9px;border-radius:10px;cursor:pointer;margin-top:8px;transition:.2s;font-weight:500}
 .sub-add:hover{background:var(--gold);color:#fff}
+/* deal / sale styling */
+.savebadge{position:absolute;top:12px;right:12px;background:#C0392B;color:#fff;font-size:12px;font-weight:700;
+  border-radius:50%;width:58px;height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  line-height:1.05;box-shadow:0 3px 10px rgba(0,0,0,.25);text-align:center}
+.savebadge b{font-size:14px}
+.dealrow{display:flex;align-items:baseline;gap:9px;margin:4px 0 12px;flex-wrap:wrap}
+.dealrow .reg{font-size:14px;color:#A6AEAE;text-decoration:line-through}
+.dealrow .deal{font-size:24px;color:var(--teal);font-weight:700}
+.dealrow .pct{background:var(--gold);color:#fff;font-size:11px;font-weight:700;letter-spacing:.5px;padding:3px 9px;border-radius:30px}
+.card.best{grid-column:1/-1;border:2px solid var(--gold);box-shadow:0 14px 40px rgba(200,160,106,.22)}
+.card.best .ph{aspect-ratio:auto}
+@media(min-width:620px){
+  .card.best{flex-direction:row}
+  .card.best .ph{width:40%;min-height:320px;aspect-ratio:auto}
+  .card.best .body{width:60%;justify-content:center}
+}
+.ribbon{position:absolute;top:16px;left:-2px;z-index:3;background:var(--teal);color:#fff;font-size:11px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;padding:7px 16px 7px 14px;border-radius:0 30px 30px 0;box-shadow:0 3px 10px rgba(0,0,0,.2)}
 .card .body{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1}
 .card h3{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--ink);font-weight:600}
 .card .sub{font-size:12px;color:var(--muted);margin:3px 0 10px;min-height:32px}
@@ -147,9 +165,9 @@ a{color:inherit}
   <div class="grid" id="grid"></div>
 
   <div class="hero" style="padding:48px 20px 4px">
-    <div class="k">Curated for your goal</div>
-    <h1 class="serif" style="font-size:34px">Goal Bundles</h1>
-    <p>Stack by outcome and save — or subscribe &amp; save 10%, so you never run out.</p>
+    <div class="k">Stack &amp; Save &middot; Limited Bundles</div>
+    <h1 class="serif" style="font-size:34px">Buy the goal, not the vial.</h1>
+    <p>Stacks save you up to <b style="color:#0F6B73">21% off</b> buying singles — and subscribers save another 10%. Real results come from stacking, so we priced it to make that the easy call.</p>
   </div>
   <div class="grid" id="stacks"></div>
 </div>
@@ -302,31 +320,44 @@ CATALOG.forEach(group=>{
   });
 });
 
-/* ===== GOAL BUNDLES (STACKS) + SUBSCRIPTIONS — by outcome =====
-   Bundle prices default to sum of parts; subscribe = 10% member price.
-   Nashay confirms/adjusts pricing (her margins). Research-use framing holds. */
+/* ===== GOAL STACKS + SUBSCRIPTIONS — real deal pricing =====
+   reg = total of her singles (the anchor). price = stack deal. subscribe = another 10% off.
+   Nashay confirms final numbers (her margins). Research-use framing holds. */
 const SUB_DISCOUNT = 0.10;
 const STACKS = [
-  {id:'weight',     name:'Weight & Metabolic Set', focus:'For weight &amp; metabolic goals', img:'img/m_q1_weight.jpg',      items:['Tirzepatide 20mg','Bacteriostatic Water'], price:225},
-  {id:'weight-adv', name:'Advanced Metabolic Set', focus:'Maximum weight &amp; metabolic',    img:'img/m_q2_weight.jpg',      items:['Retatrutide 20mg','Tesamorelin 10mg','Bacteriostatic Water'], price:365},
-  {id:'energy',     name:'Energy &amp; Performance Set', focus:'For energy, focus &amp; drive', img:'img/m_q1_energy.jpg',   items:['MOTS-C 10mg','NAD+ 500mg','Semax 10mg'], price:325},
-  {id:'beauty',     name:'Beauty &amp; Anti-Aging Set', focus:'For skin, hair &amp; glow',      img:'img/m_q1_beauty.jpg',   items:['GHK-Cu 50mg','Glutathione 1500mg'], price:320},
-  {id:'recovery',   name:'Recovery &amp; Healing Set', focus:'For repair &amp; recovery',        img:'img/m_q2_performance.jpg', items:['BPC-157 10mg','Bacteriostatic Water'], price:115}
+  {id:'complete', best:true, name:'The Complete Elev8 Stack', focus:'Every goal in one — our best value, biggest savings', img:'img/m_q1_wellness.jpg',
+    items:['Tirzepatide 20mg','NAD+ 500mg','GHK-Cu 50mg','Glutathione 1500mg','Bacteriostatic Water'], reg:695, price:549},
+  {id:'weight',     name:'Weight & Metabolic Stack', focus:'For weight &amp; metabolic goals', img:'img/m_q1_weight.jpg',
+    items:['Tirzepatide 20mg','Tesamorelin 10mg','Bacteriostatic Water'], reg:315, price:269},
+  {id:'weight-adv', name:'Advanced Metabolic Stack', focus:'Maximum strength weight &amp; metabolic', img:'img/m_q2_weight.jpg',
+    items:['Retatrutide 30mg','Tesamorelin 10mg','Bacteriostatic Water'], reg:440, price:369},
+  {id:'energy',     name:'Energy & Performance Stack', focus:'For energy, focus &amp; drive', img:'img/m_q1_energy.jpg',
+    items:['MOTS-C 10mg','NAD+ 500mg','Semax 10mg'], reg:325, price:275},
+  {id:'beauty',     name:'Beauty & Anti-Aging Stack', focus:'For skin, hair &amp; glow', img:'img/m_q1_beauty.jpg',
+    items:['GHK-Cu 50mg','Glutathione 1500mg','Bacteriostatic Water'], reg:345, price:289},
+  {id:'recovery',   name:'Recovery & Healing Stack', focus:'For repair &amp; recovery', img:'img/m_q2_performance.jpg',
+    items:['BPC-157 10mg','NAD+ 500mg','Bacteriostatic Water'], reg:265, price:225}
 ];
 const stacksEl = document.getElementById('stacks');
 STACKS.forEach(st=>{
+  const savings = st.reg - st.price;
+  const pct = Math.round(savings/st.reg*100);
   const subPrice = Math.round(st.price*(1-SUB_DISCOUNT));
   const card = document.createElement('div');
-  card.className='card';
+  card.className='card'+(st.best?' best':'');
   card.innerHTML = `
-    <div class="ph" style="background-image:url('${st.img}')"><span class="tag gold">Bundle</span></div>
+    ${st.best?'<div class="ribbon">Best Value</div>':''}
+    <div class="ph" style="background-image:url('${st.img}')">
+      <span class="tag gold">Stack &amp; Save</span>
+      <span class="savebadge">SAVE<b>$${savings}</b></span>
+    </div>
     <div class="body">
       <h3 class="serif">${st.name}</h3>
       <div class="sub">${st.focus}</div>
       <div class="stacklist">${st.items.map(i=>'<div>&bull; '+i+'</div>').join('')}</div>
-      <div class="stackprice"><span>One-time bundle</span><b>$${st.price}</b></div>
-      <button class="add once">Add Bundle &middot; $${st.price}</button>
-      <button class="sub-add">Subscribe &amp; Save 10% &middot; $${subPrice}/mo</button>
+      <div class="dealrow"><span class="reg">$${st.reg}</span><span class="deal">$${st.price}</span><span class="pct">${pct}% OFF</span></div>
+      <button class="add once">Add Stack &middot; $${st.price}</button>
+      <button class="sub-add">Subscribe &middot; $${subPrice}/mo — save another 10%</button>
     </div>`;
   card.querySelector('.once').onclick=()=>addStack(st,false);
   card.querySelector('.sub-add').onclick=()=>addStack(st,true);
