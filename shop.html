@@ -41,11 +41,17 @@ a{color:inherit}
 .card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;
   transition:.25s;box-shadow:0 1px 0 rgba(0,0,0,.02)}
 .card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(15,107,115,.12)}
-.card .ph{aspect-ratio:1/1;background:linear-gradient(135deg,var(--cream),#fff);display:flex;align-items:center;justify-content:center;position:relative}
-.card .ph .mk{font-family:'Cormorant Garamond',serif;font-size:60px;color:var(--teal);opacity:.16;font-weight:600}
-.card .ph .mk b{color:var(--gold);opacity:.9}
+.card .ph{aspect-ratio:1/1;background:var(--cream);background-size:cover;background-position:center;display:flex;align-items:flex-start;justify-content:flex-start;position:relative}
 .card .tag{position:absolute;top:12px;left:12px;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;
-  background:var(--teal);color:#fff;padding:4px 9px;border-radius:30px}
+  background:var(--teal);color:#fff;padding:4px 9px;border-radius:30px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.card .tag.gold{background:var(--gold)}
+.stacklist{margin:6px 0 10px}
+.stacklist div{font-size:12.5px;color:#45565a;padding:2px 0}
+.stackprice{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;font-size:12px;color:var(--muted)}
+.stackprice b{font-size:20px;color:var(--teal)}
+.sub-add{border:1px solid var(--gold);background:none;color:#9A7B45;font-family:'Jost';font-size:12.5px;letter-spacing:.5px;
+  padding:9px;border-radius:10px;cursor:pointer;margin-top:8px;transition:.2s;font-weight:500}
+.sub-add:hover{background:var(--gold);color:#fff}
 .card .body{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1}
 .card h3{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--ink);font-weight:600}
 .card .sub{font-size:12px;color:var(--muted);margin:3px 0 10px;min-height:32px}
@@ -139,6 +145,13 @@ a{color:inherit}
 
 <div class="wrap">
   <div class="grid" id="grid"></div>
+
+  <div class="hero" style="padding:48px 20px 4px">
+    <div class="k">Curated for your goal</div>
+    <h1 class="serif" style="font-size:34px">Goal Bundles</h1>
+    <p>Stack by outcome and save — or subscribe &amp; save 10%, so you never run out.</p>
+  </div>
+  <div class="grid" id="stacks"></div>
 </div>
 
 <!-- CART / CHECKOUT / PAY DRAWER -->
@@ -274,9 +287,8 @@ CATALOG.forEach(group=>{
     const sel = {i:0};
     const card = document.createElement('div');
     card.className='card';
-    const mk = pr.mk.length>1?pr.mk[0]+'<b>'+pr.mk[1]+'</b>':'<b>'+pr.mk+'</b>';
     card.innerHTML = `
-      <div class="ph"><span class="tag">Research Use</span><span class="mk serif">${mk}</span></div>
+      <div class="ph" style="background-image:url('${pr.img||'img/prod_hero.jpg'}')"><span class="tag">Research Use</span></div>
       <div class="body">
         <h3 class="serif">${pr.name}</h3>
         <div class="sub">Research-grade · lab tested</div>
@@ -290,10 +302,49 @@ CATALOG.forEach(group=>{
   });
 });
 
+/* ===== GOAL BUNDLES (STACKS) + SUBSCRIPTIONS — by outcome =====
+   Bundle prices default to sum of parts; subscribe = 10% member price.
+   Nashay confirms/adjusts pricing (her margins). Research-use framing holds. */
+const SUB_DISCOUNT = 0.10;
+const STACKS = [
+  {id:'weight',     name:'Weight & Metabolic Set', focus:'For weight &amp; metabolic goals', img:'img/m_q1_weight.jpg',      items:['Tirzepatide 20mg','Bacteriostatic Water'], price:225},
+  {id:'weight-adv', name:'Advanced Metabolic Set', focus:'Maximum weight &amp; metabolic',    img:'img/m_q2_weight.jpg',      items:['Retatrutide 20mg','Tesamorelin 10mg','Bacteriostatic Water'], price:365},
+  {id:'energy',     name:'Energy &amp; Performance Set', focus:'For energy, focus &amp; drive', img:'img/m_q1_energy.jpg',   items:['MOTS-C 10mg','NAD+ 500mg','Semax 10mg'], price:325},
+  {id:'beauty',     name:'Beauty &amp; Anti-Aging Set', focus:'For skin, hair &amp; glow',      img:'img/m_q1_beauty.jpg',   items:['GHK-Cu 50mg','Glutathione 1500mg'], price:320},
+  {id:'recovery',   name:'Recovery &amp; Healing Set', focus:'For repair &amp; recovery',        img:'img/m_q2_performance.jpg', items:['BPC-157 10mg','Bacteriostatic Water'], price:115}
+];
+const stacksEl = document.getElementById('stacks');
+STACKS.forEach(st=>{
+  const subPrice = Math.round(st.price*(1-SUB_DISCOUNT));
+  const card = document.createElement('div');
+  card.className='card';
+  card.innerHTML = `
+    <div class="ph" style="background-image:url('${st.img}')"><span class="tag gold">Bundle</span></div>
+    <div class="body">
+      <h3 class="serif">${st.name}</h3>
+      <div class="sub">${st.focus}</div>
+      <div class="stacklist">${st.items.map(i=>'<div>&bull; '+i+'</div>').join('')}</div>
+      <div class="stackprice"><span>One-time bundle</span><b>$${st.price}</b></div>
+      <button class="add once">Add Bundle &middot; $${st.price}</button>
+      <button class="sub-add">Subscribe &amp; Save 10% &middot; $${subPrice}/mo</button>
+    </div>`;
+  card.querySelector('.once').onclick=()=>addStack(st,false);
+  card.querySelector('.sub-add').onclick=()=>addStack(st,true);
+  stacksEl.appendChild(card);
+});
+function addStack(st,isSub){
+  const price=isSub?Math.round(st.price*(1-SUB_DISCOUNT)):st.price;
+  const key='stack:'+st.id+(isSub?':sub':':once');
+  if(cart[key]) cart[key].qty++;
+  else cart[key]={name:st.name.replace(/&amp;/g,'&'),variant:isSub?'Subscription · monthly':'One-time bundle',
+    note:st.items.join(' + '),price,qty:1,sub:isSub};
+  renderCart(); openCart();
+}
+
 function addToCart(pr,i){
   const key=pr.id+':'+i, o=pr.opts[i];
   if(cart[key]) cart[key].qty++;
-  else cart[key]={name:pr.name,variant:o.n,price:o.p,qty:1};
+  else cart[key]={name:pr.name,variant:o.n,note:'',price:o.p,qty:1,sub:false};
   renderCart(); openCart();
 }
 function money(n){return '$'+n.toLocaleString()}
@@ -311,6 +362,7 @@ function renderCart(){
         <div class="mini serif">${x.name[0]}</div>
         <div class="info">
           <div class="nm">${x.name}</div><div class="vt">${x.variant} · ${money(x.price)}</div>
+          ${x.note?`<div class="vt" style="font-size:10.5px;color:#9aa6a6">${x.note}</div>`:''}
           <div class="qty"><button onclick="chg('${k}',-1)">−</button><span>${x.qty}</span><button onclick="chg('${k}',1)">+</button></div>
         </div>
         <div class="pr">${money(x.price*x.qty)}</div>
