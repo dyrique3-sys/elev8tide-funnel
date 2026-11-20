@@ -72,8 +72,10 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .goals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:30px}
 .goal{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(160deg,rgba(14,106,115,.13),rgba(10,20,24,.55));display:flex;flex-direction:column;cursor:pointer;transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s,border-color .4s}
 .goal:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 34px 66px -34px rgba(200,160,106,.5)}
-.goal .gico{height:112px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 42%,rgba(200,160,106,.13),transparent 70%);border-bottom:1px solid var(--line)}
-.goal .gico svg{height:64px;filter:drop-shadow(0 8px 20px rgba(200,160,106,.3))}
+.goal .gico{height:160px;overflow:hidden;position:relative;background:#05090C;border-bottom:1px solid var(--line)}
+.goal .gico img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.goal:hover .gico img{transform:scale(1.07)}
+.goal .gico:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(10,20,24,.6))}
 .goal .gt{padding:18px 20px;width:100%;text-align:left}
 .goal .gnum{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2)}
 .goal .gn{font-family:'Cormorant Garamond',serif;font-size:23px;color:#fff;margin-top:4px}
@@ -145,8 +147,9 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .prodgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:28px}
 .pcard{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.03);cursor:pointer;transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s}
 .pcard:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 24px 50px -30px rgba(200,160,106,.5)}
-.pcard .picon{position:relative;height:130px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 42%,rgba(200,160,106,.1),transparent 70%);border-bottom:1px solid var(--line)}
-.pcard .picon svg{height:78px;width:auto;filter:drop-shadow(0 8px 20px rgba(200,160,106,.28))}
+.pcard .picon{position:relative;height:155px;overflow:hidden;background:#05090C;border-bottom:1px solid var(--line)}
+.pcard .picon img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.pcard:hover .picon img{transform:scale(1.07)}
 .pcard .ptag{position:absolute;top:10px;left:10px;z-index:2;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;color:#fff;background:rgba(14,106,115,.85);padding:4px 9px;border-radius:30px}
 .pcard .pbody{padding:14px 15px 16px;text-align:left}
 .pcard .pn{font-family:'Cormorant Garamond',serif;font-size:18px;color:#fff;line-height:1.12}
@@ -393,7 +396,7 @@ function renderGoals(){
   GOALS.forEach(function(go,i){
     var num=('0'+(i+1)).slice(-2);
     var n=go.products.length;
-    h+='<div class="goal" onclick="openGoal('+i+')"><div class="gico">'+VIAL_SVG+'</div><div class="gt"><div class="gnum">Room '+num+'</div><div class="gn">'+go.name+'</div><div class="gd">'+go.focus+'</div><div class="gc">'+n+' case'+(n>1?'s':'')+' →</div></div></div>';
+    h+='<div class="goal" onclick="openGoal('+i+')"><div class="gico"><img src="'+go.img+'" alt="" loading="lazy"></div><div class="gt"><div class="gnum">Room '+num+'</div><div class="gn">'+go.name+'</div><div class="gd">'+go.focus+'</div><div class="gc">'+n+' case'+(n>1?'s':'')+' →</div></div></div>';
   });
   g.innerHTML=h;
 }
@@ -427,7 +430,7 @@ var VIAL_SVG='<svg viewBox="0 0 44 64" fill="none" stroke="#C8A06A" stroke-width
 function renderProdGrid(){
   var g=document.getElementById('prodGrid'), h='';
   curGoal.products.forEach(function(p,idx){
-    h+='<div class="pcard" onclick="pickProduct('+idx+')"><div class="picon"><span class="ptag">Research Use</span>'+VIAL_SVG+'</div><div class="pbody"><div class="pn">'+p.n+'</div><div class="pf">'+p.f+'</div><div class="pp">'+(p.reg?'<span class="reg">$'+p.reg+'</span>':'')+'$'+p.p+'</div></div></div>';
+    h+='<div class="pcard" onclick="pickProduct('+idx+')"><div class="picon"><span class="ptag">Research Use</span><img src="'+p.img+'" alt="" loading="lazy"></div><div class="pbody"><div class="pn">'+p.n+'</div><div class="pf">'+p.f+'</div><div class="pp">'+(p.reg?'<span class="reg">$'+p.reg+'</span>':'')+'$'+p.p+'</div></div></div>';
   });
   g.innerHTML=h;
 }
