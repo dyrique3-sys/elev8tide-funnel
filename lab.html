@@ -208,6 +208,34 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .trustrow{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding:14px 0 2px;border-top:1px solid #ece3d4;margin-top:16px;font-size:11px;color:#7a8785}
 .trustrow span{display:inline-flex;align-items:center;gap:4px}
 @media(max-width:560px){.co{max-width:100%;margin:10px auto}.co-body{padding:20px 18px}}
+/* ===== PRODUCT DETAIL (real store feel) ===== */
+.detail{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center;animation:up .5s cubic-bezier(.2,.7,.2,1)}
+.detail-img{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(200,160,106,.3);box-shadow:0 34px 70px -34px rgba(200,160,106,.5);background:#05090C;aspect-ratio:1/1}
+.detail-img img{width:100%;height:100%;object-fit:cover}
+.detail-img .ptag{position:absolute;top:12px;left:12px;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;color:#fff;background:rgba(14,106,115,.9);padding:5px 11px;border-radius:30px}
+.detail-info{text-align:left}
+.detail-info .eye{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2)}
+.detail-info .dname{font-family:'Cormorant Garamond',serif;font-size:36px;color:#fff;margin-top:6px;line-height:1.05}
+.detail-info .dfocus{font-size:14px;color:rgba(255,255,255,.72);margin-top:10px;line-height:1.55;max-width:380px}
+.detail-info .dprice{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--gold2);margin-top:16px}
+.detail-info .dprice .reg{font-size:18px;color:rgba(255,255,255,.4);text-decoration:line-through;margin-right:9px}
+.qtyrow{display:flex;align-items:center;gap:16px;margin-top:20px}
+.qtyrow .qlab{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2)}
+.qctl{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:30px;overflow:hidden}
+.qctl button{width:38px;height:38px;background:rgba(255,255,255,.04);border:none;color:var(--gold2);font-size:20px;cursor:pointer;transition:.2s}
+.qctl button:hover{background:rgba(200,160,106,.18)}
+.qctl span{min-width:34px;text-align:center;font-size:15px;color:#fff}
+.qctl.sm button{width:28px;height:28px;font-size:16px}.qctl.sm span{min-width:26px;font-size:13px}
+.d-add{margin-top:22px;border:none;background:var(--gold);color:#05090C;font-family:'Jost',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;padding:16px 44px;border-radius:40px;cursor:pointer;transition:.25s;width:100%;max-width:300px}
+.d-add:hover{background:var(--gold2);box-shadow:0 0 40px -8px rgba(231,178,62,.6)}
+.d-after{display:none;gap:12px;margin-top:14px;max-width:300px}
+.d-after button{flex:1;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:13px 8px;border-radius:30px;cursor:pointer;transition:.2s}
+.d-after .vc{background:var(--teal);color:#fff;border:none}.d-after .vc:hover{background:#0b575e}
+.d-after .ks{background:none;border:1px solid var(--line);color:var(--gold2)}.d-after .ks:hover{border-color:var(--gold)}
+.d-back{display:block;margin-top:16px;background:none;border:none;color:rgba(255,255,255,.45);font-size:13px;cursor:pointer;font-family:'Jost',sans-serif}
+.d-note{font-size:10.5px;color:rgba(255,255,255,.4);margin-top:18px;line-height:1.5;max-width:340px}
+.ci .qctl.sm{margin-top:5px}
+@media(max-width:620px){.detail{grid-template-columns:1fr;gap:18px}.detail-img{max-width:280px;margin:0 auto}.detail-info{text-align:center}.detail-info .dfocus,.d-note{margin-left:auto;margin-right:auto}.qtyrow{justify-content:center}.d-add,.d-after{margin-left:auto;margin-right:auto}}
 </style>
 </head>
 <body>
@@ -254,7 +282,7 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
   <video class="vbg" autoplay muted loop playsinline><source src="vid/opt/v5.mp4" type="video/mp4"></video>
   <div class="scrim"></div>
   <div class="topbar">
-    <button class="bk" id="backBtn" style="visibility:hidden" onclick="toGoals()">‹ Goals</button>
+    <button class="bk" id="backBtn" style="visibility:hidden" onclick="goBack()">‹ Rooms</button>
     <div class="bbrand">ELEV8<b>TIDE</b></div>
     <div class="cart-pill"><button onclick="toCheckout()">Cart <span id="cartN">0</span></button></div>
   </div>
@@ -277,6 +305,27 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
       <p id="roomDesc">—</p>
     </div>
     <div class="prodgrid" id="prodGrid"></div>
+  </div>
+
+  <!-- product detail layer -->
+  <div class="layer" id="detailLayer" style="display:none">
+    <div class="detail">
+      <div class="detail-img"><span class="ptag">Research Use</span><img id="dImg" src="" alt=""></div>
+      <div class="detail-info">
+        <div class="eye" id="dRoom">The Room</div>
+        <div class="dname serif" id="dName">—</div>
+        <p class="dfocus" id="dFocus">—</p>
+        <div class="dprice" id="dPrice">—</div>
+        <div class="qtyrow">
+          <span class="qlab">Qty</span>
+          <div class="qctl"><button onclick="dQty(-1)">−</button><span id="dQ">1</span><button onclick="dQty(1)">+</button></div>
+        </div>
+        <button class="d-add" id="dAdd" onclick="addDetail()">Add to Cart</button>
+        <div class="d-after" id="dAfter"><button class="vc" onclick="toCheckout()">View Cart (<span id="dAfterN">0</span>)</button><button class="ks" onclick="backToGrid()">Keep Shopping →</button></div>
+        <button class="d-back" onclick="backToGrid()">‹ Back to room</button>
+        <div class="d-note">For laboratory &amp; research purposes only · not for human or animal consumption · 21+.</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -390,7 +439,8 @@ function confirmAge(){
 }
 
 /* ===================== STORE NAV ===================== */
-var curGoal=null, pIdx=0;
+var curGoal=null, pIdx=0, view='rooms';
+function goBack(){ if(view==='detail') backToGrid(); else toGoals(); }
 function renderGoals(){
   var g=document.getElementById('goalsGrid'); var h='';
   GOALS.forEach(function(go,i){
@@ -402,9 +452,19 @@ function renderGoals(){
 }
 function toGoals(){
   document.getElementById('prodLayer').style.display='none';
+  document.getElementById('detailLayer').style.display='none';
   document.getElementById('goalsLayer').style.display='block';
   document.getElementById('backBtn').style.visibility='hidden';
+  view='rooms'; document.getElementById('store').scrollTop=0;
 }
+function showGrid(){
+  document.getElementById('goalsLayer').style.display='none';
+  document.getElementById('detailLayer').style.display='none';
+  document.getElementById('prodLayer').style.display='block';
+  var b=document.getElementById('backBtn'); b.style.visibility='visible'; b.textContent='‹ Rooms';
+  view='grid'; document.getElementById('store').scrollTop=0;
+}
+function backToGrid(){ showGrid(); }
 var ROOMVIDS=['vid/opt/v4.mp4','vid/opt/v3.mp4','vid/opt/v3.mp4','vid/opt/v6.mp4','vid/opt/v3.mp4','vid/opt/v7.mp4'];
 /* reusable full-screen animation overlay */
 function playAnim(src, cb){
@@ -416,14 +476,11 @@ function playAnim(src, cb){
 function openGoal(i){
   curGoal=GOALS[i];
   playAnim(ROOMVIDS[i]||'vid/opt/v3.mp4', function(){
-    document.getElementById('goalsLayer').style.display='none';
-    document.getElementById('prodLayer').style.display='block';
-    document.getElementById('backBtn').style.visibility='visible';
     document.getElementById('roomEye').textContent='The Room';
     document.getElementById('roomName').textContent=curGoal.name;
     document.getElementById('roomDesc').textContent=curGoal.focus;
     renderProdGrid();
-    document.getElementById('store').scrollTop=0;
+    showGrid();
   });
 }
 var VIAL_SVG='<svg viewBox="0 0 44 64" fill="none" stroke="#C8A06A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="4" width="16" height="8" rx="2"/><path d="M15.5 12 h13 v37 a6.5 6.5 0 0 1 -13 0 z"/><path d="M15.5 33 h13" stroke="#E4C98F"/></svg>';
@@ -434,11 +491,31 @@ function renderProdGrid(){
   });
   g.innerHTML=h;
 }
-function pickProduct(idx){
-  var p=curGoal.products[idx];
-  if(cart[p.n]) cart[p.n].q++; else cart[p.n]={n:p.n,p:p.p,q:1};
+var dProd=null, dq=1;
+function pickProduct(idx){ openDetail(idx); }
+function openDetail(idx){
+  dProd=curGoal.products[idx]; dq=1;
+  document.getElementById('dImg').src=dProd.img;
+  document.getElementById('dRoom').textContent=curGoal.name;
+  document.getElementById('dName').textContent=dProd.n;
+  document.getElementById('dFocus').textContent=dProd.f;
+  document.getElementById('dPrice').innerHTML=(dProd.reg?'<span class="reg">$'+dProd.reg+'</span>':'')+'$'+dProd.p;
+  document.getElementById('dQ').textContent='1';
+  document.getElementById('dAdd').style.display='block';
+  document.getElementById('dAfter').style.display='none';
+  document.getElementById('goalsLayer').style.display='none';
+  document.getElementById('prodLayer').style.display='none';
+  document.getElementById('detailLayer').style.display='block';
+  var b=document.getElementById('backBtn'); b.style.visibility='visible'; b.textContent='‹ Back';
+  view='detail'; document.getElementById('store').scrollTop=0;
+}
+function dQty(d){ dq=Math.max(1,dq+d); document.getElementById('dQ').textContent=dq; }
+function addDetail(){
+  for(var i=0;i<dq;i++){ if(cart[dProd.n]) cart[dProd.n].q++; else cart[dProd.n]={n:dProd.n,p:dProd.p,q:1}; }
   renderCart();
-  playAnim('vid/opt/v2.mp4', function(){ toCheckout(); });
+  document.getElementById('dAdd').style.display='none';
+  document.getElementById('dAfterN').textContent=cartCount();
+  document.getElementById('dAfter').style.display='flex';
 }
 
 /* ===================== CART ===================== */
@@ -456,13 +533,14 @@ function renderCart(){
   var box=document.getElementById('cartItems'); var keys=Object.keys(cart);
   if(!keys.length){ box.innerHTML='<div class="empty">Your case is empty.<br>Add research from the lab.</div>'; document.getElementById('cartTot').style.display='none'; document.getElementById('toFormBtn').disabled=true; return; }
   var h='';
-  keys.forEach(function(k){ var x=cart[k]; h+='<div class="ci"><div><div class="nm">'+x.n+'</div><div class="qa">Qty '+x.q+' · $'+x.p+' ea</div></div><div style="display:flex;align-items:center;gap:10px"><span class="pr">$'+(x.p*x.q)+'</span><button class="rm" onclick="removeItem(\''+k.replace(/'/g,"\\'")+'\')">×</button></div></div>'; });
+  keys.forEach(function(k){ var x=cart[k]; var kk=k.replace(/'/g,"\\'"); h+='<div class="ci"><div style="flex:1"><div class="nm">'+x.n+'</div><div class="qa">$'+x.p+' ea</div><div class="qctl sm" style="margin-top:6px"><button onclick="chQty(\''+kk+'\',-1)">−</button><span>'+x.q+'</span><button onclick="chQty(\''+kk+'\',1)">+</button></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><span class="pr">$'+(x.p*x.q)+'</span><button class="rm" onclick="removeItem(\''+kk+'\')">×</button></div></div>'; });
   box.innerHTML=h;
   document.getElementById('cartTot').style.display='flex';
   document.getElementById('totAmt').textContent='$'+cartTotal();
   document.getElementById('toFormBtn').disabled=false;
 }
 function removeItem(k){ delete cart[k]; renderCart(); }
+function chQty(k,d){ if(!cart[k]) return; cart[k].q+=d; if(cart[k].q<=0) delete cart[k]; renderCart(); }
 
 /* ===================== CHECKOUT (animates in) ===================== */
 function toCheckout(){
