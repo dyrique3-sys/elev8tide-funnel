@@ -205,6 +205,9 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .done{background:var(--teal);color:#fff}
 .thanks .big{color:var(--teal)}.thanks p{color:#5a6b6b}
 .co-legal{color:#a7aba9}
+.sline{display:flex;justify-content:space-between;font-size:13px;color:#5a6b6b;padding:5px 0}
+.sline .fship{color:#0E6A73;font-weight:600}
+.shipnote{font-size:11px;color:#8a9494;margin:2px 0 4px;display:flex;align-items:center;gap:5px}
 .trustrow{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding:14px 0 2px;border-top:1px solid #ece3d4;margin-top:16px;font-size:11px;color:#7a8785}
 .trustrow span{display:inline-flex;align-items:center;gap:4px}
 @media(max-width:560px){.co{max-width:100%;margin:10px auto}.co-body{padding:20px 18px}}
@@ -350,7 +353,12 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
       <div class="eye">Your Order</div>
       <h2 class="serif">The Case</h2>
       <div id="cartItems"></div>
-      <div class="tot" id="cartTot" style="display:none"><span>Total</span><span id="totAmt">$0</span></div>
+      <div id="cartSummary" style="display:none">
+        <div class="sline"><span>Subtotal</span><span id="subAmt">$0</span></div>
+        <div class="sline"><span>Discreet shipping</span><span id="shipAmt">Free</span></div>
+        <div class="shipnote">&#128230; Tracked &amp; discreet via Pirate Ship · <span id="freeShipNote">Free over $250</span></div>
+        <div class="tot"><span>Total</span><span id="totAmt">$0</span></div>
+      </div>
       <button class="cobtn" id="toFormBtn" onclick="showPane('form')" disabled>Checkout →</button>
       <button class="coback" onclick="toStore()">‹ Keep browsing</button>
     </div>
@@ -531,14 +539,19 @@ function cartTotal(){ var t=0; for(var k in cart) t+=cart[k].p*cart[k].q; return
 function renderCart(){
   document.getElementById('cartN').textContent=cartCount();
   var box=document.getElementById('cartItems'); var keys=Object.keys(cart);
-  if(!keys.length){ box.innerHTML='<div class="empty">Your case is empty.<br>Add research from the lab.</div>'; document.getElementById('cartTot').style.display='none'; document.getElementById('toFormBtn').disabled=true; return; }
+  if(!keys.length){ box.innerHTML='<div class="empty">Your case is empty.<br>Add research from the lab.</div>'; document.getElementById('cartSummary').style.display='none'; document.getElementById('toFormBtn').disabled=true; return; }
   var h='';
   keys.forEach(function(k){ var x=cart[k]; var kk=k.replace(/'/g,"\\'"); h+='<div class="ci"><div style="flex:1"><div class="nm">'+x.n+'</div><div class="qa">$'+x.p+' ea</div><div class="qctl sm" style="margin-top:6px"><button onclick="chQty(\''+kk+'\',-1)">−</button><span>'+x.q+'</span><button onclick="chQty(\''+kk+'\',1)">+</button></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><span class="pr">$'+(x.p*x.q)+'</span><button class="rm" onclick="removeItem(\''+kk+'\')">×</button></div></div>'; });
   box.innerHTML=h;
-  document.getElementById('cartTot').style.display='flex';
-  document.getElementById('totAmt').textContent='$'+cartTotal();
+  document.getElementById('cartSummary').style.display='block';
+  document.getElementById('subAmt').textContent='$'+cartTotal();
+  document.getElementById('shipAmt').innerHTML=shippingCost()===0?'<span class="fship">Free</span>':'$'+shippingCost();
+  document.getElementById('totAmt').textContent='$'+grandTotal();
   document.getElementById('toFormBtn').disabled=false;
 }
+var FREESHIP=250, SHIPFLAT=10;
+function shippingCost(){ var s=cartTotal(); return (s===0||s>=FREESHIP)?0:SHIPFLAT; }
+function grandTotal(){ return cartTotal()+shippingCost(); }
 function removeItem(k){ delete cart[k]; renderCart(); }
 function chQty(k,d){ if(!cart[k]) return; cart[k].q+=d; if(cart[k].q<=0) delete cart[k]; renderCart(); }
 
@@ -557,10 +570,10 @@ function placeOrder(){
   if(!name||!email||!phone||!addr){ alert('Please fill in every field.'); return; }
   if(!document.getElementById('c-age').checked){ alert('Please confirm the research-use box.'); return; }
   var num='E8-'+Date.now().toString(36).toUpperCase().slice(-6);
-  currentOrder={num:num,total:cartTotal()};
+  currentOrder={num:num,total:grandTotal()};
   document.getElementById('ordnum').textContent=num;
-  document.getElementById('payTot').textContent='$'+cartTotal();
-  document.getElementById('pay-cashapp').onclick=function(){ window.open('https://cash.app/$'+PAY.cashtag+'/'+cartTotal(),'_blank'); };
+  document.getElementById('payTot').textContent='$'+grandTotal();
+  document.getElementById('pay-cashapp').onclick=function(){ window.open('https://cash.app/$'+PAY.cashtag+'/'+grandTotal(),'_blank'); };
   document.getElementById('pay-venmo').onclick=function(){ window.open(PAY.venmo,'_blank'); };
   document.getElementById('t-ord').textContent=num;
   showPane('pay');
