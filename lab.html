@@ -156,6 +156,13 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .pcard .pf{font-size:11px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.4}
 .pcard .pp{color:var(--gold2);font-size:15px;margin-top:9px}
 .pcard .pp .reg{color:rgba(255,255,255,.4);text-decoration:line-through;font-size:12px;margin-right:6px}
+/* CATALOG (shop-all, categorized) */
+.catsec{margin-top:36px}
+.catsec:first-child{margin-top:22px}
+.cathead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:18px}
+.cathead h2{font-family:'Cormorant Garamond',serif;font-size:25px;color:#fff}
+.cathead p{font-size:12px;color:rgba(255,255,255,.55)}
+@media(max-width:560px){.cathead h2{font-size:21px}}
 /* ANIMATION OVERLAY */
 #anim{z-index:280}
 #anim .vbg{opacity:1}
@@ -290,14 +297,14 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
     <div class="cart-pill"><button onclick="toCheckout()">Cart <span id="cartN">0</span></button></div>
   </div>
 
-  <!-- goals layer -->
+  <!-- catalog layer (shop-all, by category) -->
   <div class="layer" id="goalsLayer">
     <div class="layer-head">
-      <div class="eye">ELEV8TIDE Labs</div>
-      <h1 class="serif">Step into a <i>room.</i></h1>
-      <p>Each room, a different corner of the research space.</p>
+      <div class="eye">ELEV8TIDE Labs · Research Supply</div>
+      <h1 class="serif">The <i>Collection.</i></h1>
+      <p>Shop by goal — add to your case as you browse.</p>
     </div>
-    <div class="goals" id="goalsGrid"></div>
+    <div id="catalog"></div>
   </div>
 
   <!-- products (store layout) layer -->
@@ -441,38 +448,34 @@ function confirmAge(){
     g2.classList.add('on'); try{tv.currentTime=0;}catch(e){} tv.play().catch(function(){});
     var opened=false;
     function openStore(){ if(opened) return; opened=true; g2.classList.remove('on');
-      setTimeout(function(){ document.getElementById('store').classList.add('on'); renderGoals(); toGoals(); },1000); }
+      setTimeout(function(){ document.getElementById('store').classList.add('on'); renderCatalog(); showCatalog(); },1000); }
     tv.onended=openStore; setTimeout(openStore,7500);
   },1000);
 }
 
-/* ===================== STORE NAV ===================== */
-var curGoal=null, pIdx=0, view='rooms';
-function goBack(){ if(view==='detail') backToGrid(); else toGoals(); }
-function renderGoals(){
-  var g=document.getElementById('goalsGrid'); var h='';
-  GOALS.forEach(function(go,i){
-    var num=('0'+(i+1)).slice(-2);
-    var n=go.products.length;
-    h+='<div class="goal" onclick="openGoal('+i+')"><div class="gico"><img src="'+go.img+'" alt="" loading="lazy"></div><div class="gt"><div class="gnum">Room '+num+'</div><div class="gn">'+go.name+'</div><div class="gd">'+go.focus+'</div><div class="gc">'+n+' case'+(n>1?'s':'')+' →</div></div></div>';
+/* ===================== STORE NAV (shop-all catalog) ===================== */
+var curGoal=null, view='catalog';
+function renderCatalog(){
+  var c=document.getElementById('catalog'), h='';
+  GOALS.forEach(function(g,gi){
+    h+='<div class="catsec"><div class="cathead"><h2>'+g.name+'</h2><p>'+g.focus+'</p></div><div class="prodgrid">';
+    g.products.forEach(function(p,pi){
+      h+='<div class="pcard" onclick="openDetail('+gi+','+pi+')"><div class="picon"><span class="ptag">Research Use</span><img src="'+p.img+'" alt="" loading="lazy"></div><div class="pbody"><div class="pn">'+p.n+'</div><div class="pf">'+p.f+'</div><div class="pp">'+(p.reg?'<span class="reg">$'+p.reg+'</span>':'')+'$'+p.p+'</div></div></div>';
+    });
+    h+='</div></div>';
   });
-  g.innerHTML=h;
+  c.innerHTML=h;
 }
-function toGoals(){
-  document.getElementById('prodLayer').style.display='none';
+function showCatalog(){
   document.getElementById('detailLayer').style.display='none';
   document.getElementById('goalsLayer').style.display='block';
   document.getElementById('backBtn').style.visibility='hidden';
-  view='rooms'; document.getElementById('store').scrollTop=0;
+  view='catalog'; document.getElementById('store').scrollTop=0;
 }
-function showGrid(){
-  document.getElementById('goalsLayer').style.display='none';
-  document.getElementById('detailLayer').style.display='none';
-  document.getElementById('prodLayer').style.display='block';
-  var b=document.getElementById('backBtn'); b.style.visibility='visible'; b.textContent='‹ Rooms';
-  view='grid'; document.getElementById('store').scrollTop=0;
-}
-function backToGrid(){ showGrid(); }
+function goBack(){ showCatalog(); }
+function toGoals(){ showCatalog(); }
+function showGrid(){ showCatalog(); }
+function backToGrid(){ showCatalog(); }
 var ROOMVIDS=['vid/opt/v4.mp4','vid/opt/v3.mp4','vid/opt/v3.mp4','vid/opt/v6.mp4','vid/opt/v3.mp4','vid/opt/v7.mp4'];
 /* reusable full-screen animation overlay */
 function playAnim(src, cb){
@@ -500,9 +503,8 @@ function renderProdGrid(){
   g.innerHTML=h;
 }
 var dProd=null, dq=1;
-function pickProduct(idx){ openDetail(idx); }
-function openDetail(idx){
-  dProd=curGoal.products[idx]; dq=1;
+function openDetail(gi,pi){
+  curGoal=GOALS[gi]; dProd=GOALS[gi].products[pi]; dq=1;
   document.getElementById('dImg').src=dProd.img;
   document.getElementById('dRoom').textContent=curGoal.name;
   document.getElementById('dName').textContent=dProd.n;
@@ -512,9 +514,8 @@ function openDetail(idx){
   document.getElementById('dAdd').style.display='block';
   document.getElementById('dAfter').style.display='none';
   document.getElementById('goalsLayer').style.display='none';
-  document.getElementById('prodLayer').style.display='none';
   document.getElementById('detailLayer').style.display='block';
-  var b=document.getElementById('backBtn'); b.style.visibility='visible'; b.textContent='‹ Back';
+  var b=document.getElementById('backBtn'); b.style.visibility='visible'; b.textContent='‹ Back to shop';
   view='detail'; document.getElementById('store').scrollTop=0;
 }
 function dQty(d){ dq=Math.max(1,dq+d); document.getElementById('dQ').textContent=dq; }
