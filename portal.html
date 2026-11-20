@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ELEV8TIDE — Order Portal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0A1418;--teal:#0E6A73;--teal2:#128C8E;--gold:#C8A06A;--cream:#F4EFE6;--ink:#1b2230;--mut:#7a8785;--line:#e6ddcf}
+body{font-family:'Jost',sans-serif;background:#eef3f2;color:var(--ink);min-height:100vh}
+.serif{font-family:'Cormorant Garamond',serif}
+/* gate */
+#gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(162deg,#05090C,#0A2B2F 45%,#0E6A73);z-index:50;padding:20px}
+.gatebox{background:#fff;border-radius:16px;padding:34px 30px;max-width:360px;width:100%;text-align:center;box-shadow:0 40px 90px -40px rgba(0,0,0,.6)}
+.gatebox .brand{font-family:'Cormorant Garamond',serif;font-size:26px;letter-spacing:4px;color:var(--teal)}
+.gatebox .brand b{color:var(--gold)}
+.gatebox h1{font-size:18px;margin:10px 0 4px}.gatebox p{font-size:13px;color:var(--mut);margin-bottom:18px}
+.gatebox input{width:100%;border:1px solid var(--line);border-radius:10px;padding:13px;font-size:15px;font-family:'Jost';text-align:center;letter-spacing:3px;margin-bottom:12px}
+.gatebox button{width:100%;background:var(--teal);color:#fff;border:none;border-radius:10px;padding:14px;font-family:'Jost';font-size:14px;letter-spacing:1px;cursor:pointer}
+.gatebox .ge{color:#c0392b;font-size:12px;height:14px;margin-top:6px}
+/* header */
+header{background:#fff;border-bottom:1px solid var(--line);padding:16px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+header .brand{font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:4px;color:var(--teal)}
+header .brand b{color:var(--gold)}
+header .demo{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#b5791f;background:#fff6e9;border:1px solid #f0dcb0;padding:5px 10px;border-radius:30px}
+.wrap{max-width:900px;margin:0 auto;padding:22px 16px 60px}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.stat .n{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--teal)}
+.stat .l{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--mut);margin-top:2px}
+.stat.warn .n{color:#b5791f}
+@media(max-width:620px){.stats{grid-template-columns:repeat(2,1fr)}}
+/* tabs */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab{background:#fff;border:1px solid var(--line);border-radius:30px;padding:9px 16px;font-size:13px;cursor:pointer;color:var(--mut)}
+.tab.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.tab .c{font-weight:600}
+/* order card */
+.order{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
+.order .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.order .onum{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--ink);letter-spacing:1px}
+.order .date{font-size:12px;color:var(--mut)}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding:5px 10px;border-radius:30px;font-weight:600}
+.b-pend{background:#fff6e9;color:#b5791f}.b-paid{background:#e7f3ec;color:#1f7a44}.b-ship{background:#e8f0fb;color:#2a5fb0}.b-wait{background:#f2efe8;color:#8a7a55}
+.order .cust{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;padding-top:12px;border-top:1px solid #f0ece2}
+.cust .blk{font-size:13px}.cust .blk .k{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--mut);margin-bottom:2px}
+.cust .blk a{color:var(--teal);text-decoration:none}
+.copy{cursor:pointer;color:var(--teal);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 7px;margin-left:6px}
+.items{margin-top:12px;font-size:13px}
+.items .it{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f4f1ea;color:#444}
+.items .tt{display:flex;justify-content:space-between;padding-top:8px;font-weight:600;color:var(--ink)}
+.items .tt b{color:var(--teal)}
+.acts{margin-top:14px;padding-top:14px;border-top:1px solid #f0ece2;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.acts button{border:none;border-radius:9px;padding:11px 18px;font-family:'Jost';font-size:13px;letter-spacing:.5px;cursor:pointer}
+.acts .confirm{background:#1f7a44;color:#fff}
+.acts .ship{background:var(--teal);color:#fff}
+.acts .trk{flex:1;min-width:150px;border:1px solid var(--line);border-radius:9px;padding:11px;font-family:'Jost';font-size:13px}
+.acts .done{color:var(--mut);font-size:13px}
+.acts .tkshow{font-size:13px}.acts .tkshow b{color:#2a5fb0}
+.empty{text-align:center;color:var(--mut);padding:50px 0;font-size:14px}
+.note{font-size:11px;color:var(--mut);text-align:center;margin-top:18px;line-height:1.6}
+</style></head>
+<body>
+
+<!-- passcode gate -->
+<div id="gate">
+  <div class="gatebox">
+    <div class="brand">ELEV8<b>TIDE</b></div>
+    <h1>Order Portal</h1>
+    <p>Enter your access code</p>
+    <input id="gcode" type="password" inputmode="numeric" placeholder="••••" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">Enter portal</button>
+    <div class="ge" id="gerr"></div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+  <header>
+    <div class="brand">ELEV8<b>TIDE</b> · Order Portal</div>
+    <div class="demo" id="modeTag">● Demo mode</div>
+  </header>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat warn"><div class="n" id="s-pend">0</div><div class="l">Needs payment</div></div>
+      <div class="stat"><div class="n" id="s-ready">0</div><div class="l">Ready to ship</div></div>
+      <div class="stat"><div class="n" id="s-ship">0</div><div class="l">Shipped</div></div>
+      <div class="stat"><div class="n" id="s-rev">$0</div><div class="l">Confirmed revenue</div></div>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div id="list"></div>
+    <div class="note">Orders update live as customers check out. Confirm a payment only after you see the money land (Cash App / Venmo / Zelle / Apple Pay) matching the order number.</div>
+  </div>
+</div>
+
+<script>
+/* paste the SAME Supabase URL + anon key as the store to go live; else demo (this browser's orders) */
+var SB={ url:'', anon:'' };
+var CODE='2075'; // access code for the portal (change anytime)
+var orders=[], filter='pend';
+
+function unlock(){
+  if(document.getElementById('gcode').value===CODE){
+    sessionStorage.setItem('e8.portal','1');
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='block';
+    load();
+  } else { document.getElementById('gerr').textContent='Incorrect code'; }
+}
+if(sessionStorage.getItem('e8.portal')==='1'){ document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block'; }
+
+/* ---------- data ---------- */
+function norm(r,src){
+  if(src==='sb'){ return {num:r.order_no,created:r.created_at,name:r.name,email:r.email,phone:r.phone,addr:r.address,items:r.items||[],subtotal:r.subtotal,shipping:r.shipping,total:r.total,shipMethod:r.ship_method,pay:r.pay_status,fulfill:r.fulfill_status,tracking:r.tracking||'',_id:r.id}; }
+  return {num:r.num,created:r.created,name:r.name,email:r.email,phone:r.phone,addr:(r.street||'')+(r.apt?' '+r.apt:'')+', '+(r.city||'')+', '+(r.state||'')+' '+(r.zip||''),items:r.items||[],subtotal:r.subtotal,shipping:r.shipping,total:r.total,shipMethod:r.shipMethod,pay:r.payStatus,fulfill:r.fulfillStatus,tracking:r.tracking||'',_local:r.num};
+}
+function load(){
+  if(SB.url&&SB.anon){
+    document.getElementById('modeTag').textContent='● Live';
+    document.getElementById('modeTag').style.cssText='font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#1f7a44;background:#e7f3ec;border:1px solid #bfe0cb;padding:5px 10px;border-radius:30px';
+    fetch(SB.url.replace(/\/$/,'')+'/rest/v1/orders?select=*&order=created_at.desc',{headers:{'apikey':SB.anon,'Authorization':'Bearer '+(window._sbtok||SB.anon)}})
+      .then(function(r){return r.json();}).then(function(d){ orders=(d||[]).map(function(x){return norm(x,'sb');}); render(); })
+      .catch(function(){ orders=[]; render(); });
+  } else {
+    try{ orders=(JSON.parse(localStorage.getItem('e8.orders')||'[]')).map(function(x){return norm(x,'ls');}); }catch(e){ orders=[]; }
+    render();
+  }
+}
+function saveLocal(){ /* persist local status edits back to the lab's store */
+  try{ var raw=JSON.parse(localStorage.getItem('e8.orders')||'[]');
+    raw.forEach(function(r){ var o=orders.find(function(x){return x.num===r.num;}); if(o){ r.payStatus=o.pay; r.fulfillStatus=o.fulfill; r.tracking=o.tracking; } });
+    localStorage.setItem('e8.orders',JSON.stringify(raw)); }catch(e){}
+}
+function updateSB(o,patch){ if(!(SB.url&&SB.anon&&o._id))return;
+  fetch(SB.url.replace(/\/$/,'')+'/rest/v1/orders?id=eq.'+o._id,{method:'PATCH',headers:{'apikey':SB.anon,'Authorization':'Bearer '+(window._sbtok||SB.anon),'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(patch)}).catch(function(){});
+}
+function confirmPay(num){ var o=orders.find(function(x){return x.num===num;}); if(!o)return; o.pay='confirmed'; saveLocal(); updateSB(o,{pay_status:'confirmed'}); render(); }
+function markShipped(num){ var o=orders.find(function(x){return x.num===num;}); if(!o)return; var t=(document.getElementById('trk-'+num).value||'').trim(); if(!t){ alert('Enter the tracking number first.'); return; } o.fulfill='shipped'; o.tracking=t; saveLocal(); updateSB(o,{fulfill_status:'shipped',tracking:t}); render(); }
+
+/* ---------- render ---------- */
+var TABS=[{k:'pend',l:'Needs payment'},{k:'ready',l:'Ready to ship'},{k:'ship',l:'Shipped'},{k:'all',l:'All'}];
+function bucket(o){ if(o.pay!=='confirmed')return 'pend'; if(o.fulfill!=='shipped')return 'ready'; return 'ship'; }
+function money(n){ return '$'+(n==null?0:n); }
+function render(){
+  var pend=0,ready=0,ship=0,rev=0;
+  orders.forEach(function(o){ var b=bucket(o); if(b==='pend')pend++; else if(b==='ready')ready++; else ship++; if(o.pay==='confirmed')rev+=(o.total||0); });
+  document.getElementById('s-pend').textContent=pend;
+  document.getElementById('s-ready').textContent=ready;
+  document.getElementById('s-ship').textContent=ship;
+  document.getElementById('s-rev').textContent=money(rev);
+  document.getElementById('tabs').innerHTML=TABS.map(function(t){ var c=t.k==='all'?orders.length:(t.k==='pend'?pend:t.k==='ready'?ready:ship); return '<div class="tab'+(filter===t.k?' on':'')+'" onclick="filter=\''+t.k+'\';render()">'+t.l+' <span class="c">'+c+'</span></div>'; }).join('');
+  var rows=orders.filter(function(o){ return filter==='all'||bucket(o)===filter; });
+  var L=document.getElementById('list');
+  if(!rows.length){ L.innerHTML='<div class="empty">No orders in this view yet.<br>They appear here the moment a customer checks out.</div>'; return; }
+  L.innerHTML=rows.map(function(o){
+    var b=bucket(o);
+    var badges='<span class="badge '+(o.pay==='confirmed'?'b-paid':'b-pend')+'">'+(o.pay==='confirmed'?'Paid':'Pending payment')+'</span>'+
+      (o.fulfill==='shipped'?'<span class="badge b-ship">Shipped</span>':(o.pay==='confirmed'?'<span class="badge b-wait">Awaiting shipment</span>':''));
+    var items=(o.items||[]).map(function(it){ return '<div class="it"><span>'+it.n+' × '+it.q+'</span><span>$'+(it.p*it.q)+'</span></div>'; }).join('');
+    var dt=''; try{ dt=new Date(o.created).toLocaleString(); }catch(e){ dt=o.created||''; }
+    var acts='';
+    if(o.pay!=='confirmed'){ acts='<button class="confirm" onclick="confirmPay(\''+o.num+'\')">✓ Payment received</button><span class="done">Confirm once you see '+money(o.total)+' land w/ order #'+o.num+'</span>'; }
+    else if(o.fulfill!=='shipped'){ acts='<input class="trk" id="trk-'+o.num+'" placeholder="Tracking number"><button class="ship" onclick="markShipped(\''+o.num+'\')">📦 Mark shipped</button>'; }
+    else { acts='<span class="tkshow">Shipped · Tracking <b>'+o.tracking+'</b></span>'; }
+    return '<div class="order"><div class="top"><div><div class="onum">'+o.num+'</div><div class="date">'+dt+'</div></div><div class="badges">'+badges+'</div></div>'+
+      '<div class="cust"><div class="blk"><div class="k">Customer</div>'+o.name+'</div>'+
+      '<div class="blk"><div class="k">Contact</div><a href="mailto:'+o.email+'">'+o.email+'</a> · <a href="tel:'+o.phone+'">'+o.phone+'</a></div>'+
+      '<div class="blk"><div class="k">Ship to</div>'+o.addr+' <span class="copy" onclick="cp(\''+(o.addr||'').replace(/'/g,"")+'\',this)">copy</span></div>'+
+      '<div class="blk"><div class="k">Method</div>'+(o.shipMethod||'—')+'</div></div>'+
+      '<div class="items">'+items+'<div class="it"><span>Shipping</span><span>'+(o.shipping?'$'+o.shipping:'FREE')+'</span></div><div class="tt"><span>Total</span><b>'+money(o.total)+'</b></div></div>'+
+      '<div class="acts">'+acts+'</div></div>';
+  }).join('');
+}
+function cp(t,el){ try{navigator.clipboard.writeText(t);}catch(e){} var o=el.textContent; el.textContent='copied'; setTimeout(function(){el.textContent=o;},1000); }
+if(sessionStorage.getItem('e8.portal')==='1') load();
+</script>
+</body></html>

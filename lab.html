@@ -481,6 +481,8 @@ var GOALS=[
   ]}
 ];
 var PAY={ cashtag:'Elev8tide', venmo:'https://venmo.com/code?user_id=4623449456641972073' };
+/* paste the ELEV8TIDE Supabase project URL + anon key to send live orders to the portal (else local demo) */
+var SB={ url:'', anon:'' };
 
 /* ===================== GATE FLOW ===================== */
 function showAgeGate(){ document.getElementById('gate1').classList.remove('on'); setTimeout(function(){ document.getElementById('gateAge').classList.add('on'); },1000); }
@@ -636,7 +638,7 @@ function goToPay(){
   if(!validForm()) return;
   saveBuyer();
   var num='E8-'+Date.now().toString(36).toUpperCase().slice(-6);
-  currentOrder={num:num,total:grandTotal(),ship:shipMethod().name};
+  currentOrder={num:num, created:new Date().toISOString(), name:val('f-name'), email:val('f-email'), phone:val('f-phone'), street:val('f-street'), apt:val('f-apt'), city:val('f-city'), state:val('f-state'), zip:val('f-zip'), items:Object.keys(cart).map(function(k){return {n:cart[k].n,p:cart[k].p,q:cart[k].q};}), subtotal:cartTotal(), shipping:shippingCost(), total:grandTotal(), shipMethod:shipMethod().name, payStatus:'pending', fulfillStatus:'unshipped', tracking:''};
   document.getElementById('ordnum').textContent=num;
   document.getElementById('payOrd2').textContent=num;
   document.getElementById('payOrd3').textContent=num;
@@ -649,7 +651,11 @@ function goToPay(){
   showPane('pay');
 }
 function syncPaid(){ document.getElementById('doneBtn').disabled=!document.getElementById('c-paid').checked; }
-function finishOrder(){ showPane('thanks'); }
+function finishOrder(){ saveOrder(currentOrder); showPane('thanks'); }
+function saveOrder(o){ if(!o)return;
+  try{ var a=JSON.parse(localStorage.getItem('e8.orders')||'[]'); a.unshift(o); localStorage.setItem('e8.orders',JSON.stringify(a)); }catch(e){}
+  if(SB.url&&SB.anon){ try{ fetch(SB.url.replace(/\/$/,'')+'/rest/v1/orders',{method:'POST',headers:{'apikey':SB.anon,'Authorization':'Bearer '+SB.anon,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({ order_no:o.num, name:o.name, email:o.email, phone:o.phone, address:o.street+(o.apt?' '+o.apt:'')+', '+o.city+', '+o.state+' '+o.zip, items:o.items, subtotal:o.subtotal, shipping:o.shipping, total:o.total, ship_method:o.shipMethod, pay_status:o.payStatus, fulfill_status:o.fulfillStatus, tracking:o.tracking })}).catch(function(){}); }catch(e){} }
+}
 function copyOrd(btn){ var t=document.getElementById('ordnum').textContent; try{navigator.clipboard.writeText(t);}catch(e){} var o=btn.textContent; btn.textContent='Copied ✓'; setTimeout(function(){ btn.textContent=o; },1200); }
 /* ---- validation ---- */
 function setErr(f,msg){ var e=document.getElementById('e-'+f); if(e)e.textContent=msg||''; var inp=document.getElementById('f-'+f); if(inp)inp.classList.toggle('inv',!!msg); return !msg; }
