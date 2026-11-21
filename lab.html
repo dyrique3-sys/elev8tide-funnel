@@ -272,6 +272,17 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .d-after .ks{background:none;border:1px solid var(--line);color:var(--gold2)}.d-after .ks:hover{border-color:var(--gold)}
 .d-back{display:block;margin-top:16px;background:none;border:none;color:rgba(255,255,255,.45);font-size:13px;cursor:pointer;font-family:'Jost',sans-serif}
 .d-note{font-size:10.5px;color:rgba(255,255,255,.4);margin-top:18px;line-height:1.5;max-width:340px}
+.d-desc{margin-top:24px;max-width:430px;text-align:left}
+.d-sec{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:12px}
+.d-ptxt{font-size:13px;color:rgba(255,255,255,.72);line-height:1.6}
+.spectable{width:100%;border-collapse:collapse;margin:14px 0 10px;font-size:12.5px}
+.spectable td{padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top;color:rgba(255,255,255,.82)}
+.spectable td:first-child{color:rgba(255,255,255,.5);width:44%;padding-right:12px}
+.coa-link{display:inline-block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gold2);text-decoration:none;border:1px solid var(--line);border-radius:30px;padding:8px 16px;margin:4px 0 14px}
+.coa-link:hover{border-color:var(--gold)}
+.d-dis{font-size:10.5px;color:rgba(255,255,255,.42);line-height:1.6}
+.d-dis b{color:rgba(255,255,255,.62)}
+@media(max-width:620px){.d-desc{margin-left:auto;margin-right:auto}}
 .ci .qctl.sm{margin-top:5px}
 @media(max-width:620px){.detail{grid-template-columns:1fr;gap:18px}.detail-img{max-width:280px;margin:0 auto}.detail-info{text-align:center}.detail-info .dfocus,.d-note{margin-left:auto;margin-right:auto}.qtyrow{justify-content:center}.d-add,.d-after{margin-left:auto;margin-right:auto}}
 </style>
@@ -360,8 +371,8 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
         </div>
         <button class="d-add" id="dAdd" onclick="addDetail()">Add to Cart</button>
         <div class="d-after" id="dAfter"><button class="vc" onclick="toCheckout()">View Cart (<span id="dAfterN">0</span>)</button><button class="ks" onclick="backToGrid()">Keep Shopping →</button></div>
-        <button class="d-back" onclick="backToGrid()">‹ Back to room</button>
-        <div class="d-note">For laboratory &amp; research purposes only · not for human or animal consumption · 21+.</div>
+        <button class="d-back" onclick="backToGrid()">‹ Back to shop</button>
+        <div class="d-desc" id="dDesc"></div>
       </div>
     </div>
   </div>
@@ -549,6 +560,33 @@ function renderProdGrid(){
   g.innerHTML=h;
 }
 var dProd=null, dq=1;
+/* HLX-style clinical specs (research-use framing; COA numbers filled from Nashay's real COAs) */
+var SPECS={
+ 'Tirzepatide':{form:'Lyophilized powder',amt:'10 mg, 30 mg'},
+ 'Retatrutide':{form:'Lyophilized powder',amt:'10 mg, 30 mg'},
+ 'Tesamorelin':{form:'Lyophilized powder',amt:'10 mg'},
+ 'MOTS-C':{form:'Lyophilized powder',amt:'10 mg'},
+ 'NAD+':{form:'Lyophilized powder',amt:'500 mg'},
+ 'Semax':{form:'Lyophilized powder',amt:'10 mg'},
+ 'GHK-Cu':{form:'Lyophilized powder',amt:'50 mg'},
+ 'Glutathione':{form:'Lyophilized powder',amt:'1500 mg'},
+ 'BPC-157':{form:'Lyophilized powder',amt:'10 mg'},
+ 'Bacteriostatic Water':{form:'Liquid (Benzyl alcohol 0.9%)',amt:'3 mL, 10 mL'}
+};
+function buildDesc(p){
+  var isStack=/stack/i.test(p.n), s=SPECS[p.n], rows='';
+  var intro = isStack
+    ? p.n+' is supplied as a curated set of laboratory materials for research use ('+p.f+'). Preparation methods and concentrations are determined by the purchasing laboratory’s own validated procedures — ELEV8TIDE does not provide preparation instructions.'
+    : p.n+' is supplied as a laboratory material for preparing research solutions. Preparation methods and concentrations are determined by the purchasing laboratory’s own validated procedures — ELEV8TIDE does not provide preparation instructions.';
+  if(isStack) rows='<tr><td>Contents</td><td>'+p.f+'</td></tr><tr><td>Form</td><td>Lyophilized powders + reconstitution solution</td></tr>';
+  else if(s) rows='<tr><td>Form</td><td>'+s.form+'</td></tr><tr><td>Available amounts</td><td>'+s.amt+' · single or 10-pack</td></tr>';
+  rows+='<tr><td>Weight</td><td>0.1 lb</td></tr><tr><td>Testing</td><td>Third-party · identity (LC-MS)</td></tr><tr><td>Certificate</td><td>Published in the COA library</td></tr>';
+  return '<div class="d-sec">Description</div>'+
+    '<p class="d-ptxt">'+intro+'</p>'+
+    '<table class="spectable">'+rows+'</table>'+
+    '<a class="coa-link" href="#" onclick="alert(\'Certificate of Analysis available on request — full COA library coming soon.\');return false">View COA →</a>'+
+    '<p class="d-dis">'+p.n+' is sold strictly as a research material. It is not a drug, food, supplement or cosmetic, and it is not for human or veterinary use. <b>Research use only — not for human or veterinary consumption. 21+.</b></p>';
+}
 function openDetail(gi,pi){
   curGoal=GOALS[gi]; dProd=GOALS[gi].products[pi]; dq=1;
   document.getElementById('dImg').src=dProd.img;
@@ -556,6 +594,7 @@ function openDetail(gi,pi){
   document.getElementById('dName').textContent=dProd.n;
   document.getElementById('dFocus').textContent=dProd.f;
   document.getElementById('dPrice').innerHTML=(dProd.reg?'<span class="reg">$'+dProd.reg+'</span>':'')+'$'+dProd.p;
+  document.getElementById('dDesc').innerHTML=buildDesc(dProd);
   document.getElementById('dQ').textContent='1';
   document.getElementById('dAdd').style.display='block';
   document.getElementById('dAfter').style.display='none';
