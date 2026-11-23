@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ELEV8TIDE — Phase 2 Delivered</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0A1418;--teal:#0E6A73;--teal2:#128C8E;--gold:#C8A06A;--gold2:#E4C98F;--cream:#F4EFE6;--ink:#EAF1F2;--mut:rgba(255,255,255,.62);--line:rgba(255,255,255,.1)}
+body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);line-height:1.5}
+.serif{font-family:'Cormorant Garamond',serif}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+section{padding:64px 0;border-bottom:1px solid var(--line)}
+.eye{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--gold2)}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,7vw,64px);color:#fff;line-height:1.02;margin-top:14px}
+h1 i{color:var(--gold2);font-style:italic}
+h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4.5vw,40px);color:#fff;margin-top:10px}
+.lead{font-size:17px;color:var(--mut);margin-top:16px;max-width:640px}
+/* hero */
+.hero{min-height:82vh;display:flex;flex-direction:column;justify-content:center;background:radial-gradient(ellipse at 70% 20%,rgba(14,106,115,.35),transparent 60%)}
+.hero .tag{display:inline-block;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2);border:1px solid var(--gold);border-radius:30px;padding:8px 18px;margin-bottom:22px;width:fit-content}
+.hero .sub{font-size:19px;color:var(--mut);margin-top:20px;max-width:560px}
+.brandline{font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:8px;color:#fff;margin-top:40px}
+.brandline b{color:var(--gold)}
+/* loop */
+.loop{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:34px}
+.loopstep{background:linear-gradient(160deg,rgba(14,106,115,.14),rgba(10,20,24,.5));border:1px solid var(--line);border-radius:14px;padding:18px}
+.loopstep .n{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold2)}
+.loopstep h3{font-size:15px;color:#fff;margin-top:6px}
+.loopstep p{font-size:12.5px;color:var(--mut);margin-top:4px}
+/* before/after */
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+@media(max-width:640px){.ba{grid-template-columns:1fr}.loop{grid-template-columns:1fr 1fr}}
+.col{border-radius:14px;padding:22px;border:1px solid var(--line)}
+.col.before{background:rgba(180,70,70,.08);border-color:rgba(200,90,90,.3)}
+.col.after{background:rgba(14,106,115,.12);border-color:rgba(14,106,115,.4)}
+.col .h{font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.col.before .h{color:#ff9d9d}.col.after .h{color:var(--gold2)}
+.col ul{list-style:none}.col li{font-size:14px;color:var(--mut);padding:7px 0;border-top:1px solid var(--line);display:flex;gap:9px}
+.col li:first-child{border-top:none}
+.col.after li{color:#dfeeec}
+/* delivered grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:30px}
+.card{background:linear-gradient(160deg,rgba(14,106,115,.12),rgba(10,20,24,.5));border:1px solid var(--line);border-radius:16px;padding:22px}
+.card .ic{font-size:22px}
+.card h3{font-family:'Cormorant Garamond',serif;font-size:21px;color:#fff;margin-top:8px}
+.card p{font-size:13.5px;color:var(--mut);margin-top:6px}
+.card .live{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#7fd4cf;background:rgba(14,106,115,.25);border:1px solid rgba(14,106,115,.5);padding:4px 10px;border-radius:30px;margin-top:12px}
+/* demo links */
+.links{display:flex;flex-direction:column;gap:12px;margin-top:26px}
+.linkrow{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:16px 20px}
+.linkrow .l b{color:#fff;font-size:16px}.linkrow .l div{font-size:13px;color:var(--mut);margin-top:2px}
+.linkrow a{color:var(--gold2);text-decoration:none;font-size:14px;border:1px solid var(--gold);border-radius:30px;padding:9px 18px;white-space:nowrap}
+.linkrow a:hover{background:var(--gold);color:#05090C}
+.steps{counter-reset:s;margin-top:24px}
+.step{display:flex;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.step:before{counter-increment:s;content:counter(s);flex-shrink:0;width:34px;height:34px;border-radius:50%;border:1px solid var(--gold);color:var(--gold2);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif}
+.step div b{color:#fff}.step div p{font-size:13.5px;color:var(--mut);margin-top:2px}
+.next{background:rgba(200,160,106,.08);border:1px solid rgba(200,160,106,.3);border-radius:14px;padding:22px;margin-top:24px}
+.next h3{color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:22px}
+.next ul{list-style:none;margin-top:10px}.next li{font-size:14px;color:var(--mut);padding:5px 0;display:flex;gap:8px}
+.ft{text-align:center;color:rgba(255,255,255,.4);font-size:12px;padding:40px 0}
+</style></head>
+<body>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap">
+  <div class="tag">Phase 2 · Delivered</div>
+  <h1>The system is <i>built.</i><br>And it's running.</h1>
+  <div class="sub">A complete, automated commerce engine for ELEV8TIDE — storefront, checkout, fulfillment, and an order command center, all on infrastructure you own.</div>
+  <div class="brandline">ELEV8<b>TIDE</b> &nbsp;·&nbsp; Elevate Wellness. Restore Confidence.</div>
+</div></section>
+
+<!-- THE LOOP -->
+<section><div class="wrap">
+  <div class="eye">The engine</div>
+  <h2 class="serif">One automated loop.</h2>
+  <p class="lead">Every visitor becomes a captured lead. Every lead can become an order. Every order flows to one place to fulfill — hands-free.</p>
+  <div class="loop">
+    <div class="loopstep"><div class="n">01</div><h3>Discover</h3><p>QR / link / social → the funnel</p></div>
+    <div class="loopstep"><div class="n">02</div><h3>Capture</h3><p>Quiz → lead saved to your database</p></div>
+    <div class="loopstep"><div class="n">03</div><h3>Shop</h3><p>Branded store → cart → checkout</p></div>
+    <div class="loopstep"><div class="n">04</div><h3>Fulfill</h3><p>Order → portal → ship + tracking</p></div>
+  </div>
+</div></section>
+
+<!-- BEFORE / AFTER -->
+<section><div class="wrap">
+  <div class="eye">What changed</div>
+  <h2 class="serif">From leaking to locked-in.</h2>
+  <div class="ba">
+    <div class="col before"><div class="h">Before Phase 2</div><ul>
+      <li>✕ Leads vanished into a suspended email tool</li>
+      <li>✕ No real store — a funnel with no shop</li>
+      <li>✕ Orders had nowhere to land</li>
+      <li>✕ No way to track payment or shipping</li>
+      <li>✕ Blank, unbranded product images</li>
+    </ul></div>
+    <div class="col after"><div class="h">After Phase 2 — live now</div><ul>
+      <li>✓ Every lead saved to your own database</li>
+      <li>✓ Full branded storefront + real checkout</li>
+      <li>✓ Orders captured automatically</li>
+      <li>✓ Command center to confirm pay + ship</li>
+      <li>✓ Branded vials + lab-grade descriptions + COAs</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<!-- DELIVERED -->
+<section><div class="wrap">
+  <div class="eye">Delivered</div>
+  <h2 class="serif">Everything that's live.</h2>
+  <div class="grid">
+    <div class="card"><div class="ic">🛍️</div><h3>The Storefront</h3><p>Shop-by-goal catalog, branded ELEV8TIDE vials, lab-grade clinical descriptions, quantity + multi-item cart — mobile, tablet, desktop.</p><span class="live">● Live</span></div>
+    <div class="card"><div class="ic">💳</div><h3>Clean Checkout</h3><p>Validated details, real shipping (Pirate Ship — Ground/Priority), order # + payment-confirmation, dispute-proof pay (Cash App / Venmo / Zelle / Apple Pay).</p><span class="live">● Live</span></div>
+    <div class="card"><div class="ic">📋</div><h3>Order Command Center</h3><p>Secure login. Every order: pending → confirm payment → add tracking → shipped. Live stats + confirmed revenue.</p><span class="live">● Live</span></div>
+    <div class="card"><div class="ic">🗄️</div><h3>Your Own Database</h3><p>Leads + orders on infrastructure you own (Supabase). Customer data protected behind login. No platform can lock you out again.</p><span class="live">● Live</span></div>
+    <div class="card"><div class="ic">📧</div><h3>Owned Email Engine</h3><p>Welcome → journey → store, order confirmation + shipping emails — sent from your own domain. Built, ready to switch on.</p><span class="live">● Built</span></div>
+    <div class="card"><div class="ic">🔬</div><h3>COA Library</h3><p>Real third-party certificates per product — purity, identity, lot #. Trust, proven.</p><span class="live">● In progress</span></div>
+  </div>
+</div></section>
+
+<!-- LIVE DEMO -->
+<section><div class="wrap">
+  <div class="eye">See it live</div>
+  <h2 class="serif">The real thing — not a mockup.</h2>
+  <div class="links">
+    <div class="linkrow"><div class="l"><b>The Store</b><div>Shop → product → cart → checkout</div></div><a href="https://www.elev8tide.com/lab.html" target="_blank">Open store →</a></div>
+    <div class="linkrow"><div class="l"><b>The Funnel</b><div>Quiz → lead capture</div></div><a href="https://www.elev8tide.com" target="_blank">Open funnel →</a></div>
+    <div class="linkrow"><div class="l"><b>Order Command Center</b><div>Login → manage + fulfill orders</div></div><a href="https://www.elev8tide.com/portal.html" target="_blank">Open portal →</a></div>
+  </div>
+  <div class="eye" style="margin-top:36px">Live demo · the 60-second walkthrough</div>
+  <div class="steps">
+    <div class="step"><div><b>Place an order in the store</b><p>Pick a product → add to cart → checkout → get an order number.</p></div></div>
+    <div class="step"><div><b>Watch it appear in the command center</b><p>Refresh the portal — the order is there instantly, marked "Pending payment."</p></div></div>
+    <div class="step"><div><b>Confirm the payment</b><p>Once the money lands, tap "Payment received" → it moves to "Ready to ship."</p></div></div>
+    <div class="step"><div><b>Ship it</b><p>Drop in the tracking number → "Mark shipped." Done — all saved to the database.</p></div></div>
+  </div>
+</div></section>
+
+<!-- NEXT -->
+<section><div class="wrap">
+  <div class="eye">What's next</div>
+  <h2 class="serif">Ready to layer on.</h2>
+  <div class="next"><h3>The same backend unlocks</h3><ul>
+    <li>› Customer accounts — signup → address prefill → their own "track my order" page</li>
+    <li>› Email sequence switched on (welcome → nurture → re-engage)</li>
+    <li>› Live real-time shipping rates by region</li>
+    <li>› Full COA library wired to every product</li>
+  </ul></div>
+</div></section>
+
+<div class="ft">ELEV8TIDE · Elev8Tide Wellness LLC · elev8tide.com · For laboratory &amp; research purposes only · 21+</div>
+
+</body></html>
