@@ -531,26 +531,13 @@ function done(choice){
    localStorage.setItem('e8_leads',JSON.stringify(saved));
  }catch(e){}
 
- /* 2) SEND to Mailchimp (JSONP — works on a static site, no backend/CORS)
-    GOAL + CALL are real merge fields on her audience (so the quiz answer
-    + call preference are saved to each contact). Phone is formatted to her
-    audience's (###) ###-#### field format. reCAPTCHA is OFF on the form,
-    single opt-in, so this subscribes the lead directly. */
- if(MAILCHIMP.u && MAILCHIMP.id && MAILCHIMP.dc){
-   var d=(lead.phone||'').replace(/\D/g,'').slice(-10);
-   var phoneFmt = d.length===10 ? '('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6) : lead.phone;
-   var goalStr = Array.isArray(lead.goal) ? lead.goal.join(', ') : (lead.goal||'');
-   var p='https://'+MAILCHIMP.dc+'.list-manage.com/subscribe/post-json'
-     +'?u='+MAILCHIMP.u+'&id='+MAILCHIMP.id
-     +'&EMAIL='+encodeURIComponent(lead.email)
-     +'&FNAME='+encodeURIComponent(lead.firstName)
-     +'&PHONE='+encodeURIComponent(phoneFmt)
-     +'&GOAL='+encodeURIComponent(goalStr)
-     +'&CALL='+encodeURIComponent(lead.wantsCall)
-     +'&c=__e8cb';
-   window.__e8cb=function(){};
-   var s=document.createElement('script');s.src=p;document.body.appendChild(s);
- }
+ /* 2) SEND to our own Supabase leads table (replaces dead Mailchimp — no lead ever lost) */
+ var d=(lead.phone||'').replace(/\D/g,'').slice(-10);
+ var phoneFmt = d.length===10 ? '('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6) : (lead.phone||'');
+ var goalStr = Array.isArray(lead.goal) ? lead.goal.join(', ') : (lead.goal||'');
+ try{
+   fetch('https://zsistrnamoesqucbjuof.supabase.co/rest/v1/leads',{method:'POST',headers:{'apikey':'sb_publishable_Tdc8OwqAncdLvzK-3aYyyA_fkB13qcM','Authorization':'Bearer sb_publishable_Tdc8OwqAncdLvzK-3aYyyA_fkB13qcM','Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({name:lead.firstName,email:lead.email,phone:phoneFmt,goal:goalStr,wants_call:lead.wantsCall,source:'funnel'})}).catch(function(){});
+ }catch(e){}
 
  /* 3) tailor the thank-you copy, then show the real confirmation screen */
  if(choice==='a'){
