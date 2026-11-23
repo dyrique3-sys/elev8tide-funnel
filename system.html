@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ELEV8TIDE — The Engine</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0A1418;--teal:#0E6A73;--teal2:#128C8E;--gold:#C8A06A;--gold2:#E4C98F;--cream:#F4EFE6;--ink:#EAF1F2;--mut:rgba(255,255,255,.6);--line:rgba(255,255,255,.1)}
+body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);line-height:1.5;overflow-x:hidden}
+.serif{font-family:'Cormorant Garamond',serif}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+/* hero */
+.hero{min-height:70vh;display:flex;flex-direction:column;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(14,106,115,.4),transparent 60%);padding:70px 20px 40px}
+.hero .eye{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--gold2)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,8vw,68px);color:#fff;line-height:1.02;margin-top:16px}
+.hero h1 i{color:var(--gold2);font-style:italic}
+.hero p{font-size:18px;color:var(--mut);margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto}
+.hero .dn{margin-top:34px;color:var(--gold2);font-size:26px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+/* flow */
+.flow{position:relative;padding:30px 0 80px}
+.flow:before{content:"";position:absolute;left:50%;top:0;bottom:120px;width:2px;background:linear-gradient(180deg,var(--gold),rgba(200,160,106,.15));transform:translateX(-50%)}
+.node{position:relative;display:flex;justify-content:center;margin:0 0 20px}
+.card{position:relative;z-index:2;width:100%;max-width:560px;background:linear-gradient(155deg,rgba(14,106,115,.16),rgba(10,20,24,.72));border:1px solid var(--line);border-radius:18px;padding:24px 26px;backdrop-filter:blur(4px);animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.card .hd{display:flex;align-items:center;gap:14px}
+.card .ic{flex-shrink:0;width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;background:radial-gradient(circle at 40% 30%,rgba(200,160,106,.3),rgba(14,106,115,.25));border:1px solid rgba(200,160,106,.35)}
+.card .step{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold2)}
+.card h3{font-family:'Cormorant Garamond',serif;font-size:26px;color:#fff;line-height:1.05}
+.card p{font-size:14px;color:var(--mut);margin-top:10px}
+.card .det{font-size:13px;color:rgba(255,255,255,.55);margin-top:10px;padding-left:14px;border-left:2px solid rgba(200,160,106,.45);line-height:1.6}
+.card .det b{color:var(--gold2)}
+.badge{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:4px 11px;border-radius:30px;margin-top:14px;font-weight:600}
+.live{background:rgba(14,106,115,.3);color:#7fd4cf;border:1px solid rgba(14,106,115,.6)}
+.built{background:rgba(200,160,106,.16);color:var(--gold2);border:1px solid rgba(200,160,106,.4)}
+.next{background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);border:1px solid var(--line)}
+.arrow{text-align:center;color:var(--gold);font-size:22px;margin:-4px 0 16px;position:relative;z-index:2}
+/* traffic chips */
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.chip{font-size:11px;letter-spacing:.5px;color:var(--gold2);border:1px solid rgba(200,160,106,.4);border-radius:30px;padding:6px 13px}
+/* loop back */
+.loopback{text-align:center;max-width:560px;margin:10px auto 0;background:rgba(200,160,106,.08);border:1px dashed rgba(200,160,106,.4);border-radius:16px;padding:22px}
+.loopback .serif{font-size:24px;color:var(--gold2)}
+.loopback p{font-size:14px;color:var(--mut);margin-top:6px}
+/* engine room */
+.engine{background:rgba(14,106,115,.1);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:56px 0}
+.engine h2{font-family:'Cormorant Garamond',serif;font-size:32px;color:#fff;text-align:center}
+.engine .sub{text-align:center;color:var(--mut);font-size:15px;margin-top:8px}
+.eg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:28px}
+.egc{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+.egc .i{font-size:22px}.egc h4{font-size:14px;color:#fff;margin-top:8px}.egc p{font-size:12px;color:var(--mut);margin-top:3px}
+.ft{text-align:center;color:rgba(255,255,255,.4);font-size:12px;padding:40px 20px}
+</style></head>
+<body>
+
+<section class="hero">
+  <div class="eye">The ELEV8TIDE Engine</div>
+  <h1>Traffic in.<br><i>Orders out.</i><br>On repeat.</h1>
+  <p>One always-on machine that turns a stranger into a subscriber, a subscriber into a buyer — and keeps nurturing them, hands-free.</p>
+  <div class="dn">↓</div>
+</section>
+
+<div class="wrap"><div class="flow">
+
+  <!-- traffic -->
+  <div class="node"><div class="card">
+    <div class="hd"><div class="ic">🌊</div><div><div class="step">Always flowing in</div><h3>Traffic</h3></div></div>
+    <p>A steady stream pointed at one place — the funnel.</p>
+    <div class="chips"><span class="chip">Instagram</span><span class="chip">TikTok</span><span class="chip">QR codes</span><span class="chip">Ads</span><span class="chip">ManyChat DMs</span></div>
+    <span class="badge live">● Channels live</span>
+  </div></div>
+  <div class="arrow">↓</div>
+
+  <!-- funnel + signup -->
+  <div class="node"><div class="card">
+    <div class="hd"><div class="ic">📝</div><div><div class="step">Step 1</div><h3>The Funnel → Sign up</h3></div></div>
+    <p>A short quiz that learns their goal, then captures them as a lead.</p>
+    <div class="det">Name · email · phone · goal · call preference → saved to <b>your own database</b>, instantly. No lead ever lost.</div>
+    <span class="badge live">● Live</span>
+  </div></div>
+  <div class="arrow">↓</div>
+
+  <!-- email 1 -->
+  <div class="node"><div class="card">
+    <div class="hd"><div class="ic">✉️</div><div><div class="step">Step 2 · fires instantly</div><h3>Email 1 — Welcome</h3></div></div>
+    <p>The moment they sign up, the first email lands. In order:</p>
+    <div class="det"><b>› The VSL</b> — the brand film that builds trust<br><b>› Their recommended journey</b> — matched to their goal<br><b>› The shop link</b> — right there at the bottom, "step into the lab"</div>
+    <span class="badge built">● Built · ready to send</span>
+  </div></div>
+  <div class="arrow">↓</div>
+
+  <!-- daily emails -->
+  <div class="node"><div class="card">
+    <div class="hd"><div class="ic">📬</div><div><div class="step">Step 3 · every day after</div><h3>The Daily Emails</h3></div></div>
+    <p>A story unfolds — education, proof, offers — one a day, branching on how they engage. Always ending with the shop.</p>
+    <div class="det">Hot leads → product fits faster. Quiet leads → slower, re-engagement. <b>Perpetual, not a 3-email blast.</b></div>
+    <span class="badge built">● Written · ready to send</span>
+  </div></div>
+  <div class="arrow">↓</div>
+
+  <!-- weekly SMS -->
+  <div class="node"><div class="card">
+    <div class="hd"><div class="ic">💬</div><div><div class="step">Step 4 · at least 1× / week</div><h3>The Weekly Text</h3></div></div>
+    <p>A short, personal SMS that lands where email can't — a drop, a reminder, a reason to come back.</p>
+    <div class="det">Highest open rate of any channel. Keeps ELEV8TIDE in their pocket, every week.</div>
+    <span class="badge next">○ Next to build</span>
+  </div></div>
+  <div class="arrow">↓</div>
+
+  <!-- store -->
+  <div class="node"><div class="card">
+    <div class="hd"><div class="ic">🛍️</div><div><div class="step">The destination</div><h3>The Store</h3></div></div>
+    <p>Branded vials, lab-grade descriptions, real COAs → cart → checkout → order.</p>
+    <div class="det">Every order flows straight into the <b>Command Center</b> to fulfill — confirm payment, ship, tracking.</div>
+    <span class="badge live">● Live</span>
+  </div></div>
+
+  <div class="loopback">
+    <div class="serif">↻ Then it loops.</div>
+    <p>Every new visitor re-enters the top. The machine runs whether you're watching or not.</p>
+  </div>
+
+</div></div>
+
+<section class="engine"><div class="wrap">
+  <h2 class="serif">The systems that keep it running</h2>
+  <div class="sub">The quiet infrastructure under the pretty surface.</div>
+  <div class="eg">
+    <div class="egc"><div class="i">🗄️</div><h4>Your Database</h4><p>Leads + orders, owned by you</p></div>
+    <div class="egc"><div class="i">📋</div><h4>Command Center</h4><p>Track + fulfill in one place</p></div>
+    <div class="egc"><div class="i">✉️</div><h4>Owned Sending</h4><p>From your own domain</p></div>
+    <div class="egc"><div class="i">🔒</div><h4>Protected</h4><p>Customer data behind login</p></div>
+  </div>
+</div></section>
+
+<div class="ft">ELEV8TIDE · The Engine · elev8tide.com · For laboratory &amp; research purposes only · 21+</div>
+
+</body></html>
