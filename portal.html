@@ -24,6 +24,9 @@ header .demo{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#b
 .panetog{display:flex;gap:4px;background:#f1ece2;border-radius:30px;padding:3px}
 .panetog button{border:none;background:none;color:#7a8785;font-family:'Jost';font-size:13px;padding:7px 16px;border-radius:30px;cursor:pointer;transition:.15s}
 .panetog button.on{background:#0E6A73;color:#fff}
+.hactions{display:flex;align-items:center;gap:10px}
+.hbtn{border:1px solid var(--line);background:#fff;color:#4e8a86;font-family:'Jost';font-size:12px;padding:7px 13px;border-radius:30px;cursor:pointer;transition:.15s}
+.hbtn:hover{border-color:#0E6A73;color:#0E6A73}
 .wrap{max-width:900px;margin:0 auto;padding:22px 16px 60px}
 /* stats */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
@@ -82,7 +85,7 @@ header .demo{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#b
   <header>
     <div class="brand">ELEV8<b>TIDE</b> · Command Center</div>
     <div class="panetog"><button id="tg-orders" class="on" onclick="switchPane('orders')">Orders</button><button id="tg-leads" onclick="switchPane('leads')">Leads</button></div>
-    <div class="demo" id="modeTag">● Demo mode</div>
+    <div class="hactions"><button class="hbtn" onclick="refreshAll()">↻ Refresh</button><div class="demo" id="modeTag">● Demo mode</div><button class="hbtn" onclick="logout()">Log out</button></div>
   </header>
   <div class="wrap">
     <div id="ordersPane">
@@ -191,6 +194,11 @@ function render(){
   }).join('');
 }
 function cp(t,el){ try{navigator.clipboard.writeText(t);}catch(e){} var o=el.textContent; el.textContent='copied'; setTimeout(function(){el.textContent=o;},1000); }
+
+/* ---------- actions: refresh / logout / auto-update ---------- */
+function refreshAll(){ if(curPane==='leads') loadLeads(); else load(); }
+function logout(){ try{sessionStorage.removeItem('e8.sbtok');sessionStorage.removeItem('e8.portal');}catch(e){} window._sbtok=null; location.reload(); }
+setInterval(function(){ var a=document.getElementById('app'); if(a&&a.style.display==='block'&&!document.hidden) refreshAll(); }, 60000);
 
 /* ---------- LEADS ---------- */
 var curPane='orders', leads=[];
