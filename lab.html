@@ -440,7 +440,7 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
       <button class="payopt" id="pay-venmo"><span class="ic" style="background:#3D95CE">V</span><span><span class="nm">Venmo</span><br><span class="d">Opens Venmo — enter total &amp; add your order #</span></span></button>
       <div class="payopt" style="cursor:default;display:block"><div style="display:flex;align-items:center;gap:12px"><span class="ic" style="background:#6B1FC4">Z</span><span><span class="nm">Zelle</span><br><span class="d">Send in your bank app to the handle below</span></span></div><div class="copyrow"><input id="zelle" readonly value="elev8tide@gmail.com"><button onclick="copyVal('zelle',this)">Copy</button></div></div>
       <div class="payopt" style="cursor:default;display:block"><div style="display:flex;align-items:center;gap:12px"><span class="ic" style="background:#000">&#63743;</span><span><span class="nm">Apple Pay</span><br><span class="d">Send via Messages to the number below</span></span></div><div class="copyrow"><input id="apay" readonly value="(954) 830-8252"><button onclick="copyVal('apay',this)">Copy</button></div></div>
-      <label class="cochk confirmchk"><input type="checkbox" id="c-paid" onchange="syncPaid()"> I sent <b><span id="payTot2">$0</span></b> and put my order number <b id="payOrd3">—</b> in the payment note.</label>
+      <label class="cochk confirmchk"><input type="checkbox" id="c-paid" onchange="syncPaid()"><span>I've sent the payment and put my <b>order number in the note.</b></span></label>
       <button class="done" id="doneBtn" disabled onclick="finishOrder()">I've sent payment →</button>
       <button class="coback" onclick="showPane('form')">‹ Edit details</button>
     </div>
@@ -680,10 +680,8 @@ function goToPay(){
   currentOrder={num:num, created:new Date().toISOString(), name:val('f-name'), email:val('f-email'), phone:val('f-phone'), street:val('f-street'), apt:val('f-apt'), city:val('f-city'), state:val('f-state'), zip:val('f-zip'), items:Object.keys(cart).map(function(k){return {n:cart[k].n,p:cart[k].p,q:cart[k].q};}), subtotal:cartTotal(), shipping:shippingCost(), total:grandTotal(), shipMethod:shipMethod().name, payStatus:'pending', fulfillStatus:'unshipped', tracking:''};
   document.getElementById('ordnum').textContent=num;
   document.getElementById('payOrd2').textContent=num;
-  document.getElementById('payOrd3').textContent=num;
   document.getElementById('t-ord').textContent=num;
   document.getElementById('payTot').textContent='$'+grandTotal();
-  document.getElementById('payTot2').textContent='$'+grandTotal();
   document.getElementById('pay-cashapp').onclick=function(){ window.open('https://cash.app/$'+PAY.cashtag+'/'+grandTotal(),'_blank'); };
   document.getElementById('pay-venmo').onclick=function(){ window.open(PAY.venmo,'_blank'); };
   document.getElementById('c-paid').checked=false; syncPaid();
