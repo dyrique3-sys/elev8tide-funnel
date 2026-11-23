@@ -21,6 +21,9 @@ header{background:#fff;border-bottom:1px solid var(--line);padding:16px 22px;dis
 header .brand{font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:4px;color:var(--teal)}
 header .brand b{color:var(--gold)}
 header .demo{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#b5791f;background:#fff6e9;border:1px solid #f0dcb0;padding:5px 10px;border-radius:30px}
+.panetog{display:flex;gap:4px;background:#f1ece2;border-radius:30px;padding:3px}
+.panetog button{border:none;background:none;color:#7a8785;font-family:'Jost';font-size:13px;padding:7px 16px;border-radius:30px;cursor:pointer;transition:.15s}
+.panetog button.on{background:#0E6A73;color:#fff}
 .wrap{max-width:900px;margin:0 auto;padding:22px 16px 60px}
 /* stats */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
@@ -77,19 +80,32 @@ header .demo{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#b
 
 <div id="app" style="display:none">
   <header>
-    <div class="brand">ELEV8<b>TIDE</b> · Order Portal</div>
+    <div class="brand">ELEV8<b>TIDE</b> · Command Center</div>
+    <div class="panetog"><button id="tg-orders" class="on" onclick="switchPane('orders')">Orders</button><button id="tg-leads" onclick="switchPane('leads')">Leads</button></div>
     <div class="demo" id="modeTag">● Demo mode</div>
   </header>
   <div class="wrap">
-    <div class="stats">
-      <div class="stat warn"><div class="n" id="s-pend">0</div><div class="l">Needs payment</div></div>
-      <div class="stat"><div class="n" id="s-ready">0</div><div class="l">Ready to ship</div></div>
-      <div class="stat"><div class="n" id="s-ship">0</div><div class="l">Shipped</div></div>
-      <div class="stat"><div class="n" id="s-rev">$0</div><div class="l">Confirmed revenue</div></div>
+    <div id="ordersPane">
+      <div class="stats">
+        <div class="stat warn"><div class="n" id="s-pend">0</div><div class="l">Needs payment</div></div>
+        <div class="stat"><div class="n" id="s-ready">0</div><div class="l">Ready to ship</div></div>
+        <div class="stat"><div class="n" id="s-ship">0</div><div class="l">Shipped</div></div>
+        <div class="stat"><div class="n" id="s-rev">$0</div><div class="l">Confirmed revenue</div></div>
+      </div>
+      <div class="tabs" id="tabs"></div>
+      <div id="list"></div>
+      <div class="note">Orders update live as customers check out. Confirm a payment only after you see the money land (Cash App / Venmo / Zelle / Apple Pay) matching the order number.</div>
     </div>
-    <div class="tabs" id="tabs"></div>
-    <div id="list"></div>
-    <div class="note">Orders update live as customers check out. Confirm a payment only after you see the money land (Cash App / Venmo / Zelle / Apple Pay) matching the order number.</div>
+    <div id="leadsPane" style="display:none">
+      <div class="stats">
+        <div class="stat"><div class="n" id="l-total">0</div><div class="l">Total leads</div></div>
+        <div class="stat warn"><div class="n" id="l-call">0</div><div class="l">Want a call</div></div>
+        <div class="stat"><div class="n" id="l-week">0</div><div class="l">This week</div></div>
+        <div class="stat"><div class="n" id="l-conv">0</div><div class="l">Became orders</div></div>
+      </div>
+      <div id="leadsList"></div>
+      <div class="note">Every funnel sign-up lands here — reach out, book the call, convert them to an order.</div>
+    </div>
   </div>
 </div>
 
@@ -175,6 +191,41 @@ function render(){
   }).join('');
 }
 function cp(t,el){ try{navigator.clipboard.writeText(t);}catch(e){} var o=el.textContent; el.textContent='copied'; setTimeout(function(){el.textContent=o;},1000); }
+
+/* ---------- LEADS ---------- */
+var curPane='orders', leads=[];
+function switchPane(p){ curPane=p;
+  document.getElementById('ordersPane').style.display=p==='orders'?'block':'none';
+  document.getElementById('leadsPane').style.display=p==='leads'?'block':'none';
+  document.getElementById('tg-orders').className=p==='orders'?'on':'';
+  document.getElementById('tg-leads').className=p==='leads'?'on':'';
+  if(p==='leads') loadLeads();
+}
+function loadLeads(){
+  if(SB.url&&SB.anon){
+    fetch(SB.url.replace(/\/$/,'')+'/rest/v1/leads?select=*&order=created_at.desc',{headers:{'apikey':SB.anon,'Authorization':'Bearer '+(window._sbtok||SB.anon)}})
+      .then(function(r){return r.json();}).then(function(d){ leads=Array.isArray(d)?d:[]; renderLeads(); }).catch(function(){ leads=[]; renderLeads(); });
+  } else { leads=[]; renderLeads(); }
+}
+function renderLeads(){
+  var call=0,week=0,conv=0,now=Date.now(),oe={};
+  orders.forEach(function(o){ if(o.email) oe[(o.email||'').toLowerCase()]=1; });
+  leads.forEach(function(l){ if((l.wants_call||'')==='yes')call++; try{ if(now-new Date(l.created_at).getTime()<6048e5)week++; }catch(e){} if(l.email&&oe[(l.email||'').toLowerCase()])conv++; });
+  document.getElementById('l-total').textContent=leads.length;
+  document.getElementById('l-call').textContent=call;
+  document.getElementById('l-week').textContent=week;
+  document.getElementById('l-conv').textContent=conv;
+  var L=document.getElementById('leadsList');
+  if(!leads.length){ L.innerHTML='<div class="empty">No leads yet.<br>They appear the moment someone finishes the funnel.</div>'; return; }
+  L.innerHTML=leads.map(function(l){
+    var dt=''; try{ dt=new Date(l.created_at).toLocaleString(); }catch(e){}
+    var cb=(l.wants_call==='yes')?'<span class="badge b-paid">Wants a call</span>':'<span class="badge b-wait">On the list</span>';
+    return '<div class="order"><div class="top"><div><div class="onum" style="font-size:19px">'+(l.name||'—')+'</div><div class="date">'+dt+'</div></div><div class="badges">'+cb+'</div></div>'+
+      '<div class="cust"><div class="blk"><div class="k">Contact</div><a href="mailto:'+(l.email||'')+'">'+(l.email||'')+'</a> · <a href="tel:'+(l.phone||'')+'">'+(l.phone||'')+'</a></div>'+
+      '<div class="blk"><div class="k">Goal</div>'+(l.goal||'—')+'</div>'+
+      '<div class="blk"><div class="k">Source</div>'+(l.source||'funnel')+'</div></div></div>';
+  }).join('');
+}
 if(window._sbtok) load(); else if(sessionStorage.getItem('e8.portal')==='1') load();
 </script>
 </body></html>
