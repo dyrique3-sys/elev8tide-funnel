@@ -62,14 +62,15 @@ header .demo{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#b
 </style></head>
 <body>
 
-<!-- passcode gate -->
+<!-- login gate -->
 <div id="gate">
   <div class="gatebox">
     <div class="brand">ELEV8<b>TIDE</b></div>
     <h1>Order Portal</h1>
-    <p>Enter your access code</p>
-    <input id="gcode" type="password" inputmode="numeric" placeholder="••••" onkeydown="if(event.key==='Enter')unlock()">
-    <button onclick="unlock()">Enter portal</button>
+    <p>Sign in to manage orders</p>
+    <input id="gemail" type="email" placeholder="Email" autocomplete="username" style="letter-spacing:0;text-align:left">
+    <input id="gcode" type="password" placeholder="Password" autocomplete="current-password" style="letter-spacing:0;text-align:left" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">Sign in</button>
     <div class="ge" id="gerr"></div>
   </div>
 </div>
@@ -93,20 +94,23 @@ header .demo{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#b
 </div>
 
 <script>
-/* paste the SAME Supabase URL + anon key as the store to go live; else demo (this browser's orders) */
-var SB={ url:'', anon:'' };
-var CODE='2075'; // access code for the portal (change anytime)
+/* ELEV8TIDE Supabase — live order management */
+var SB={ url:'https://zsistrnamoesqucbjuof.supabase.co', anon:'sb_publishable_Tdc8OwqAncdLvzK-3aYyyA_fkB13qcM' };
+var CODE='2075'; // demo-mode fallback code (only used if SB not configured)
 var orders=[], filter='pend';
 
+function showApp(){ document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block'; }
 function unlock(){
-  if(document.getElementById('gcode').value===CODE){
-    sessionStorage.setItem('e8.portal','1');
-    document.getElementById('gate').style.display='none';
-    document.getElementById('app').style.display='block';
-    load();
-  } else { document.getElementById('gerr').textContent='Incorrect code'; }
+  var pw=document.getElementById('gcode').value, email=(document.getElementById('gemail')||{}).value||'';
+  if(!(SB.url&&SB.anon)){ if(pw===CODE){ sessionStorage.setItem('e8.portal','1'); showApp(); load(); } else { document.getElementById('gerr').textContent='Incorrect code'; } return; }
+  document.getElementById('gerr').textContent='Signing in…';
+  fetch(SB.url.replace(/\/$/,'')+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'apikey':SB.anon,'Content-Type':'application/json'},body:JSON.stringify({email:email.trim(),password:pw})})
+    .then(function(r){return r.json();}).then(function(d){
+      if(d.access_token){ window._sbtok=d.access_token; sessionStorage.setItem('e8.sbtok',d.access_token); showApp(); load(); }
+      else { document.getElementById('gerr').textContent=(d.error_description||d.msg||'Login failed'); }
+    }).catch(function(){ document.getElementById('gerr').textContent='Network error'; });
 }
-if(sessionStorage.getItem('e8.portal')==='1'){ document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block'; }
+(function(){ var t=sessionStorage.getItem('e8.sbtok'); if(t){ window._sbtok=t; showApp(); } })();
 
 /* ---------- data ---------- */
 function norm(r,src){
@@ -171,6 +175,6 @@ function render(){
   }).join('');
 }
 function cp(t,el){ try{navigator.clipboard.writeText(t);}catch(e){} var o=el.textContent; el.textContent='copied'; setTimeout(function(){el.textContent=o;},1000); }
-if(sessionStorage.getItem('e8.portal')==='1') load();
+if(window._sbtok) load(); else if(sessionStorage.getItem('e8.portal')==='1') load();
 </script>
 </body></html>
