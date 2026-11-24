@@ -349,7 +349,7 @@ h1 i{color:var(--gold2);font-weight:500}
     <div class="rdivider"></div>
     <button class="btn" id="btnYes" onclick="done('a')">Yes — Have A Specialist Reach Out</button>
     <button class="btn ghost" onclick="done('b')">No — Just Add Me To The List</button>
-    <div class="legal">For laboratory &amp; research purposes only · not for human consumption · not for personal use · not intended to diagnose, treat, cure, or prevent any disease · 21+.<br>Elev8Tide Wellness LLC · info@elev8tide.com</div>
+    <div class="legal">For laboratory &amp; research purposes only · not for human consumption · not for personal use · not intended to diagnose, treat, cure, or prevent any disease · 21+.<br>Elev8Tide Wellness LLC · hello@elev8tide.com</div>
   </div></div>
 </section>
 
@@ -369,19 +369,6 @@ h1 i{color:var(--gold2);font-weight:500}
 
 </div>
 <script>
-/* ══════════════════════════════════════════════════════════════
-   MAILCHIMP CONFIG — drop in the 3 PUBLIC values from Nashay's account
-   (Mailchimp → Audience → Signup forms → Embedded form → copy from the code).
-   NO API key needed — these are public. Until filled, leads still save
-   locally + are emailed via the mailto fallback, so nothing is ever lost.
-   ══════════════════════════════════════════════════════════════ */
-var MAILCHIMP = {
-  u:  '2e10d32ce7b71c8c7367b60ea',   // the u=XXXXX value in the form action URL
-  id: '354d431fde',   // the id=YYYYY value in the form action URL
-  dc: 'gmail.us17'    // the datacenter prefix before .list-manage.com
-};
-var NOTIFY_EMAIL = 'info@nashayconsulting.com'; // fallback: where leads are emailed if Mailchimp not configured
-
 /* collected lead */
 var lead={firstName:'',email:'',phone:'',goal:'',q2:'',q3:'',q4:'',q5:'',wantsCall:''};
 var histStack=[], busy=false;
