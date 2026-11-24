@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ELEV8TIDE — Inside the Lab</title>
+<meta name="description" content="90 seconds inside ELEV8TIDE — a private research supply built on trust you can verify.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500&display=swap');
+:root{--teal:#0F6B73;--gold:#C8A06A;--gold2:#E4C98F;--cream:#F4EFE6;--ink:#05090C}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#000}
+body{font-family:'Jost',sans-serif;color:var(--cream)}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000}
+video{width:100%;height:100%;object-fit:cover;background:#000}
+.vig{position:fixed;inset:0;pointer-events:none;background:
+  radial-gradient(130% 90% at 50% 40%,transparent 48%,rgba(0,0,0,.72) 100%),
+  linear-gradient(to bottom,rgba(0,0,0,.55) 0%,transparent 22%,transparent 60%,rgba(0,0,0,.82) 100%)}
+.top{position:fixed;top:0;left:0;right:0;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+.wm{font-family:'Cormorant Garamond',serif;font-size:21px;letter-spacing:5px;color:var(--cream)}
+.wm b{color:var(--gold);font-weight:600}
+.sound{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:var(--cream);
+  font-family:'Jost';font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:30px;cursor:pointer;backdrop-filter:blur(4px)}
+.cap{position:fixed;left:0;right:0;bottom:120px;text-align:center;padding:0 28px;z-index:5;
+  opacity:0;transform:translateY(12px);transition:opacity .7s,transform .7s}
+.cap.on{opacity:1;transform:none}
+.cap .ey{font-size:10.5px;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);margin-bottom:12px}
+.cap .t{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(25px,5.2vw,40px);line-height:1.18;
+  color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.75);max-width:760px;margin:0 auto}
+.dots{position:fixed;left:0;right:0;bottom:84px;display:flex;gap:7px;justify-content:center;z-index:5}
+.dots span{width:24px;height:3px;border-radius:3px;background:rgba(255,255,255,.22);transition:.4s}
+.dots span.on{background:var(--gold)}
+.skip{position:fixed;bottom:30px;right:24px;z-index:5;background:none;border:none;color:rgba(255,255,255,.5);
+  font-family:'Jost';font-size:12px;letter-spacing:1px;cursor:pointer}
+.skip:hover{color:var(--cream)}
+.legal{position:fixed;bottom:30px;left:24px;right:120px;z-index:5;font-size:9.5px;line-height:1.5;color:rgba(255,255,255,.4);letter-spacing:.3px}
+/* END CARD */
+#end{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:40px;background:radial-gradient(120% 90% at 50% 35%,#0b1a1d 0%,#05090C 72%)}
+#end.on{display:flex;animation:fade .8s ease both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+#end .k{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);margin-bottom:18px}
+#end h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(30px,6vw,52px);line-height:1.1;color:var(--cream);max-width:620px}
+#end h1 i{color:var(--gold2)}
+#end p{color:#bcccc8;font-size:16px;font-weight:300;margin-top:16px;max-width:430px;line-height:1.6}
+.cta{margin-top:34px;display:inline-block;border:1px solid var(--gold);background:rgba(200,160,106,.1);color:var(--gold2);
+  font-family:'Jost';font-size:13px;letter-spacing:2.5px;text-transform:uppercase;padding:17px 44px;border-radius:40px;
+  text-decoration:none;transition:.25s;backdrop-filter:blur(3px)}
+.cta:hover{background:var(--gold);color:#05090C}
+.replay{margin-top:18px;background:none;border:none;color:rgba(255,255,255,.5);font-family:'Jost';font-size:12px;letter-spacing:1px;cursor:pointer}
+#end .leg{position:absolute;bottom:26px;left:24px;right:24px;font-size:9.5px;line-height:1.55;color:rgba(255,255,255,.38)}
+@media(max-width:560px){.cap{bottom:150px}.dots{bottom:120px}.legal{display:none}}
+</style>
+</head>
+<body>
+<div id="stage"><video id="v" playsinline muted autoplay preload="auto"></video></div>
+<div class="vig"></div>
+
+<div class="top">
+  <div class="wm">ELEV8<b>TIDE</b></div>
+  <button class="sound" id="snd">🔇 Sound On</button>
+</div>
+
+<div class="cap" id="cap"><div class="ey" id="ey"></div><div class="t" id="ct"></div></div>
+<div class="dots" id="dots"></div>
+<button class="skip" id="skip">Skip ›</button>
+<div class="legal">For laboratory &amp; research purposes only · Not for human or animal consumption · 21+ · Statements not evaluated by the FDA.</div>
+
+<div id="end">
+  <div class="k">Elev8tide Labs · Research Supply</div>
+  <h1>Step inside <i>the Lab.</i></h1>
+  <p>Choose your focus. Every batch third-party tested, with a Certificate of Analysis you can verify.</p>
+  <a class="cta" href="/lab.html">Enter Elev8tide Labs →</a>
+  <button class="replay" id="replay">↺ Watch again</button>
+  <div class="leg">For laboratory &amp; research purposes only · Not for human or animal consumption · 21+ · Statements not evaluated by the FDA. ELEV8TIDE is a research-chemical supplier.</div>
+</div>
+
+<script>
+var CLIPS = [
+  {src:'vid/opt/v1.mp4', ey:'The Problem',  t:'Half the research suppliers are faceless. No testing. No proof.'},
+  {src:'vid/opt/v2.mp4', ey:'The Gap',      t:'You shouldn’t have to gamble on where your research-grade compounds come from.'},
+  {src:'vid/opt/v3.mp4', ey:'The Standard', t:'That’s why ELEV8TIDE exists — a private research supply, built on trust you can verify.'},
+  {src:'vid/opt/v4.mp4', ey:'The Proof',    t:'Every batch, third-party lab tested. A Certificate of Analysis, matched to your lot.'},
+  {src:'vid/opt/v5.mp4', ey:'The Experience',t:'Step inside the Lab. Choose your focus. Everything in-house, research-grade.'},
+  {src:'vid/opt/v6.mp4', ey:'The Collection',t:'Research stacks — built together, priced to make the serious choice the easy one.'},
+  {src:'vid/opt/v7.mp4', ey:'Enter',        t:'Welcome to ELEV8TIDE Labs.'}
+];
+var v=document.getElementById('v'), cap=document.getElementById('cap'), eyEl=document.getElementById('ey'),
+    ctEl=document.getElementById('ct'), dots=document.getElementById('dots'), end=document.getElementById('end'),
+    snd=document.getElementById('snd'), i=0;
+CLIPS.forEach(function(){var s=document.createElement('span');dots.appendChild(s);});
+var dotEls=dots.querySelectorAll('span');
+
+function play(n){
+  i=n;
+  v.src=CLIPS[n].src;
+  v.play().catch(function(){});
+  dotEls.forEach(function(d,k){d.classList.toggle('on',k<=n);});
+  cap.classList.remove('on');
+  setTimeout(function(){
+    eyEl.textContent=CLIPS[n].ey; ctEl.textContent=CLIPS[n].t; cap.classList.add('on');
+  },240);
+}
+v.addEventListener('ended',function(){
+  if(i < CLIPS.length-1){ play(i+1); }
+  else { cap.classList.remove('on'); end.classList.add('on'); }
+});
+v.addEventListener('error',function(){ if(i<CLIPS.length-1) play(i+1); else end.classList.add('on'); });
+document.getElementById('skip').onclick=function(){ cap.classList.remove('on'); end.classList.add('on'); try{v.pause();}catch(e){} };
+document.getElementById('replay').onclick=function(){ end.classList.remove('on'); play(0); };
+snd.onclick=function(){ v.muted=!v.muted; snd.textContent = v.muted ? '🔇 Sound On' : '🔊 Sound Off'; if(!v.muted) v.play().catch(function(){}); };
+play(0);
+</script>
+</body>
+</html>
