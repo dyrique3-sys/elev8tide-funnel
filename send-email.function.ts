@@ -44,6 +44,7 @@ function shell(preheader: string, bodyHtml: string): string {
       <div style="font-family:${SERIF};font-size:27px;letter-spacing:7px;color:${C.cream}">ELEV8<span style="color:${C.gold}">TIDE</span></div>
       <div style="font-size:9px;letter-spacing:3px;color:${C.gold};text-transform:uppercase;margin-top:7px">Elevate Wellness · Restore Confidence</div>
     </div>
+    <img src="${SITE}/img/email-hero.jpg" alt="ELEV8TIDE" width="600" style="width:100%;max-width:600px;display:block;border:0">
     ${bodyHtml}
     <div style="text-align:center;font-size:11px;color:${C.mut};line-height:1.7;padding:24px 30px">
       Elev8Tide Wellness LLC · <a href="mailto:hello@elev8tide.com" style="color:${C.gold}">hello@elev8tide.com</a><br>
