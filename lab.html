@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ELEV8TIDE — Private Research Supply</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap');
 :root{--navy:#0A1418;--teal:#0E6A73;--gold:#C8A06A;--gold2:#E4C98F;--cream:#F4EFE6;--ink:#EAF1F2;--line:rgba(255,255,255,.1)}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
@@ -165,6 +165,112 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .cathead h2{font-family:'Cormorant Garamond',serif;font-size:25px;color:#fff}
 .cathead p{font-size:12px;color:rgba(255,255,255,.55)}
 @media(max-width:560px){.cathead h2{font-size:21px}}
+
+/* ═══════════ RESEARCH COLLECTION — institutional catalog redesign ═══════════ */
+#store{--bg:#090B0C;--bg2:#111416;--champ:#CBA66B;--ink2:#F5F1E8;--mut2:#A5A5A5;--bd:#303030}
+#store.on{display:block;align-items:stretch;justify-content:flex-start;background:var(--bg);overflow-x:hidden}
+#store > .vbg, #store > .scrim{display:none}
+#store .topbar{display:none}
+#detailLayer{margin:0 auto}
+.l2wrap{max-width:1440px;margin:0 auto;padding:0 32px}
+/* nav */
+.l2nav{position:sticky;top:0;z-index:20;background:rgba(9,11,12,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd)}
+.l2nav-in{max-width:1440px;margin:0 auto;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.l2logo{font-family:'Cormorant Garamond',serif;font-size:24px;letter-spacing:5px;color:var(--ink2);white-space:nowrap}
+.l2logo b{color:var(--champ);font-weight:600}
+.l2logo span{display:block;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:6px;color:var(--mut2);margin-top:-2px}
+.l2links{display:flex;gap:34px;font-family:'Inter',sans-serif;font-size:14px}
+.l2links a{color:var(--mut2);text-decoration:none;cursor:pointer;padding:6px 0;transition:.2s;border-bottom:2px solid transparent}
+.l2links a:hover{color:var(--ink2)}
+.l2links a.on{color:var(--ink2);border-bottom-color:var(--champ)}
+.l2util{display:flex;align-items:center;gap:18px}
+.l2ic{background:none;border:none;color:var(--ink2);cursor:pointer;display:flex;padding:4px}
+.l2ic svg{width:19px;height:19px}
+.l2cart{font-family:'Inter',sans-serif;font-size:13px;color:var(--champ);border:1px solid var(--champ);background:none;border-radius:40px;padding:8px 18px;cursor:pointer;white-space:nowrap;transition:.2s}
+.l2cart:hover{background:var(--champ);color:#0B0B0B}
+/* hero */
+.l2hero{position:relative;min-height:440px;display:flex;align-items:center;overflow:hidden;background:var(--bg)}
+.l2hero-img{position:absolute;inset:0;background:#0d0f10 center/cover no-repeat}
+.l2hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#090B0C 8%,rgba(9,11,12,.72) 44%,rgba(9,11,12,.12) 100%)}
+.l2hero-in{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:60px 32px;width:100%}
+.l2eyebrow{font-family:'Inter',sans-serif;font-size:13px;letter-spacing:5px;text-transform:uppercase;color:var(--ink2);font-weight:500}
+.l2eyebrow span{color:var(--champ)}
+.l2hero h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(44px,6vw,78px);line-height:1.02;color:var(--ink2);margin:16px 0 0}
+.l2hero h1 i{color:var(--champ);font-style:italic}
+.l2hero p{font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;color:var(--mut2);margin:20px 0 0;max-width:420px}
+.l2herocta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.l2btn{font-family:'Inter',sans-serif;font-size:14px;font-weight:500;border-radius:6px;padding:14px 26px;cursor:pointer;transition:.2s;border:1px solid var(--champ);background:var(--champ);color:#0B0B0B;display:inline-flex;align-items:center;gap:8px}
+.l2btn:hover{filter:brightness(1.08)}
+.l2btn.ghost{background:none;color:var(--ink2);border-color:var(--bd)}
+.l2btn.ghost:hover{border-color:var(--champ);color:var(--champ)}
+/* info strip */
+.l2strip{border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:var(--bg2)}
+.l2strip-in{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.l2sb{display:flex;align-items:center;gap:14px;padding:22px 28px;border-left:1px solid var(--bd)}
+.l2sb:first-child{border-left:none}
+.l2sb svg{width:30px;height:30px;stroke:var(--champ);flex-shrink:0}
+.l2sb .t{font-family:'Inter',sans-serif;font-size:14px;color:var(--ink2);font-weight:500}
+.l2sb .s{font-family:'Inter',sans-serif;font-size:12px;color:var(--mut2);margin-top:2px}
+/* sections */
+.l2sec{max-width:1440px;margin:0 auto;padding:56px 32px}
+.l2sechd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px}
+.l2sechd h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:34px;color:var(--ink2)}
+.l2sechd a{font-family:'Inter',sans-serif;font-size:13px;color:var(--champ);text-decoration:none;cursor:pointer;white-space:nowrap}
+/* category cards */
+.l2catgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.l2catcard{position:relative;border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:var(--bg2);cursor:pointer;transition:.25s}
+.l2catcard:hover{border-color:var(--champ)}
+.l2catcard .im{height:150px;background:#0d0f10 center/cover no-repeat;border-bottom:1px solid var(--bd)}
+.l2catcard .bd{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.l2catcard .nm{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--ink2)}
+.l2catcard .ds{font-family:'Inter',sans-serif;font-size:11.5px;color:var(--mut2);margin-top:3px}
+.l2catcard .ar{width:30px;height:30px;border:1px solid var(--champ);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--champ);flex-shrink:0}
+/* product grid */
+.l2grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.l2card{border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:var(--bg2);cursor:pointer;transition:.25s;display:flex;flex-direction:column}
+.l2card:hover{border-color:var(--champ)}
+.l2card .im{position:relative;aspect-ratio:1/1;background:#0d0f10 center/cover no-repeat;border-bottom:1px solid var(--bd)}
+.l2card .im img{width:100%;height:100%;object-fit:cover;display:block}
+.l2card .tag{position:absolute;top:10px;left:10px;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ink2);background:rgba(9,11,12,.72);border:1px solid var(--bd);padding:4px 9px;border-radius:30px}
+.l2card .bd{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.l2card .nm{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink2);line-height:1.1}
+.l2card .ds{font-family:'Inter',sans-serif;font-size:12px;color:var(--mut2);margin-top:5px;line-height:1.45;flex:1}
+.l2card .row{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.l2card .pr{font-family:'Inter',sans-serif;font-size:17px;color:var(--champ);font-weight:500}
+.l2card .pr .reg{color:var(--mut2);text-decoration:line-through;font-size:13px;margin-right:7px}
+.l2card .adc{width:38px;height:38px;border:1px solid var(--bd);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink2);background:none;cursor:pointer;transition:.2s;flex-shrink:0}
+.l2card .adc:hover{border-color:var(--champ);color:var(--champ)}
+.l2card .adc svg{width:17px;height:17px}
+.l2catsub{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mut2);margin:40px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--bd)}
+.l2catsub:first-child{margin-top:0}
+/* footer */
+.l2foot{border-top:1px solid var(--bd);background:var(--bg2);margin-top:30px}
+.l2foot-in{max-width:1440px;margin:0 auto;padding:48px 32px 28px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.l2foot .fb h4{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--ink2);margin-bottom:10px}
+.l2foot .fb h4 b{color:var(--champ)}
+.l2foot .fb p,.l2foot .fb a{font-family:'Inter',sans-serif;font-size:13px;color:var(--mut2);line-height:1.9;text-decoration:none;display:block}
+.l2foot .fb a:hover{color:var(--champ)}
+.l2foot .fcol-t{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink2);margin-bottom:10px}
+.l2foot-legal{max-width:1440px;margin:0 auto;padding:18px 32px 30px;border-top:1px solid var(--bd);font-family:'Inter',sans-serif;font-size:11px;color:var(--mut2);line-height:1.7}
+/* responsive */
+@media(max-width:1024px){
+  .l2catgrid,.l2grid{grid-template-columns:repeat(3,1fr)}
+  .l2links{gap:22px}
+  .l2foot-in{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  .l2links{display:none}
+  .l2strip-in{grid-template-columns:repeat(2,1fr)}
+  .l2sb:nth-child(2){border-left:none}.l2sb:nth-child(3),.l2sb:nth-child(4){border-top:1px solid var(--bd)}
+  .l2catgrid,.l2grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .l2nav-in,.l2hero-in,.l2sec,.l2strip-in{padding-left:18px;padding-right:18px}
+  .l2sec{padding-top:40px;padding-bottom:40px}
+  .l2sechd h2{font-size:26px}
+  .l2hero{min-height:360px}
+  .l2hero p{max-width:100%}
+  .l2card .nm{font-size:17px}.l2catcard .nm{font-size:17px}
+  .l2foot-in{grid-template-columns:1fr;gap:24px}
+}
 /* ANIMATION OVERLAY */
 #anim{z-index:280}
 #anim .vbg{opacity:1}
@@ -335,20 +441,69 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 <div class="screen" id="store">
   <video class="vbg" autoplay muted loop playsinline><source src="vid/opt/v5.mp4" type="video/mp4"></video>
   <div class="scrim"></div>
-  <div class="topbar">
-    <button class="bk" id="backBtn" style="visibility:hidden" onclick="goBack()">‹ Rooms</button>
-    <div class="bbrand">ELEV8<b>TIDE</b></div>
-    <div class="cart-pill"><button onclick="toCheckout()">Cart <span id="cartN">0</span></button></div>
-  </div>
+  <button class="bk" id="backBtn" style="display:none" onclick="goBack()"></button>
 
-  <!-- catalog layer (shop-all, by category) -->
-  <div class="layer" id="goalsLayer">
-    <div class="layer-head">
-      <div class="eye">ELEV8TIDE Labs · Research Supply</div>
-      <h1 class="serif">The <i>Collection.</i></h1>
-      <p>Shop by goal — add to your case as you browse.</p>
-    </div>
-    <div id="catalog"></div>
+  <!-- catalog view (Research Collection redesign) -->
+  <div id="goalsLayer">
+    <!-- NAV -->
+    <nav class="l2nav"><div class="l2nav-in">
+      <div class="l2logo">ELEV8<b>TIDE</b><span>L A B S</span></div>
+      <div class="l2links">
+        <a class="on" onclick="scrollToCat('catalogSec')">Shop</a>
+        <a href="legal.html">Research</a>
+        <a onclick="scrollToCat('cats')">Resources</a>
+        <a href="legal.html">Contact</a>
+      </div>
+      <div class="l2util">
+        <span class="l2ic" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span>
+        <span class="l2ic" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span>
+        <button class="l2cart" onclick="toCheckout()">Cart <span id="cartN">0</span></button>
+      </div>
+    </div></nav>
+
+    <!-- HERO -->
+    <section class="l2hero">
+      <div class="l2hero-img" style="background-image:url(img/hero-lab.jpg)"></div>
+      <div class="l2hero-in">
+        <div class="l2eyebrow">Private Research <span>Supply</span></div>
+        <h1>The Research<br><i>Collection.</i></h1>
+        <p>A curated selection of high-purity research materials for laboratory use only.</p>
+        <div class="l2herocta">
+          <button class="l2btn" onclick="scrollToCat('catalogSec')">Shop All Products →</button>
+          <button class="l2btn ghost" onclick="scrollToCat('cats')">Browse by Category</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- INFO STRIP (factual only) -->
+    <section class="l2strip"><div class="l2strip-in">
+      <div class="l2sb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M9 3v6l-5 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9V3"/><path d="M8 3h8"/></svg><div><div class="t">Research Grade</div><div class="s">High-purity materials</div></div></div>
+      <div class="l2sb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg><div><div class="t">Quality Verified</div><div class="s">Batch documentation</div></div></div>
+      <div class="l2sb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M3 8l9-5 9 5-9 5z"/><path d="M3 8v8l9 5 9-5V8"/></svg><div><div class="t">Discreet Fulfillment</div><div class="s">Secure &amp; professional</div></div></div>
+      <div class="l2sb"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M9 3v6l-5 9a2 2 0 0 0 2 3h12a2 2 0 0 0 2-3l-5-9V3"/><path d="M8 3h8"/></svg><div><div class="t">Research Use Only</div><div class="s">Not for human consumption</div></div></div>
+    </div></section>
+
+    <!-- SHOP BY CATEGORY -->
+    <section class="l2sec" id="cats">
+      <div class="l2sechd"><h2>Shop by Category</h2><a onclick="scrollToCat('catalogSec')">View All Products →</a></div>
+      <div class="l2catgrid" id="catCards"></div>
+    </section>
+
+    <!-- CATALOG -->
+    <section class="l2sec" id="catalogSec">
+      <div class="l2sechd"><h2>The Research Collection</h2></div>
+      <div id="catalog"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="l2foot">
+      <div class="l2foot-in">
+        <div class="fb"><h4>ELEV8<b>TIDE</b> LABS</h4><p>A private research supply of high-purity laboratory materials. All products are sold strictly for laboratory and research purposes only.</p><p>hello@elev8tide.com</p></div>
+        <div class="fb"><div class="fcol-t">Catalog</div><a onclick="scrollToCat('catalogSec')">Research Collection</a><a onclick="scrollToCat('cats')">Shop by Category</a><a onclick="toCheckout()">Your Cart</a></div>
+        <div class="fb"><div class="fcol-t">Information</div><a href="legal.html">Terms of Use</a><a href="legal.html">Privacy Policy</a><a href="legal.html">Shipping &amp; Returns</a><a href="legal.html">Certificates of Analysis</a></div>
+      </div>
+      <div class="l2foot-legal">For laboratory &amp; research purposes only · Not for human or animal consumption · 21+ · These statements have not been evaluated by the FDA. ELEV8TIDE is a research-chemical supplier and is not a compounding pharmacy or outsourcing facility under Sections 503A/503B of the Federal Food, Drug, and Cosmetic Act.<br>© Elev8Tide Wellness LLC. All rights reserved.</div>
+    </footer>
   </div>
 
   <!-- products (store layout) layer -->
@@ -517,17 +672,38 @@ function confirmAge(){
 
 /* ===================== STORE NAV (shop-all catalog) ===================== */
 var curGoal=null, view='catalog';
+var CART_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.5 12.5a2 2 0 0 0 2 1.5h7.5a2 2 0 0 0 2-1.5L22 7H6"/></svg>';
+var ARR_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 function renderCatalog(){
   var c=document.getElementById('catalog'), h='';
   GOALS.forEach(function(g,gi){
-    h+='<div class="catsec"><div class="cathead"><h2>'+g.name+'</h2><p>'+g.focus+'</p></div><div class="prodgrid">';
+    h+='<div class="l2catsub" id="cat-'+gi+'">'+g.name+' &middot; <span style="text-transform:none;letter-spacing:0;color:var(--mut2)">'+g.focus+'</span></div><div class="l2grid">';
     g.products.forEach(function(p,pi){
-      h+='<div class="pcard" onclick="openDetail('+gi+','+pi+')"><div class="picon"><span class="ptag">Research Use</span><img src="'+p.img+'" alt="" loading="lazy"></div><div class="pbody"><div class="pn">'+p.n+'</div><div class="pf">'+p.f+'</div><div class="pp">'+(p.reg?'<span class="reg">$'+p.reg+'</span>':'')+'$'+p.p+'</div></div></div>';
+      h+='<div class="l2card" onclick="openDetail('+gi+','+pi+')">'+
+         '<div class="im"><span class="tag">Research Use</span><img src="'+p.img+'" alt="'+p.n+'" loading="lazy"></div>'+
+         '<div class="bd"><div class="nm">'+p.n+'</div><div class="ds">'+p.f+'</div>'+
+         '<div class="row"><div class="pr">'+(p.reg?'<span class="reg">$'+p.reg+'</span>':'')+'$'+p.p+'</div>'+
+         '<button class="adc" aria-label="Add to cart" onclick="quickAdd(event,'+gi+','+pi+')">'+CART_SVG+'</button></div></div></div>';
     });
-    h+='</div></div>';
+    h+='</div>';
   });
   c.innerHTML=h;
+  renderCategories();
 }
+function renderCategories(){
+  var box=document.getElementById('catCards'); if(!box) return; var h='';
+  GOALS.forEach(function(g,gi){
+    h+='<div class="l2catcard" onclick="scrollToCat(\'cat-'+gi+'\')">'+
+       '<div class="im" style="background-image:url('+g.img+')"></div>'+
+       '<div class="bd"><div><div class="nm">'+g.name+'</div><div class="ds">'+g.focus+'</div></div>'+
+       '<span class="ar">'+ARR_SVG+'</span></div></div>';
+  });
+  box.innerHTML=h;
+}
+function scrollToCat(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); }
+function quickAdd(ev,gi,pi){ ev.stopPropagation(); var p=GOALS[gi].products[pi];
+  if(cart[p.n]) cart[p.n].q++; else cart[p.n]={n:p.n,p:p.p,q:1}; renderCart();
+  var b=ev.currentTarget; b.style.borderColor='var(--champ)'; b.style.color='var(--champ)'; }
 function showCatalog(){
   document.getElementById('detailLayer').style.display='none';
   document.getElementById('goalsLayer').style.display='block';
