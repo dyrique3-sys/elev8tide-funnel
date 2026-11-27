@@ -491,7 +491,7 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 
     <!-- CATALOG -->
     <section class="l2sec" id="catalogSec">
-      <div class="l2sechd"><h2>The Research Collection</h2></div>
+      <div class="l2sechd"><h2>Featured Research Products</h2></div>
       <div id="catalog"></div>
     </section>
 
@@ -675,9 +675,8 @@ var curGoal=null, view='catalog';
 var CART_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.5 12.5a2 2 0 0 0 2 1.5h7.5a2 2 0 0 0 2-1.5L22 7H6"/></svg>';
 var ARR_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 function renderCatalog(){
-  var c=document.getElementById('catalog'), h='';
+  var c=document.getElementById('catalog'), h='<div class="l2grid">';
   GOALS.forEach(function(g,gi){
-    h+='<div class="l2catsub" id="cat-'+gi+'">'+g.name+' &middot; <span style="text-transform:none;letter-spacing:0;color:var(--mut2)">'+g.focus+'</span></div><div class="l2grid">';
     g.products.forEach(function(p,pi){
       h+='<div class="l2card" onclick="openDetail('+gi+','+pi+')">'+
          '<div class="im"><span class="tag">Research Use</span><img src="'+p.img+'" alt="'+p.n+'" loading="lazy"></div>'+
@@ -685,8 +684,8 @@ function renderCatalog(){
          '<div class="row"><div class="pr">'+(p.reg?'<span class="reg">$'+p.reg+'</span>':'')+'$'+p.p+'</div>'+
          '<button class="adc" aria-label="Add to cart" onclick="quickAdd(event,'+gi+','+pi+')">'+CART_SVG+'</button></div></div></div>';
     });
-    h+='</div>';
   });
+  h+='</div>';
   c.innerHTML=h;
   renderCategories();
 }
