@@ -278,6 +278,11 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .spectable{width:100%;border-collapse:collapse;margin:14px 0 10px;font-size:12.5px}
 .spectable td{padding:9px 0;border-bottom:1px solid var(--line);vertical-align:top;color:rgba(255,255,255,.82)}
 .spectable td:first-child{color:rgba(255,255,255,.5);width:44%;padding-right:12px}
+.coa-box{margin:12px 0 6px;background:rgba(14,106,115,.12);border:1px solid rgba(200,160,106,.3);border-radius:12px;padding:13px 15px}
+.coa-hd{font-size:12px;letter-spacing:.4px;color:var(--gold2);margin-bottom:9px;font-weight:600}
+.coa-links{display:flex;flex-wrap:wrap;gap:8px}
+.coa-pill{display:inline-block;font-size:12px;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:7px 14px;transition:.2s;font-family:'Jost',sans-serif}
+.coa-pill:hover{border-color:var(--gold);background:rgba(200,160,106,.15);color:var(--gold2)}
 .coa-link{display:inline-block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gold2);text-decoration:none;border:1px solid var(--line);border-radius:30px;padding:8px 16px;margin:4px 0 14px}
 .coa-link:hover{border-color:var(--gold)}
 .d-dis{font-size:10.5px;color:rgba(255,255,255,.42);line-height:1.6}
@@ -573,6 +578,30 @@ var SPECS={
  'BPC-157':{form:'Lyophilized powder',amt:'10 mg'},
  'Bacteriostatic Water':{form:'Liquid (Benzyl alcohol 0.9%)',amt:'3 mL, 10 mL'}
 };
+var COA_MAP={
+ 'Tirzepatide':[{l:'COA · 10mg',f:'coa/TR10_COA.pdf'},{l:'COA · 20mg',f:'coa/TR20_COA.pdf'}],
+ 'Retatrutide':[{l:'View COA',f:'coa/RT30_COA.pdf'}],
+ 'Tesamorelin':[{l:'View COA',f:'coa/TESA10_COA.pdf'}],
+ 'MOTS-C':[{l:'View COA',f:'coa/MS10_COA.pdf'}],
+ 'NAD+':[{l:'View COA',f:'coa/NAD500_COA.pdf'}],
+ 'Semax':[{l:'View COA',f:'coa/XA10_COA_opt.pdf'}],
+ 'GHK-Cu':[{l:'View COA',f:'coa/CU50_COA_opt.pdf'}],
+ 'Glutathione':[{l:'View COA',f:'coa/GTT1500_COA_opt.pdf'}],
+ 'BPC-157':[{l:'View COA',f:'coa/BC10_COA_opt.pdf'}],
+ 'The Complete Elev8 Stack':[{l:'Tirzepatide',f:'coa/TR10_COA.pdf'},{l:'NAD+',f:'coa/NAD500_COA.pdf'},{l:'GHK-Cu',f:'coa/CU50_COA_opt.pdf'},{l:'Glutathione',f:'coa/GTT1500_COA_opt.pdf'}],
+ 'Weight & Metabolic Stack':[{l:'Tirzepatide',f:'coa/TR10_COA.pdf'},{l:'Tesamorelin',f:'coa/TESA10_COA.pdf'}],
+ 'Advanced Metabolic Stack':[{l:'Retatrutide',f:'coa/RT30_COA.pdf'},{l:'Tesamorelin',f:'coa/TESA10_COA.pdf'}],
+ 'Energy & Performance Stack':[{l:'MOTS-C',f:'coa/MS10_COA.pdf'},{l:'NAD+',f:'coa/NAD500_COA.pdf'},{l:'Semax',f:'coa/XA10_COA_opt.pdf'}],
+ 'Beauty & Anti-Aging Stack':[{l:'GHK-Cu',f:'coa/CU50_COA_opt.pdf'},{l:'Glutathione',f:'coa/GTT1500_COA_opt.pdf'}],
+ 'Recovery & Healing Stack':[{l:'BPC-157',f:'coa/BC10_COA_opt.pdf'},{l:'NAD+',f:'coa/NAD500_COA.pdf'}]
+};
+function coaLinks(name){
+  var list=COA_MAP[name]; if(!list||!list.length) return '';
+  var isMulti=list.length>1;
+  var h='<div class="coa-box"><div class="coa-hd">&#9989; Third-party Certificate'+(isMulti?'s':'')+' of Analysis</div><div class="coa-links">';
+  list.forEach(function(c){ h+='<a class="coa-pill" href="'+c.f+'" target="_blank" rel="noopener">'+c.l+' &rarr;</a>'; });
+  return h+'</div></div>';
+}
 function buildDesc(p){
   var isStack=/stack/i.test(p.n), s=SPECS[p.n], rows='';
   var intro = isStack
@@ -580,11 +609,11 @@ function buildDesc(p){
     : p.n+' is supplied as a laboratory material for preparing research solutions. Preparation methods and concentrations are determined by the purchasing laboratory’s own validated procedures — ELEV8TIDE does not provide preparation instructions.';
   if(isStack) rows='<tr><td>Contents</td><td>'+p.f+'</td></tr><tr><td>Form</td><td>Lyophilized powders + reconstitution solution</td></tr>';
   else if(s) rows='<tr><td>Form</td><td>'+s.form+'</td></tr><tr><td>Available amounts</td><td>'+s.amt+' · single or 10-pack</td></tr>';
-  rows+='<tr><td>Weight</td><td>0.1 lb</td></tr><tr><td>Testing</td><td>Third-party · identity (LC-MS)</td></tr><tr><td>Certificate</td><td>Published in the COA library</td></tr>';
+  rows+='<tr><td>Weight</td><td>0.1 lb</td></tr><tr><td>Testing</td><td>Third-party · identity (LC-MS)</td></tr><tr><td>Certificate</td><td>Third-party COA — view below</td></tr>';
   return '<div class="d-sec">Description</div>'+
     '<p class="d-ptxt">'+intro+'</p>'+
     '<table class="spectable">'+rows+'</table>'+
-    '<a class="coa-link" href="#" onclick="alert(\'Certificate of Analysis available on request — full COA library coming soon.\');return false">View COA →</a>'+
+    coaLinks(p.n)+
     '<p class="d-dis">'+p.n+' is sold strictly as a research material. It is not a drug, food, supplement or cosmetic, and it is not for human or veterinary use. <b>Research use only — not for human or veterinary consumption. 21+.</b></p>';
 }
 function openDetail(gi,pi){
