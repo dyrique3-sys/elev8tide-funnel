@@ -167,7 +167,7 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 @media(max-width:560px){.cathead h2{font-size:21px}}
 
 /* ═══════════ RESEARCH COLLECTION — institutional catalog redesign ═══════════ */
-#store{--bg:#090B0C;--bg2:#111416;--champ:#CBA66B;--ink2:#F5F1E8;--mut2:#A5A5A5;--bd:#303030}
+#store{--bg:#06171B;--bg2:#0D262C;--champ:#CBA66B;--teal:#5FC2C9;--ink2:#F4EFE6;--mut2:#9FB6B6;--bd:#1E3C41}
 #store.on{display:block;align-items:stretch;justify-content:flex-start;background:var(--bg);overflow-x:hidden}
 #store > .vbg, #store > .scrim{display:none}
 #store .topbar{display:none}
@@ -182,7 +182,7 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .l2links{display:flex;gap:34px;font-family:'Inter',sans-serif;font-size:14px}
 .l2links a{color:var(--mut2);text-decoration:none;cursor:pointer;padding:6px 0;transition:.2s;border-bottom:2px solid transparent}
 .l2links a:hover{color:var(--ink2)}
-.l2links a.on{color:var(--ink2);border-bottom-color:var(--champ)}
+.l2links a.on{color:var(--ink2);border-bottom-color:var(--teal)}
 .l2util{display:flex;align-items:center;gap:18px}
 .l2ic{background:none;border:none;color:var(--ink2);cursor:pointer;display:flex;padding:4px}
 .l2ic svg{width:19px;height:19px}
@@ -190,11 +190,11 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .l2cart:hover{background:var(--champ);color:#0B0B0B}
 /* hero */
 .l2hero{position:relative;min-height:440px;display:flex;align-items:center;overflow:hidden;background:var(--bg)}
-.l2hero-img{position:absolute;inset:0;background:#0d0f10 center/cover no-repeat}
-.l2hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#090B0C 8%,rgba(9,11,12,.72) 44%,rgba(9,11,12,.12) 100%)}
+.l2hero-img{position:absolute;inset:0;background:#0a2026 center/cover no-repeat}
+.l2hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#06171B 8%,rgba(9,11,12,.72) 44%,rgba(9,11,12,.12) 100%)}
 .l2hero-in{position:relative;z-index:2;max-width:1440px;margin:0 auto;padding:60px 32px;width:100%}
 .l2eyebrow{font-family:'Inter',sans-serif;font-size:13px;letter-spacing:5px;text-transform:uppercase;color:var(--ink2);font-weight:500}
-.l2eyebrow span{color:var(--champ)}
+.l2eyebrow span{color:var(--teal)}
 .l2hero h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(44px,6vw,78px);line-height:1.02;color:var(--ink2);margin:16px 0 0}
 .l2hero h1 i{color:var(--champ);font-style:italic}
 .l2hero p{font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;color:var(--mut2);margin:20px 0 0;max-width:420px}
@@ -220,7 +220,7 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .l2catgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .l2catcard{position:relative;border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:var(--bg2);cursor:pointer;transition:.25s}
 .l2catcard:hover{border-color:var(--champ)}
-.l2catcard .im{height:150px;background:#0d0f10 center/cover no-repeat;border-bottom:1px solid var(--bd)}
+.l2catcard .im{height:150px;background:#0a2026 center/cover no-repeat;border-bottom:1px solid var(--bd)}
 .l2catcard .bd{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .l2catcard .nm{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--ink2)}
 .l2catcard .ds{font-family:'Inter',sans-serif;font-size:11.5px;color:var(--mut2);margin-top:3px}
@@ -229,7 +229,7 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
 .l2grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .l2card{border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:var(--bg2);cursor:pointer;transition:.25s;display:flex;flex-direction:column}
 .l2card:hover{border-color:var(--champ)}
-.l2card .im{position:relative;aspect-ratio:1/1;background:#0d0f10 center/cover no-repeat;border-bottom:1px solid var(--bd)}
+.l2card .im{position:relative;aspect-ratio:1/1;background:#0a2026 center/cover no-repeat;border-bottom:1px solid var(--bd)}
 .l2card .im img{width:100%;height:100%;object-fit:cover;display:block}
 .l2card .tag{position:absolute;top:10px;left:10px;font-family:'Inter',sans-serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--ink2);background:rgba(9,11,12,.72);border:1px solid var(--bd);padding:4px 9px;border-radius:30px}
 .l2card .bd{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
