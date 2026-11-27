@@ -418,7 +418,7 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
         <div class="field fst"><label>State</label><input id="f-state" maxlength="2" placeholder="FL" oninput="this.value=this.value.toUpperCase();clrErr('state')"><div class="err" id="e-state"></div></div>
         <div class="field fzip"><label>ZIP</label><input id="f-zip" inputmode="numeric" maxlength="5" placeholder="33101" oninput="this.value=this.value.replace(/\D/g,'');clrErr('zip')"><div class="err" id="e-zip"></div></div>
       </div>
-      <div class="shiphd"><span>Shipping method</span><span class="shipvia">&#128230; via Pirate Ship · tracked &amp; discreet</span></div>
+      <div class="shiphd"><span>Shipping</span><span class="shipvia">&#128230; via Pirate Ship · tracked &amp; discreet</span></div>
       <div id="shipMethods"></div>
       <div class="sumbox">
         <div class="sline"><span>Subtotal</span><span id="sumSub">$0</span></div>
@@ -641,23 +641,19 @@ var SHIP_METHODS=[
 ];
 var selShip='ground';
 function shipMethod(){ for(var i=0;i<SHIP_METHODS.length;i++){ if(SHIP_METHODS[i].id===selShip) return SHIP_METHODS[i]; } return SHIP_METHODS[0]; }
-function shipCostFor(m){ var sub=cartTotal(); return (m.freeOver && sub>=m.freeOver)?0:m.base; }
-function shippingCost(){ return shipCostFor(shipMethod()); }
+function shipCostFor(m){ return 0; }
+function shippingCost(){ return 0; } /* shipping confirmed at fulfillment — no flat upfront price */
 function grandTotal(){ return cartTotal()+shippingCost(); }
 function setShip(id){ selShip=id; renderFormTotals(); }
 function renderFormTotals(){
   renderShip();
   var ss=document.getElementById('sumSub'); if(ss) ss.textContent='$'+cartTotal();
-  var sh=document.getElementById('sumShip'); if(sh) sh.innerHTML=shippingCost()===0?'<span class="fship">FREE</span>':'$'+shippingCost();
-  var st=document.getElementById('sumTot'); if(st) st.textContent='$'+grandTotal();
+  var sh=document.getElementById('sumShip'); if(sh) sh.innerHTML='<span class="fship">Confirmed when shipped</span>';
+  var st=document.getElementById('sumTot'); if(st) st.textContent='$'+cartTotal();
 }
 function renderShip(){
-  var box=document.getElementById('shipMethods'); if(!box) return; var h='';
-  SHIP_METHODS.forEach(function(m){
-    var c=shipCostFor(m); var sel=(m.id===selShip)?' sel':'';
-    h+='<div class="shipopt'+sel+'" onclick="setShip(\''+m.id+'\')"><span class="rad"></span><span><span class="sname">'+m.name+'</span><br><span class="seta">'+m.eta+'</span></span><span class="scost">'+(c===0?'FREE':'$'+c)+'</span></div>';
-  });
-  box.innerHTML=h;
+  var box=document.getElementById('shipMethods'); if(!box) return;
+  box.innerHTML='<div style="font-size:12px;line-height:1.55;color:#5a6b6b;background:#f1ebdd;border-radius:10px;padding:12px 14px">&#128230; Your exact shipping is calculated from <b>your address</b> when we pack your order — we’ll confirm it with your order details. You’re sending the <b>product total</b> now.</div>';
 }
 function removeItem(k){ delete cart[k]; renderCart(); }
 function chQty(k,d){ if(!cart[k]) return; cart[k].q+=d; if(cart[k].q<=0) delete cart[k]; renderCart(); }
@@ -677,7 +673,7 @@ function goToPay(){
   if(!validForm()) return;
   saveBuyer();
   var num='E8-'+Date.now().toString(36).toUpperCase().slice(-6);
-  currentOrder={num:num, created:new Date().toISOString(), name:val('f-name'), email:val('f-email'), phone:val('f-phone'), street:val('f-street'), apt:val('f-apt'), city:val('f-city'), state:val('f-state'), zip:val('f-zip'), items:Object.keys(cart).map(function(k){return {n:cart[k].n,p:cart[k].p,q:cart[k].q};}), subtotal:cartTotal(), shipping:shippingCost(), total:grandTotal(), shipMethod:shipMethod().name, payStatus:'pending', fulfillStatus:'unshipped', tracking:''};
+  currentOrder={num:num, created:new Date().toISOString(), name:val('f-name'), email:val('f-email'), phone:val('f-phone'), street:val('f-street'), apt:val('f-apt'), city:val('f-city'), state:val('f-state'), zip:val('f-zip'), items:Object.keys(cart).map(function(k){return {n:cart[k].n,p:cart[k].p,q:cart[k].q};}), subtotal:cartTotal(), shipping:0, total:cartTotal(), shipMethod:'Confirmed at fulfillment', payStatus:'pending', fulfillStatus:'unshipped', tracking:''};
   document.getElementById('ordnum').textContent=num;
   document.getElementById('payOrd2').textContent=num;
   document.getElementById('t-ord').textContent=num;
