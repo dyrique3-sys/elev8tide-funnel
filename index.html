@@ -363,8 +363,10 @@ h1 i{color:var(--gold2);font-weight:500}
     <div class="logo"><div class="wm">ELEV8TIDE</div></div>
     <h1 class="serif" id="tyHead">You're in. <i>Welcome.</i></h1>
     <p class="sub" id="tySub">Here's your welcome gift — <b>15% off</b> your first order.</p>
-    <div class="code-box"><span class="code-label">Your code</span><span class="code-val">ELEV8TIDE15</span><span class="code-note">Use it when you order</span></div>
+    <div class="code-box" id="giftBox"><span class="code-label">Your code</span><span class="code-val">ELEV8TIDE15</span><span class="code-note">Use it when you order</span></div>
+    <a class="btn" href="lab.html" style="text-decoration:none;text-align:center">Enter the Lab &amp; Shop →</a>
     <div class="gate-box" id="tyNote" style="text-align:center">A specialist will personally reach out soon to walk your journey with you. No pressure — just support.</div>
+    <p class="sub" style="font-size:13px;opacity:.7;margin-top:8px">Taking you to the lab…</p>
     <div class="foot">ELEV8TIDE WELLNESS LLC · FOR RESEARCH USE ONLY</div>
   </div></div>
 </section>
@@ -509,34 +511,42 @@ function finish(){
  document.getElementById('rsub').innerHTML='Based on your goals, we recommend focusing on '+(many?'these areas':'this area')+'. A specialist will reach out with the research-grade options matched to you'+(nm?(', '+nm):'')+' — so you begin with the most effective approach.';
  go('s7');
 }
+var SB_U='https://zsistrnamoesqucbjuof.supabase.co', SB_K='sb_publishable_Tdc8OwqAncdLvzK-3aYyyA_fkB13qcM';
 function done(choice){
- if(busy) return;
+ if(busy) return; busy=true;
  lead.wantsCall=(choice==='a')?'yes':'no';
-
- /* 1) BACKUP — save every lead locally so none is ever lost */
- try{
-   var saved=JSON.parse(localStorage.getItem('e8_leads')||'[]');
-   saved.push(Object.assign({ts:new Date().toISOString()},lead));
-   localStorage.setItem('e8_leads',JSON.stringify(saved));
- }catch(e){}
-
- /* 2) SEND to our own Supabase leads table (replaces dead Mailchimp — no lead ever lost) */
+ var email=(lead.email||'').toLowerCase().trim();
  var d=(lead.phone||'').replace(/\D/g,'').slice(-10);
  var phoneFmt = d.length===10 ? '('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6) : (lead.phone||'');
  var goalStr = Array.isArray(lead.goal) ? lead.goal.join(', ') : (lead.goal||'');
- try{
-   fetch('https://zsistrnamoesqucbjuof.supabase.co/rest/v1/leads',{method:'POST',headers:{'apikey':'sb_publishable_Tdc8OwqAncdLvzK-3aYyyA_fkB13qcM','Authorization':'Bearer sb_publishable_Tdc8OwqAncdLvzK-3aYyyA_fkB13qcM','Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({name:lead.firstName,email:lead.email,phone:phoneFmt,goal:goalStr,wants_call:lead.wantsCall,source:'funnel'})}).catch(function(){});
- }catch(e){}
 
- /* 3) tailor the thank-you copy, then show the real confirmation screen */
- if(choice==='a'){
-   document.getElementById('tyHead').innerHTML='You’re in. <i>Welcome.</i>';
-   document.getElementById('tyNote').style.display='';
- }else{
-   document.getElementById('tyHead').innerHTML='You’re on the <i>list.</i>';
-   document.getElementById('tyNote').style.display='none';
+ /* local backup — no lead ever lost */
+ try{ var saved=JSON.parse(localStorage.getItem('e8_leads')||'[]'); saved.push(Object.assign({ts:new Date().toISOString()},lead)); localStorage.setItem('e8_leads',JSON.stringify(saved)); }catch(e){}
+
+ /* 15% ABUSE GUARD — one welcome gift per device AND per email */
+ var deviceClaimed=false; try{ deviceClaimed=!!localStorage.getItem('e8_15claimed'); }catch(e){}
+
+ function proceed(eligible){
+   /* save the lead */
+   try{ fetch(SB_U+'/rest/v1/leads',{method:'POST',headers:{'apikey':SB_K,'Authorization':'Bearer '+SB_K,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({name:lead.firstName,email:email,phone:phoneFmt,goal:goalStr,wants_call:lead.wantsCall,source:'funnel'})}).catch(function(){}); }catch(e){}
+   if(eligible){ try{ localStorage.setItem('e8_15claimed', email||'1'); }catch(e){} }
+   /* confirmation copy */
+   document.getElementById('tyHead').innerHTML = (choice==='a') ? 'You’re in. <i>Welcome.</i>' : 'You’re on the <i>list.</i>';
+   document.getElementById('tyNote').style.display = (choice==='a') ? '' : 'none';
+   var gift=document.getElementById('giftBox'), sub=document.getElementById('tySub');
+   if(eligible){ if(gift) gift.style.display=''; if(sub) sub.innerHTML='Here’s your welcome gift — <b>15% off</b> your first order.'; }
+   else { if(gift) gift.style.display='none'; if(sub) sub.innerHTML='Welcome back — your picks are waiting inside the lab.'; }
+   try{ localStorage.setItem('e8_goal', goalStr); }catch(e){}
+   go('s8');
+   /* straight to the store — no time to rethink */
+   setTimeout(function(){ window.location.href='lab.html'; }, 2800);
  }
- go('s8');
+
+ if(deviceClaimed || !email){ proceed(false); return; }
+ /* check this email hasn't already claimed a welcome gift */
+ fetch(SB_U+'/rest/v1/leads?select=email&email=eq.'+encodeURIComponent(email)+'&limit=1',{headers:{'apikey':SB_K,'Authorization':'Bearer '+SB_K}})
+   .then(function(r){return r.json();}).then(function(rows){ proceed(!(rows&&rows.length)); })
+   .catch(function(){ proceed(true); });
 }
 
 /* ── HOVER-PREVIEW: hovering an answer paints the current screen's photo to that feeling, with a gold glow — sells the dream before they even click ── */
