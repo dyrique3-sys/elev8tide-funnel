@@ -77,6 +77,7 @@ header .demo{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#b
     <input id="gemail" type="email" placeholder="Email" autocomplete="username" style="letter-spacing:0;text-align:left">
     <input id="gcode" type="password" placeholder="Password" autocomplete="current-password" style="letter-spacing:0;text-align:left" onkeydown="if(event.key==='Enter')unlock()">
     <button onclick="unlock()">Sign in</button>
+    <a onclick="forgotPw()" style="display:block;margin-top:12px;font-size:12px;color:var(--teal);cursor:pointer;text-decoration:underline">Forgot password?</a>
     <div class="ge" id="gerr"></div>
   </div>
 </div>
@@ -130,6 +131,30 @@ function unlock(){
     }).catch(function(){ document.getElementById('gerr').textContent='Network error'; });
 }
 (function(){ var t=sessionStorage.getItem('e8.sbtok'); if(t){ window._sbtok=t; showApp(); } })();
+
+/* ---- password reset: send a reset link to the account email ---- */
+function forgotPw(){
+  var email=(document.getElementById('gemail')||{}).value.trim();
+  if(!email){ document.getElementById('gerr').style.color='#c0392b'; document.getElementById('gerr').textContent='Enter your email above first, then tap Forgot password.'; return; }
+  document.getElementById('gerr').style.color='#0E6A73'; document.getElementById('gerr').textContent='Sending reset link…';
+  fetch(SB.url.replace(/\/$/,'')+'/auth/v1/recover?redirect_to='+encodeURIComponent(location.origin+'/portal.html'),
+    {method:'POST',headers:{'apikey':SB.anon,'Content-Type':'application/json'},body:JSON.stringify({email:email})})
+    .then(function(){ document.getElementById('gerr').style.color='#0E6A73'; document.getElementById('gerr').textContent='Reset link sent to '+email+'. Open that inbox and follow the link.'; })
+    .catch(function(){ document.getElementById('gerr').textContent='Could not send — check the email and try again.'; });
+}
+/* ---- handle the reset link (lands here with a recovery token) ---- */
+(function(){
+  var h=location.hash||''; if(h.indexOf('type=recovery')<0 && h.indexOf('access_token')<0) return;
+  var p={}; h.replace(/^#/,'').split('&').forEach(function(kv){ var a=kv.split('='); p[a[0]]=decodeURIComponent(a[1]||''); });
+  if(!p.access_token) return;
+  var np=prompt('Set a new portal password (min 6 characters):');
+  if(!np||np.length<6){ alert('Password not changed — must be at least 6 characters.'); return; }
+  fetch(SB.url.replace(/\/$/,'')+'/auth/v1/user',{method:'PUT',headers:{'apikey':SB.anon,'Authorization':'Bearer '+p.access_token,'Content-Type':'application/json'},body:JSON.stringify({password:np})})
+    .then(function(r){return r.json();}).then(function(d){
+      if(d.id||d.email){ alert('Password updated. You can now sign in with your new password.'); location.href=location.origin+'/portal.html'; }
+      else { alert('Reset failed: '+(d.msg||d.error_description||'link may have expired. Request a new one.')); }
+    }).catch(function(){ alert('Network error — try the reset link again.'); });
+})();
 
 /* ---------- data ---------- */
 function norm(r,src){
