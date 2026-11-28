@@ -414,8 +414,8 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
     <div class="brand">ELEV8<b>TIDE</b></div>
     <div class="labs">L&nbsp;A&nbsp;B&nbsp;S</div>
     <div class="wel serif">Welcome to the Lab</div>
-    <div class="sub">Step inside — where premium research begins.</div>
-    <button class="enter" onclick="showAgeGate()">Enter ELEV8TIDE Labs →</button>
+    <div class="sub">Where science meets possibility.</div>
+    <button class="enter" onclick="showAgeGate()">Explore the Lab →</button>
     <div class="legal">By entering you confirm you are <b>21 years of age or older</b> and agree all products are for <b>laboratory &amp; research purposes only</b> — not for human or animal consumption.</div>
   </div>
 </div>
@@ -851,18 +851,25 @@ var SHIP_METHODS=[
 var selShip='ground';
 function shipMethod(){ for(var i=0;i<SHIP_METHODS.length;i++){ if(SHIP_METHODS[i].id===selShip) return SHIP_METHODS[i]; } return SHIP_METHODS[0]; }
 function shipCostFor(m){ return 0; }
-function shippingCost(){ return 0; } /* shipping confirmed at fulfillment — no flat upfront price */
+var FREE_SHIP_OVER=150;
+function freeShip(){ return cartTotal()>=FREE_SHIP_OVER; }
+function shippingCost(){ return 0; } /* free over $150; under = confirmed after order */
 function grandTotal(){ return cartTotal()+shippingCost(); }
 function setShip(id){ selShip=id; renderFormTotals(); }
 function renderFormTotals(){
   renderShip();
   var ss=document.getElementById('sumSub'); if(ss) ss.textContent='$'+cartTotal();
-  var sh=document.getElementById('sumShip'); if(sh) sh.innerHTML='<span class="fship">Confirmed when shipped</span>';
+  var sh=document.getElementById('sumShip'); if(sh) sh.innerHTML=freeShip()?'<span class="fship">FREE</span>':'<span class="fship">Confirmed after order</span>';
   var st=document.getElementById('sumTot'); if(st) st.textContent='$'+cartTotal();
 }
 function renderShip(){
   var box=document.getElementById('shipMethods'); if(!box) return;
-  box.innerHTML='<div style="font-size:12px;line-height:1.55;color:#5a6b6b;background:#f1ebdd;border-radius:10px;padding:12px 14px">&#128230; Your exact shipping is calculated from <b>your address</b> when we pack your order — we’ll confirm it with your order details. You’re sending the <b>product total</b> now.</div>';
+  var need=FREE_SHIP_OVER-cartTotal();
+  if(freeShip()){
+    box.innerHTML='<div style="font-size:12px;line-height:1.55;color:#0E6A73;background:#e7f3f2;border:1px solid #bfe0dd;border-radius:10px;padding:12px 14px">&#10003; <b>FREE shipping</b> — your order is over $'+FREE_SHIP_OVER+'. Tracked &amp; discreet, shipped to your address.</div>';
+  }else{
+    box.innerHTML='<div style="font-size:12px;line-height:1.55;color:#5a6b6b;background:#f1ebdd;border-radius:10px;padding:12px 14px">&#128230; Orders over <b>$'+FREE_SHIP_OVER+'</b> ship <b>free</b> — add <b>$'+need+'</b> more to qualify. Otherwise we’ll confirm your exact shipping from your address right after you order. You’re sending the <b>product total</b> now.</div>';
+  }
 }
 function removeItem(k){ delete cart[k]; renderCart(); }
 function chQty(k,d){ if(!cart[k]) return; cart[k].q+=d; if(cart[k].q<=0) delete cart[k]; renderCart(); }
