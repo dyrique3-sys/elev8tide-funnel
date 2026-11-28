@@ -564,6 +564,7 @@ body{font-family:'Jost',sans-serif;background:#05090C;color:var(--ink);overflow:
       <div class="eye">Your Order</div>
       <h2 class="serif">The Case</h2>
       <div id="cartItems"></div>
+      <div id="cartUpsell"></div>
       <div id="cartSub" class="tot" style="display:none"><span>Subtotal</span><span id="subAmtCart">$0</span></div>
       <div id="cartShipNote" class="shipnote" style="display:none;justify-content:center">&#128230; Shipping &amp; total calculated next step</div>
       <button class="cobtn" id="toFormBtn" onclick="goToForm()" disabled>Checkout →</button>
@@ -834,6 +835,7 @@ function cartTotal(){ var t=0; for(var k in cart) t+=cart[k].p*cart[k].q; return
 function renderCart(){
   document.getElementById('cartN').textContent=cartCount();
   var box=document.getElementById('cartItems'); var keys=Object.keys(cart);
+  var up=document.getElementById('cartUpsell'); if(up) up.innerHTML='';
   if(!keys.length){ box.innerHTML='<div class="empty">Your case is empty.<br>Add research from the lab.</div>'; document.getElementById('cartSub').style.display='none'; document.getElementById('cartShipNote').style.display='none'; document.getElementById('toFormBtn').disabled=true; return; }
   var h='';
   keys.forEach(function(k){ var x=cart[k]; var kk=k.replace(/'/g,"\\'"); h+='<div class="ci"><div style="flex:1"><div class="nm">'+x.n+'</div><div class="qa">$'+x.p+' ea</div><div class="qctl sm" style="margin-top:6px"><button onclick="chQty(\''+kk+'\',-1)">−</button><span>'+x.q+'</span><button onclick="chQty(\''+kk+'\',1)">+</button></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><span class="pr">$'+(x.p*x.q)+'</span><button class="rm" onclick="removeItem(\''+kk+'\')">×</button></div></div>'; });
@@ -842,6 +844,16 @@ function renderCart(){
   document.getElementById('subAmtCart').textContent='$'+cartTotal();
   document.getElementById('cartShipNote').style.display='flex';
   document.getElementById('toFormBtn').disabled=false;
+  /* upsell — recommend add-ons not already in cart */
+  var flat=[]; GOALS.forEach(function(g,gi){ g.products.forEach(function(p,pi){ flat.push({p:p,gi:gi,pi:pi}); }); });
+  var recs=[], want=['Bacteriostatic Water','NAD+','The Complete Elev8 Stack','GHK-Cu'];
+  want.forEach(function(nm){ if(recs.length<2){ var f=flat.filter(function(x){return x.p.n===nm && !cart[x.p.n];})[0]; if(f) recs.push(f); } });
+  flat.forEach(function(x){ if(recs.length<2 && !cart[x.p.n] && recs.indexOf(x)<0) recs.push(x); });
+  if(up && recs.length){
+    var uh='<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);margin:18px 0 10px;border-top:1px solid var(--line);padding-top:16px">Complete your case</div>';
+    recs.forEach(function(r){ uh+='<div class="ci" style="align-items:center"><div style="display:flex;align-items:center;gap:11px;flex:1"><img src="'+r.p.img+'" style="width:44px;height:44px;border-radius:8px;object-fit:cover;border:1px solid var(--line)"><div><div class="nm" style="font-size:13px">'+r.p.n+'</div><div class="qa">$'+r.p.p+'</div></div></div><button class="rm" style="border:1px solid var(--gold);color:var(--gold2);border-radius:30px;padding:6px 13px;font-size:12px" onclick="quickAdd(event,'+r.gi+','+r.pi+')">+ Add</button></div>'; });
+    up.innerHTML=uh;
+  }
 }
 /* ---- Pirate Ship rates (real USPS discounted tiers) ---- */
 var SHIP_METHODS=[
